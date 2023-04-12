@@ -1,0 +1,25 @@
+.option-card {
+    border: 1px solid #dee2e6;
+}
+
+.option-card:hover {
+    background-color: #efefef;
+}
+
+.option-card .card-body {
+    padding: 1rem;
+}
+
+.option-card a {
+    text-decoration: none;
+    color: #212529;
+}
+
+.option-card i {
+    font-size: 1rem;
+}
+
+.option-card h5 {
+    font-size: 1rem;
+    margin-left: 10%;
+}
