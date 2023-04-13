@@ -23,14 +23,6 @@ import java.util.Arrays;
 @RequestMapping("/patient")
 public class PatientController {
 
-    // clean code from comments
-    // create coming soon pages
-    // add bs validation
-    // check create_db.sql
-    // check project
-    // upload on github
-    // customize linkedin
-
     private final AppointmentService appointmentService;
     private final PatientService patientService;
     private final DepartmentService departmentService;
@@ -119,28 +111,10 @@ public class PatientController {
                 : doctorService.findById(appointment.getDoctor().getId());
         appointment.setDoctor(doctor);
 
-//        // check binding result for error in department
-//        Department department;
-//        if(!bindingResult.hasFieldErrors("department")){
-//
-//        }
-
-        // check for errors in other fields
-//        if(bindingResult.hasErrors()){
-//            model.addAttribute("appointment", appointment);
-//            model.addAttribute("specializations", Arrays.asList(Department.Specializations.values()));
-//            model.addAttribute("departments", departmentService.findAll());
-//            System.out.println("errors: " + bindingResult.getAllErrors());
-//            return "/patient/appointment-form";
-//        } else{
-//            System.out.println(appointment);
-//            appointmentService.save(appointment);
-//            return "redirect:/patient/appointments";
-//        }
-
         System.out.println(appointment);
         appointmentService.save(appointment);
-        return "redirect:/patient/appointments";
+//        return "redirect:/patient/appointments";
+        return "patient/appointment-added";
     }
 
     // mapping for deleting appointment
@@ -171,12 +145,13 @@ public class PatientController {
         if(!username.equals(patient.getEmail())){
             // change user's username
             userDetailsService.changeUsername(username, patient.getEmail());
-
-            // change patient's username
-            patient.setUsername(patient.getEmail());
         }
+
+        // set patient's username to value of email
+        patient.setUsername(patient.getEmail());
+
         patientService.save(patient);
-        return "redirect:/patient/show-profile";
+        return "redirect:/patient/profile";
     }
 
     // mapping for deleting patient profile

@@ -5,6 +5,6 @@
     if(patientGender === "MALE"){
         greetingHeading.textContent = "Witam, Panie " + patientName + "!";
     } else {
-        greetingHeading.textContent = "Witam, Pani" + patientName + "!";
+        greetingHeading.textContent = "Witam, Pani " + patientName + "!";
     }
 })()
