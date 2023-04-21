@@ -1,0 +1,12 @@
+html {
+    font-size: 14px;
+}
+
+.main-content {
+    height: 200vh; /*make height auto*/
+    width: 70vw;
+    margin-right: 15vw;
+    margin-left: 15vw;
+    background-color: white;
+    box-shadow: 0 0 50px -20px #212529;
+}

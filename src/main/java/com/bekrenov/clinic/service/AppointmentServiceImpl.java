@@ -35,8 +35,8 @@ public class AppointmentServiceImpl implements AppointmentService{
 
     @Override
     public Appointment findById(int id) {
-        Optional<Appointment> patient = appointmentRepository.findById(id);
-        return patient.orElse(null);
+        Optional<Appointment> appointment = appointmentRepository.findById(id);
+        return appointment.orElse(null);
     }
 
     @Override

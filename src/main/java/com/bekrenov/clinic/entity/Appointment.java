@@ -3,7 +3,9 @@ package com.bekrenov.clinic.entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.bekrenov.clinic.service.DoctorService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -44,7 +46,10 @@ public class Appointment {
     private Doctor doctor;
 
     @Transient
-    boolean anyDoctor;
+    private boolean anyDoctor;
+
+    @Transient
+    private LocalTime appointmentEndTime;
 
     public Appointment() {
     }
@@ -58,6 +63,11 @@ public class Appointment {
         this.patient = patient;
         this.doctor = doctor;
         this.anyDoctor = anyDoctor;
+    }
+
+    @PostLoad
+    public void setAppointmentEndTime(){
+        appointmentEndTime = appointmentTime.plusMinutes(DoctorService.VISIT_DURATION_MINUTES);
     }
 
     public int getId() {
@@ -114,6 +124,10 @@ public class Appointment {
 
     public void setAnyDoctor(boolean anyDoctor) {
         this.anyDoctor = anyDoctor;
+    }
+
+    public LocalTime getAppointmentEndTime() {
+        return appointmentEndTime;
     }
 
     @Override

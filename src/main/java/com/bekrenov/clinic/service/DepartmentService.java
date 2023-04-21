@@ -10,6 +10,6 @@ public interface DepartmentService {
 
     Department findById(int departmentId);
 
-    List<Department> findDepartmentsBySpecialization(String specialization);
+//    List<Department> findDepartmentsBySpecialization(String specialization);
 
 }

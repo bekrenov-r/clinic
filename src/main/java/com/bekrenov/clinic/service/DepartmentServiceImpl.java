@@ -27,8 +27,8 @@ public class DepartmentServiceImpl implements DepartmentService{
         return departmentRepository.findById(departmentId);
     }
 
-    @Override
-    public List<Department> findDepartmentsBySpecialization(String specialization) {
-        return departmentRepository.findDepartmentsBySpecialization(specialization);
-    }
+//    @Override
+//    public List<Department> findDepartmentsBySpecialization(String specialization) {
+//        return departmentRepository.findDepartmentsBySpecialization(specialization);
+//    }
 }

@@ -9,7 +9,7 @@ STRONA KLIENTA:
 	- do przeglądania profilu ->
 		profil pacjenta(imie, nazwisko, adres, telefon) z mozliwoscia edytowania i usuniecia profilu
 	- do przegladania swoich wizyt ->
-		tabela/lista z wizytami, filtr na nadchodzace, miniete i wszystkie; mozliwosc edytowania wizyty(przeniesienia na inny termin, zmiany lekarza) i jej usuniecia
+		tabela/lista z wizytami, filtr na nadchodzace, miniete i wszystkie; mozliwosc edytowania wizyty(przeniesienia na inny termin, zmiany lekarza) i jej usuniecia. 
 3. Zmiana języka na Eng
 
 STRONA LEKARZA:
@@ -48,6 +48,8 @@ IDEAS:
 - exclude from <select> for doctors those with position 'fellow' (nurse can't conduct visits with patients). It'll be possible if several doctors provide one visit (not one visit one doctor, but one visit - few doctors)
 - add doctor_details table with info on date of employment, experience etc
 - generate unique but simple code for every appointment and display it for user. later add support for generating pdf with this code or qr code
+- add laboratorium as one of departments. When needed, create direction to laboratorium during visit
+- dodac funkcje 'posiadam skierowanie' do formy zapisu na wizyte
 
 Problems in appointment-form:
 - after reloading page specialization, doctors, date and time aren't populated by data from model

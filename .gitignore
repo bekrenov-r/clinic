@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 **/src/main/java/com/bekrenov/clinic/test.html
 **/src/main/java/com/bekrenov/clinic/Test.java
-spec.txt
+**/spec.txt
 
 ### STS ###
 .apt_generated

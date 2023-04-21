@@ -15,3 +15,11 @@ It'll create a few sample users.
 6. You will need to log in. Use credentials of one of users from 'users' database table.
    (for password, ignore {noop} part).
 7. If everything's ok, you can now use application.
+
+### Used technologies:
+- SpringBoot 3
+- Spring MVC, Security, REST
+- Spring Data JPA
+- Maven
+- HTML/CSS/JavaScript
+- Bootstrap 5

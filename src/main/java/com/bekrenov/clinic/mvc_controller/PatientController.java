@@ -84,8 +84,7 @@ public class PatientController {
     // mapping for showing list of Appointments
     @GetMapping("/appointments")
     public String showAppointments(Model model, Authentication auth){
-        Patient patient = new Patient();
-
+        Patient patient = patientService.findByUsername(auth.getName());
         // add list of appointments to the model
         model.addAttribute("appointments", patient.getAppointments());
         return "/patient/list-appointments";
@@ -113,8 +112,8 @@ public class PatientController {
 
         System.out.println(appointment);
         appointmentService.save(appointment);
-//        return "redirect:/patient/appointments";
-        return "patient/appointment-added";
+        return "redirect:/patient/appointments";
+//        return "patient/list-appointments";
     }
 
     // mapping for deleting appointment

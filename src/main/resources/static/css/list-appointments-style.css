@@ -1,0 +1,45 @@
+.icon-margin {
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+.card-dropdown-toggle {
+    text-decoration: none;
+    color: #b6b6b6;
+    font-size: 1rem;
+}
+
+.card-dropdown-toggle i {
+    transition: transform ease-in-out 0.5s;
+}
+
+.card .card-dropdown-toggle i {
+    transform: rotate(-90deg);
+}
+
+.card {
+    /*box-sizing: border-box;*/
+    height: unset;
+    border: 1px #c5bdbc solid;
+    border-radius: 15px;
+    margin: 0.5rem 0 1rem 0;
+    display: block;
+    overflow: hidden;
+    transition: height 0.5s ease-in-out;
+}
+
+.card.active .card-dropdown-toggle i {
+    transform: rotate(90deg);
+}
+
+.card-dropdown-toggle:hover {
+    color: #838383;
+}
+
+/*.card.active {*/
+/*    height: max-content;*/
+/*}*/
+
+#hidden-row {
+    border-top: 1px #c5bdbc solid;
+}

@@ -12,6 +12,16 @@
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
           crossorigin="anonymous">
 
+    <!-- Custon CSS -->
+    <link rel="stylesheet" th:href="@{/css/list-appointments-style.css}">
+    <link rel="stylesheet" th:href="@{/css/common-style.css}">
+
+    <!-- Icons -->
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet'
+          href='https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css'>
+
+
     <title>MedicaPlus - Moje wizyty</title>
 </head>
 <body style="background-color: #f2f2f2;">
@@ -23,8 +33,65 @@
     </nav>
 </header>
 <main>
-    <h5>List of appointments coming soon</h5>
+    <div class="container main-content">
+        <div class="text-start ms-5">
+            <br>
+            <h2 class="my-2">Moje wizyty</h2>
+        </div>
+        <hr>
+        <div class="container">
+            <!-- Place for sort/filters -->
+
+            <!-- List of appointments -->
+            <div class="container me-3" th:object="${appointments}">
+                <!-- Single appointment -->
+                <div class="row justify-content-center ms-lg-3" th:each="appointment : ${appointments}">
+                    <div class="col-lg-10">
+                        <div class="card">
+                            <div class="card-body p-0">
+                                <div class="row mx-3 mt-4 mb-4" id="visible-row">
+                                    <div class="col-5 border-end">
+                                        <div class="d-flex align-items-start">
+                                            <i class="fi fi-rr-user-md icon-margin"></i>
+                                            <label th:text="${appointment.doctor.firstAndLastName}"></label>
+                                        </div>
+                                        <div class="d-flex align-items-start">
+                                            <i class="fi fi-rs-marker icon-margin"></i>
+                                            <label th:text="|ul. ${appointment.department.address.street},
+                                                        ${appointment.department.address.buildingNumber}|"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="d-flex align-items-start">
+                                            <i class="fi fi-rr-calendar-lines icon-margin"></i>
+                                            <label th:text="${appointment.appointmentDate}"></label>
+                                        </div>
+                                        <div class="d-flex align-items-start">
+                                            <i class="fi fi-rr-clock-two icon-margin"></i>
+                                            <label th:text="|${appointment.appointmentTime} - ${appointment.appointmentEndTime}|"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2 d-flex align-items-center px-1">
+                                        <a class="card-dropdown-toggle" href="#" data-toggled="false">
+                                            <div class="d-flex align-items-center">
+                                                Więcej
+                                                <i class="fi fi-rr-angle-small-right icon-margin"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="row mx-3 mt-1 mb-2" id="hidden-row">
+                                    Content
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
+
 
 <!-- Bootstrap JS-->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
@@ -33,5 +100,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
         crossorigin="anonymous"></script>
+
+<!-- Custom JS -->
+<script th:src="@{/js/list-appointments-script.js}">
+</script>
+
+
 </body>
 </html>

@@ -1,6 +1,6 @@
-DROP SCHEMA IF EXISTS clinic;
-CREATE SCHEMA clinic;
-USE clinic;
+DROP SCHEMA IF EXISTS clinic1;
+CREATE SCHEMA clinic1;
+USE clinic1;
 
 DROP TABLE IF EXISTS addresses;
 CREATE TABLE addresses (
@@ -16,8 +16,9 @@ CREATE TABLE addresses (
 DROP TABLE IF EXISTS departments;
 CREATE TABLE departments(
 	id INT NOT NULL AUTO_INCREMENT,
-    specialization VARCHAR(255),
-    id_address INT,
+    department_name VARCHAR(255) NOT NULL,
+    specialization VARCHAR(255) NOT NULL,
+    id_address INT NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(id_address) REFERENCES addresses(id)
 );
@@ -51,20 +52,34 @@ CREATE TABLE patients(
     FOREIGN KEY(id_address) REFERENCES addresses(id)
 );
 
--- Sample patients
+CREATE TABLE users (
+  username varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  enabled tinyint NOT NULL,
+  PRIMARY KEY (username)
+);
+
+CREATE TABLE authorities (
+  username varchar(50) NOT NULL,
+  authority varchar(50) NOT NULL,
+  UNIQUE KEY authorities_idx_1 (username, authority),
+  CONSTRAINT authorities_ibfk_1 FOREIGN KEY (username) REFERENCES users (username)
+);
+
+-- Sample patients/users
 INSERT INTO addresses VALUES(NULL, 'Lublin', 'Doctora Witolda Chodźki', '12', NULL, '20-546');
 INSERT INTO patients VALUES(NULL, 'Zbigniew', 'Reszka', '54039763148', '+48321749870', 'zbigniew.reszka@gmail.com', 'MALE', 'zbigniew.reszka@gmail.com', 7);
-INSERT INTO users VALUES(NULL, 'zbigniew.reszka@gmail.com', '{noop}pass');
+INSERT INTO users VALUES('zbigniew.reszka@gmail.com', '{noop}pass', 1);
 INSERT INTO authorities VALUES('zbigniew.reszka@gmail.com', 'PATIENT');
 
 INSERT INTO addresses VALUES(NULL, 'Kraśnik', 'Józefa Piłsudskiego', '50', NULL, '13-340');
 INSERT INTO patients VALUES(NULL, 'Anna', 'Kamińska', '84315964731', '+48931472530', 'anna.kaminska@gmail.com', 'FEMALE', 'anna.kaminska@gmail.com', 8);
-INSERT INTO users VALUES(NULL, 'anna.kaminska@gmail.com', '{noop}pass');
+INSERT INTO users VALUES('anna.kaminska@gmail.com', '{noop}pass', 1);
 INSERT INTO authorities VALUES('anna.kaminska@gmail.com', 'PATIENT');
 
 INSERT INTO addresses VALUES(NULL, 'Świdnik', 'Energetyków', '48', NULL, '19-621');
 INSERT INTO patients VALUES(NULL, 'Paweł', 'Kowalski', '74123690158', '+48375964820', 'pawel.kowalski@gmail.com', 'MALE', 'pawel.kowalski@gmail.com', 9);
-INSERT INTO users VALUES(NULL, 'pawel.kowalski@gmail.com', '{noop}pass');
+INSERT INTO users VALUES('pawel.kowalski@gmail.com', '{noop}pass', 1);
 INSERT INTO authorities VALUES('pawel.kowalski@gmail.com', 'PATIENT');
 
 CREATE TABLE doctors(
@@ -113,18 +128,4 @@ CREATE TABLE appointments(
     FOREIGN KEY (id_department) REFERENCES departments(id),
     FOREIGN KEY (id_patient) REFERENCES patients(id),
     FOREIGN KEY (id_doctor) REFERENCES doctors(id)
-);
-
-CREATE TABLE users (
-  username varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  enabled tinyint NOT NULL,
-  PRIMARY KEY (username)
-);
-
-CREATE TABLE authorities (
-  username varchar(50) NOT NULL,
-  authority varchar(50) NOT NULL,
-  UNIQUE KEY authorities_idx_1 (username, authority),
-  CONSTRAINT authorities_ibfk_1 FOREIGN KEY (username) REFERENCES users (username)
 );
