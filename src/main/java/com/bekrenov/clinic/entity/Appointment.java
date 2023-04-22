@@ -2,12 +2,12 @@ package com.bekrenov.clinic.entity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import com.bekrenov.clinic.service.DoctorService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "appointments")
@@ -19,18 +19,15 @@ public class Appointment {
     private int id;
 
     @Column(name = "appointment_time")
-//    @NotNull(message = "To pole jest wymagane")
     private LocalTime appointmentTime;
 
     @Column(name = "appointment_date")
-//    @NotNull(message = "To pole jest wymagane")
     private LocalDate appointmentDate;
 
     @ManyToOne(fetch = FetchType.LAZY,
                 cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "id_department", referencedColumnName = "id")
     @JsonIgnore
-//    @NotNull(message = "To pole jest wymagane")
     private Department department;
 
     @ManyToOne(fetch = FetchType.LAZY,
@@ -51,6 +48,9 @@ public class Appointment {
     @Transient
     private LocalTime appointmentEndTime;
 
+    @Transient
+    private String formattedDate;
+
     public Appointment() {
     }
 
@@ -66,8 +66,12 @@ public class Appointment {
     }
 
     @PostLoad
-    public void setAppointmentEndTime(){
+    public void setTransientFields(){
         appointmentEndTime = appointmentTime.plusMinutes(DoctorService.VISIT_DURATION_MINUTES);
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("EE, d MMMM yyyy", new Locale("pl"));
+        formattedDate = appointmentDate.format(formatter);
+        formattedDate = formattedDate.substring(0, 1).toUpperCase() + formattedDate.substring(1);
     }
 
     public int getId() {
@@ -128,6 +132,10 @@ public class Appointment {
 
     public LocalTime getAppointmentEndTime() {
         return appointmentEndTime;
+    }
+
+    public String getFormattedDate() {
+        return formattedDate;
     }
 
     @Override

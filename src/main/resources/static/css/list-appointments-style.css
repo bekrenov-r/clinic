@@ -10,12 +10,12 @@
 }
 
 .card-dropdown-toggle i {
-    transition: transform ease-in-out 0.5s;
+    transition: transform ease-in-out 0.3s;
 }
 
-.card .card-dropdown-toggle i {
-    transform: rotate(-90deg);
-}
+/*.card .card-dropdown-toggle i {*/
+/*    transform: rotate(-90deg);*/
+/*}*/
 
 .card {
     /*box-sizing: border-box;*/
@@ -28,9 +28,9 @@
     transition: height 0.5s ease-in-out;
 }
 
-.card.active .card-dropdown-toggle i {
-    transform: rotate(90deg);
-}
+/*.card .card-dropdown-toggle i {*/
+/*    transform: rotate(90deg);*/
+/*}*/
 
 .card-dropdown-toggle:hover {
     color: #838383;

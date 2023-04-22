@@ -1,4 +1,6 @@
-#Clinic application
+
+# Clinic application
+
 Web application for clinic service. So far, you can sign up for an 
 appointment and edit your profile.  
 Items of forms are dynamically populated depending on your input.  

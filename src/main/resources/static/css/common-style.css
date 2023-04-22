@@ -4,6 +4,7 @@ html {
 
 .main-content {
     height: 200vh; /*make height auto*/
+    overflow: hidden;
     width: 70vw;
     margin-right: 15vw;
     margin-left: 15vw;
