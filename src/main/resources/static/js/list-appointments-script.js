@@ -1,7 +1,7 @@
 (() => {
     const cards = document.querySelectorAll('.card');
 
-    cards.forEach((card) => {
+    cards.forEach(card => {
         let visibleRow = card.querySelector('#visible-row');
         let visibleRowMarginY = parseFloat(getComputedStyle(visibleRow).marginTop) + parseFloat(getComputedStyle(visibleRow).marginBottom);
         let hiddenRow = card.querySelector('#hidden-row');
@@ -28,6 +28,11 @@
             }
         }
     });
+
+    // const buttons = document.querySelectorAll('.btn');
+    // buttons.forEach((btn) => {
+    //     btn.addEventListener("click", event => event.preventDefault())
+    // });
 })()
 
 

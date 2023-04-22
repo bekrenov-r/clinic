@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequestMapping("/patient")
@@ -85,8 +86,10 @@ public class PatientController {
     @GetMapping("/appointments")
     public String showAppointments(Model model, Authentication auth){
         Patient patient = patientService.findByUsername(auth.getName());
+        List<Appointment> appointments = patient.getAppointments();
+//        System.out.println(appointments);
         // add list of appointments to the model
-        model.addAttribute("appointments", patient.getAppointments());
+        model.addAttribute("appointments", appointments);
         return "/patient/list-appointments";
     }
 
@@ -117,10 +120,10 @@ public class PatientController {
     }
 
     // mapping for deleting appointment
-    @GetMapping("/delete-appointment")
+    @GetMapping("/cancel-appointment")
     public String deleteAppointment(@RequestParam("appointmentId") int id){
-        appointmentService.deleteById(id);
-
+        System.out.println("delete " + id);
+//        appointmentService.deleteById(id);
         return "redirect:/patient/appointments";
     }
 

@@ -12,7 +12,7 @@
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
           crossorigin="anonymous">
 
-    <!-- Custon CSS -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" th:href="@{/css/list-appointments-style.css}">
     <link rel="stylesheet" th:href="@{/css/common-style.css}">
 
@@ -80,7 +80,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="row mx-3 py-2" id="hidden-row">
+                                <div class="row mx-3 py-3" id="hidden-row">
                                     <div class="col-4 d-flex justify-content-center">
                                         <a class="btn btn-primary"
                                            href="#">Profil lekarza</a>
@@ -91,10 +91,46 @@
                                     </div>
                                     <div class="col-4 d-flex justify-content-center">
                                         <a class="btn btn-danger"
-                                           href="#">Odłowaj</a>
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#cancel-appointment-modal"
+                                           th:data-id="${appointment.id}"
+                                           th:href="@{/patient/cancel-appointment(appointmentId=${appointment.id})}">
+                                            Odłowaj</a>
+                                    </div>
+                                    <div class="row d-block justify-content-left mt-3 ms-2 code-label">
+                                        Kod wizyty: <label th:text="${appointment.id}"></label>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal for cancelling appointment -->
+            <div class="modal fade modal-dialog-centered"
+                 style="display: none"
+                 id="cancel-appointment-modal"
+                 tabindex="-1"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <input type="hidden" value="">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Odłować tą wizytę?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Nie
+                            </button>
+                            <a class="btn btn-danger"
+                               th:attr="href=@{/patient/cancel-appointment(appointmentId=${appointment.id})}">
+                                Tak</a>
                         </div>
                     </div>
                 </div>

@@ -43,3 +43,8 @@
 #hidden-row {
     border-top: 1px #c5bdbc solid;
 }
+
+.code-label {
+    font-size: 0.8rem;
+    color: #838383;
+}
