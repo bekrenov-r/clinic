@@ -123,7 +123,7 @@ public class PatientController {
     @GetMapping("/cancel-appointment")
     public String deleteAppointment(@RequestParam("appointmentId") int id){
         System.out.println("delete " + id);
-//        appointmentService.deleteById(id);
+        appointmentService.deleteById(id);
         return "redirect:/patient/appointments";
     }
 
