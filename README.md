@@ -1,10 +1,8 @@
 
 # Clinic application
 
-Web application for clinic service. So far, you can sign up for an 
-appointment and edit your profile.  
-Items of forms are dynamically populated depending on your input.  
-Listing, editing and deleting appointments are in progress.
+Web application for clinic service. So far, you can sign up for a new
+appointment, edit your profile and manage existing appointments.
 
 ### How to run this application
 1. You will need MySQL8 environment installed.
@@ -14,8 +12,7 @@ and <b>your_password</b> placeholders with your MySQL credentials.
 It'll create a few sample users.
 4. Run ClinicApplication.java. Make sure that port 8080 is available.
 5. In your browser, type localhost:8080 and press Enter. 
-6. You will need to log in. Use credentials of one of users from 'users' database table.
-   (for password, ignore {noop} part).
+6. You will need to log in. Use username of one of users from 'users' database table, and password 'pass'.
 7. If everything's ok, you can now use application.
 
 ### Used technologies:

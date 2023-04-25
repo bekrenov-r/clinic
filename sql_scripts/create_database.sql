@@ -1,6 +1,6 @@
-DROP SCHEMA IF EXISTS clinic1;
-CREATE SCHEMA clinic1;
-USE clinic1;
+DROP SCHEMA IF EXISTS clinic;
+CREATE SCHEMA clinic;
+USE clinic;
 
 DROP TABLE IF EXISTS addresses;
 CREATE TABLE addresses (
@@ -69,17 +69,17 @@ CREATE TABLE authorities (
 -- Sample patients/users
 INSERT INTO addresses VALUES(NULL, 'Lublin', 'Doctora Witolda Chodźki', '12', NULL, '20-546');
 INSERT INTO patients VALUES(NULL, 'Zbigniew', 'Reszka', '54039763148', '+48321749870', 'zbigniew.reszka@gmail.com', 'MALE', 'zbigniew.reszka@gmail.com', 7);
-INSERT INTO users VALUES('zbigniew.reszka@gmail.com', '{noop}pass', 1);
+INSERT INTO users VALUES('zbigniew.reszka@gmail.com', '{bcrypt}$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1);
 INSERT INTO authorities VALUES('zbigniew.reszka@gmail.com', 'PATIENT');
 
 INSERT INTO addresses VALUES(NULL, 'Kraśnik', 'Józefa Piłsudskiego', '50', NULL, '13-340');
 INSERT INTO patients VALUES(NULL, 'Anna', 'Kamińska', '84315964731', '+48931472530', 'anna.kaminska@gmail.com', 'FEMALE', 'anna.kaminska@gmail.com', 8);
-INSERT INTO users VALUES('anna.kaminska@gmail.com', '{noop}pass', 1);
+INSERT INTO users VALUES('anna.kaminska@gmail.com', '{bcrypt}$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1);
 INSERT INTO authorities VALUES('anna.kaminska@gmail.com', 'PATIENT');
 
 INSERT INTO addresses VALUES(NULL, 'Świdnik', 'Energetyków', '48', NULL, '19-621');
 INSERT INTO patients VALUES(NULL, 'Paweł', 'Kowalski', '74123690158', '+48375964820', 'pawel.kowalski@gmail.com', 'MALE', 'pawel.kowalski@gmail.com', 9);
-INSERT INTO users VALUES('pawel.kowalski@gmail.com', '{noop}pass', 1);
+INSERT INTO users VALUES('pawel.kowalski@gmail.com', '{bcrypt}$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1);
 INSERT INTO authorities VALUES('pawel.kowalski@gmail.com', 'PATIENT');
 
 CREATE TABLE doctors(
