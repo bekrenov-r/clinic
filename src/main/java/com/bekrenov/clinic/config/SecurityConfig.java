@@ -48,9 +48,13 @@ public class SecurityConfig {
 
 
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.authorizeHttpRequests().anyRequest().permitAll();
-//        return http.build();
-//    }
+/*    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests().anyRequest().authenticated()
+                .and()
+                .formLogin().loginPage("/login").loginProcessingUrl("/authenticate")
+
+        return http.build();
+    }*/
 }
