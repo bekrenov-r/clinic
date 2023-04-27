@@ -1,8 +1,19 @@
-.form-container {
-    height: 100%;
-    border: 1px solid black;
+form {
+    width: 30vw;
 }
 
-form {
-    width: 40vw;
+a {
+    text-decoration: none;
+    color: #8d8d8d;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #6e6e6e;
+}
+
+.error {
+    background-color: rgba(214, 0, 16, 0.13);
+    color: #a90018;
+    border: 1px solid #a90018;
 }
