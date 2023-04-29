@@ -21,7 +21,7 @@ public class Patient {
     private String lastName;
 
     @Column(name = "pesel")
-    private long pesel;
+    private String pesel;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -49,7 +49,7 @@ public class Patient {
     public Patient() {
     }
 
-    public Patient(String firstName, String lastName, long pesel, String phoneNumber, String email, Gender gender, String username, Address address, List<Appointment> appointments) {
+    public Patient(String firstName, String lastName, String pesel, String phoneNumber, String email, Gender gender, String username, Address address, List<Appointment> appointments) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.pesel = pesel;
@@ -85,11 +85,11 @@ public class Patient {
         this.lastName = lastName;
     }
 
-    public long getPesel() {
+    public String getPesel() {
         return pesel;
     }
 
-    public void setPesel(long pesel) {
+    public void setPesel(String pesel) {
         this.pesel = pesel;
     }
 

@@ -42,7 +42,7 @@ CREATE TABLE patients(
 	id INT NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
-    pesel LONG,
+    pesel VARCHAR(11) NOT NULL,
     phone_number VARCHAR(20) DEFAULT NULL,
     email VARCHAR(255) DEFAULT NULL,
     gender VARCHAR(10) NOT NULL,

@@ -27,7 +27,6 @@
 <main>
     <div class="container main-content">
         <div class="text-center">
-            <br>
             <h2 class="my-2">Mój profil</h2>
         </div>
         <hr>
@@ -142,7 +141,7 @@
                                    type="text"
                                    class="form-control"
                                    placeholder="Wpisz miasto..."
-                                   oninput="getOptions(this.value); enableSubmitButton();"
+                                   oninput="getCityOptions(this.value); enableSubmitButton();"
                                    th:field="*{address.city}"
                                    required
                             />
@@ -174,7 +173,7 @@
                         <div class="row justify-content-center my-4">
                             <div class="col-lg-4">
                                 <label for="building-number" class="form-label" style="font-size: 0.7rem">
-                                    Numer lokalu:
+                                    Numer domu:
                                 </label>
                                 <input class="form-control"
                                        id="building-number"
@@ -190,7 +189,7 @@
                             </div>
                             <div class="col-lg-4">
                                 <label for="flat-number" class="form-label" style="font-size: 0.7rem">
-                                    Numer mieszkania:
+                                    Numer lokalu:
                                 </label>
                                 <input class="form-control"
                                        id="flat-number"
@@ -240,6 +239,8 @@
 
 <!-- Custom JS -->
 <script th:src="@{/js/patient-profile-script.js}">
+</script>
+<script th:src="@{/js/city-options-handler.js}">
 </script>
 
 </body>

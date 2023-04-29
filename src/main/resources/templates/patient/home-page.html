@@ -19,15 +19,11 @@
     <title>MedicaPlus - Home</title>
 </head>
 <body style="background-color: #f2f2f2;">
-<header>
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #027373">
         <div class="container" style="padding: 0 15%">
             <a class="navbar-brand" style="color: #F2E7DC;" th:href=" @{/patient/home}"><h3>MedicaPlus</h3></a>
         </div>
     </nav>
-</header>
-<main>
-
     <!-- Hidden form to hold patient object -->
     <form th:object="${patient}">
         <input id="gender" type="hidden" th:field="*{gender}">
@@ -35,7 +31,6 @@
     </form>
 
     <div class="container main-content">
-        <br>
         <h3 id="greeting-title"></h3>
         <hr>
         <div class="row">
@@ -89,7 +84,6 @@
             </div>
         </div>
     </div>
-</main>
 
 <!-- Bootstrap JS-->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"

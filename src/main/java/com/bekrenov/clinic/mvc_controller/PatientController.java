@@ -5,16 +5,11 @@ import com.bekrenov.clinic.entity.Doctor;
 import com.bekrenov.clinic.entity.Patient;
 import com.bekrenov.clinic.entity.Appointment;
 import com.bekrenov.clinic.service.*;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -46,9 +41,7 @@ public class PatientController {
     public String showHomePage(Model model, Authentication auth){
         String username = auth.getName();
         Patient patient = patientService.findByUsername(username);
-        UserDetails user = userDetailsService.loadUserByUsername(username);
         model.addAttribute("patient", patient);
-        model.addAttribute("user", user);
         return "/patient/home-page";
     }
 
@@ -87,7 +80,6 @@ public class PatientController {
     public String showAppointments(Model model, Authentication auth){
         Patient patient = patientService.findByUsername(auth.getName());
         List<Appointment> appointments = patient.getAppointments();
-//        System.out.println(appointments);
         // add list of appointments to the model
         model.addAttribute("appointments", appointments);
         return "/patient/list-appointments";
@@ -116,7 +108,6 @@ public class PatientController {
         System.out.println(appointment);
         appointmentService.save(appointment);
         return "redirect:/patient/appointments";
-//        return "patient/list-appointments";
     }
 
     // mapping for deleting appointment
