@@ -11,7 +11,6 @@ function getCityOptions(inputValue) {
             cities.forEach(city => {
                 let option = document.createElement("a");
                 option.classList.add("dropdown-item")
-                option.href = "#"
                 option.textContent = city;
                 option.addEventListener("click", () => {
                     input.value = city;

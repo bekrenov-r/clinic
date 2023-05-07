@@ -12,7 +12,7 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private int id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -61,11 +61,11 @@ public class Patient {
         this.appointments = appointments;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -157,6 +157,7 @@ public class Patient {
                 ",\n pesel=" + pesel +
                 ",\n phoneNumber='" + phoneNumber + '\'' +
                 ",\n email='" + email + '\'' +
+                ",\n gender=" + gender +
                 ",\n username=" + username +
                 ",\n address=" + address +
                 ",\n visits=" + appointments +

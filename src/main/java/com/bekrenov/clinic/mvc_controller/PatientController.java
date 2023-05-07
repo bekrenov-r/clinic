@@ -1,11 +1,10 @@
 package com.bekrenov.clinic.mvc_controller;
 
-import com.bekrenov.clinic.entity.Department;
-import com.bekrenov.clinic.entity.Doctor;
-import com.bekrenov.clinic.entity.Patient;
-import com.bekrenov.clinic.entity.Appointment;
+import com.bekrenov.clinic.entity.*;
 import com.bekrenov.clinic.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
+import org.springframework.boot.autoconfigure.security.saml2.Saml2RelyingPartyProperties;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -113,7 +112,6 @@ public class PatientController {
     // mapping for deleting appointment
     @GetMapping("/cancel-appointment")
     public String deleteAppointment(@RequestParam("appointmentId") int id){
-        System.out.println("delete " + id);
         appointmentService.deleteById(id);
         return "redirect:/patient/appointments";
     }
@@ -126,6 +124,13 @@ public class PatientController {
         Patient patient = patientService.findByUsername(userDetails.getUsername());
         model.addAttribute("patient", patient);
         return "/patient/patient-profile";
+    }
+
+    @PostMapping("/create-profile")
+    public String createProfile(@ModelAttribute("registration") Registration registration){
+        System.out.println(registration);
+        patientService.createPatientAndUser(registration);
+        return "redirect:/login";
     }
 
     // mapping for saving patient profile

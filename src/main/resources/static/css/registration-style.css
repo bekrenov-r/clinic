@@ -1,0 +1,23 @@
+h2 {
+    font-size: 2rem;
+}
+
+hr {
+    background-color: #838383;
+}
+
+.address-label {
+    font-size: 0.8rem;
+}
+
+.active {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+#user-data-form-container label {
+    margin-bottom: 0;
+}

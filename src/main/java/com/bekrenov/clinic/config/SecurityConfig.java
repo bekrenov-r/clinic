@@ -11,6 +11,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -40,12 +41,21 @@ public class SecurityConfig {
     }
 
     @Bean
+    public PasswordEncoder passwordEncoder(){
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(configurer ->
                         configurer
-                                .anyRequest()
-                                .authenticated()
+                                .requestMatchers("/registration").permitAll()
+                                .requestMatchers("/js/**").permitAll()
+                                .requestMatchers("/css/**").permitAll()
+                                .requestMatchers("/addresses/cities/**").permitAll()
+                                .requestMatchers("/patient/create-profile").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .formLogin(form ->
                         form

@@ -22,7 +22,7 @@ public class UserDetailsServiceImpl implements ClinicUserDetailsService {
 
     @Override
     public void createUser(UserDetails user) {
-
+        jdbcUserDetailsManager.createUser(user);
     }
 
     @Override

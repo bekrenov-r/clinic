@@ -2,6 +2,26 @@ html {
     font-size: 14px;
 }
 
+body {
+    background-color: #f2f2f2;
+}
+
+.navbar {
+    background-color: #027373;
+}
+
+.navbar>.container {
+    padding: 0 15%;
+}
+
+.navbar-brand {
+    color: #F2E7DC;
+}
+
+.navbar-brand:hover {
+    color: #F2E7DC;
+}
+
 .main-content {
     height: 200vh; /*make height auto*/
     overflow: hidden;

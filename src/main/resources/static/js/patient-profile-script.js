@@ -29,6 +29,18 @@ function enableSubmitButton() {
     }, false);
 })()
 
+// let requiredElements = form.querySelector('[required]');
+// requiredElements.forEach(element => {
+//     if(element.checkValidity()){
+//         if(element.classList.contains('is-invalid')){
+//             element.classList.remove('is-invalid');
+//         }
+//         element.classList.add('is-valid');
+//     } else {
+//         element.classList.add('is-invalid');
+//     }
+// });
+
 
 
 

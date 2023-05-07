@@ -14,206 +14,280 @@
 
     <!-- Custom CSS-->
     <link rel="stylesheet" th:href="@{/css/common-style.css}">
-
-    <style>
-        h2 {
-            font-size: 2rem;
-        }
-
-        hr {
-            background-color: #838383;
-        }
-
-        .address-label {
-            font-size: 0.8rem;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/registration-style.css}">
 
     <title>MedicaPlus - Home</title>
 </head>
-<body style="background-color: #f2f2f2;">
+<body>
 
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #027373">
-    <div class="container" style="padding: 0 15%">
-        <a class="navbar-brand" style="color: #F2E7DC;" th:href=" @{/registration}"><h3>MedicaPlus</h3></a>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" th:href=" @{/registration}"><h3>MedicaPlus</h3></a>
     </div>
 </nav>
 <div class="container main-content">
+    <!-- Form -->
     <form class="needs-validation"
           novalidate
           action="#"
           th:object="${registration}"
-          th:action="@{/patient/create-patient}">
-        <div class="tab-content">
-            <div class="tab-pane fade show active" id="first-tab">
-                <div class="text-center"><h2>Rejestracja - krok 1</h2></div>
-                <hr>
-
-                <!-- Personal data -->
-                <div class="text-start px-4">
-                    <h4>Dane osobowe:</h4>
-                </div>
-                <div class="row px-4 py-2">
-                    <!-- First name -->
-                    <div class="col-5">
-                        <div class="form-floating">
-                            <input class="form-control"
-                                   id="first-name"
-                                   placeholder="Imię"
-                                   th:field="*{patient.firstName}"
-                                   required>
-                            <label for="first-name" class="form-label">
-                                Imię:
-                            </label>
-                            <div class="invalid-feedback">
-                                To pole nie może być puste
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Last name -->
-                    <div class="col-5">
-                        <div class="form-floating">
-                            <input class="form-control"
-                                   id="last-name"
-                                   placeholder="Nazwisko"
-                                   th:field="*{patient.lastName}"
-                                   required>
-                            <label for="last-name" class="form-label">
-                                Nazwisko:
-                            </label>
-                            <div class="invalid-feedback">
-                                To pole nie może być puste
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row px-4 py-2">
-                    <!-- Phone number -->
-                    <div class="col-5">
-                        <label for="phone-number" class="from-label">
-                            Numer telefonu
-                        </label>
+          th:action="@{/patient/create-profile}"
+          method="POST">
+        <!-- Initially visible content -->
+        <div class="container active" id="personal-data-container">
+            <div class="text-center"><h2>Rejestracja - krok 1</h2></div>
+            <hr>
+            <!-- Personal data -->
+            <div class="text-start px-4">
+                <h4>Dane osobowe:</h4>
+            </div>
+            <div class="row px-4 py-2">
+                <!-- First name -->
+                <div class="col-5">
+                    <div class="form-floating">
                         <input class="form-control"
-                               id="phone-number"
-                               th:field="*{patient.phoneNumber}"
+                               id="first-name"
+                               placeholder="Imię"
+                               th:field="*{patient.firstName}"
                                required>
+                        <label for="first-name" class="form-label">
+                            Imię:
+                        </label>
                         <div class="invalid-feedback">
                             To pole nie może być puste
                         </div>
                     </div>
-                    <!-- PESEL -->
-                    <div class="col-5">
-                        <label for="pesel" class="from-label">
-                            PESEL
-                        </label>
+                </div>
+                <!-- Last name -->
+                <div class="col-5">
+                    <div class="form-floating">
                         <input class="form-control"
-                               id="pesel"
-                               th:field="*{patient.pesel}"
+                               id="last-name"
+                               placeholder="Nazwisko"
+                               th:field="*{patient.lastName}"
                                required>
-                        <div class="invalid-feedback">
-                            To pole nie może być puste
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <!-- Address -->
-                <div class="text-start px-4">
-                    <h4>Adres:</h4>
-                </div>
-                <!-- City -->
-                <div class="row px-4 py-2">
-                    <div class="col-6">
-                        <div class="input-group">
-                            <input id="city-input"
-                                   type="text"
-                                   class="form-control"
-                                   placeholder="Miasto"
-                                   oninput="getCityOptions(this.value);"
-                                   th:field="*{patient.address.city}"
-                                   required>
-                            <button class="btn btn-outline-secondary dropdown-toggle"
-                                    type="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="true"></button>
-                            <ul id="city-options" class="dropdown-menu dropdown-menu-end w-100"
-                                aria-labelledby="dropdownMenuButton">
-                            </ul>
-                        </div>
-                        <div class="invalid-feedback">
-                            To pole nie może być puste
-                        </div>
-                    </div>
-                </div>
-                <!-- Street -->
-                <div class="row px-4 py-2">
-                    <div class="col-6">
-                        <input id="street-input"
-                               class="form-control"
-                               placeholder="Ulica"
-                               th:field="*{patient.address.street}"
-                               required>
-                        <div class="invalid-feedback">
-                            To pole nie może być puste
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row px-4 py-2">
-                    <!-- Building number -->
-                    <div class="col-2">
-                        <label for="building-number" class="form-label address-label">
-                            Nr domu:
+                        <label for="last-name" class="form-label">
+                            Nazwisko:
                         </label>
-                        <input id="building-number"
-                               class="form-control"
-                               placeholder="11/2"
-                               th:field="*{patient.address.buildingNumber}"
-                               required>
                         <div class="invalid-feedback">
                             To pole nie może być puste
                         </div>
-                    </div>
-                    <!-- Flat number -->
-                    <div class="col-2">
-                        <label for="flat-number" class="form-label address-label">
-                            Nr lokalu:
-                        </label>
-                        <input id="flat-number"
-                               class="form-control"
-                               placeholder="33A"
-                               th:field="*{patient.address.flatNumber}">
-                        <div class="invalid-feedback">
-                            To pole nie może być puste
-                        </div>
-                    </div>
-                    <!-- Postal code -->
-                    <div class="col-2">
-                        <label for="postal-code" class="form-label address-label">
-                            Kod pocztowy:
-                        </label>
-                        <input id="postal-code"
-                               class="form-control"
-                               placeholder="44-555"
-                               th:field="*{patient.address.postalCode}"
-                               required>
-                        <div class="invalid-feedback">
-                            To pole nie może być puste
-                        </div>
-                    </div>
-                </div>
-                <div class="row px-4 py-4 d-flex justify-content-center">
-                    <div class="col-2">
-                        <button class="btn btn-primary" id="button" type="button" data-bs-toggle="tab"
-                                data-bs-target="#second-tab" role="tab">Potwierdz
-                        </button>
                     </div>
                 </div>
             </div>
+            <div class="row px-4 py-2">
+                <!-- Phone number -->
+                <div class="col-4">
+                    <label for="phone-number" class="form-label">
+                        Numer telefonu
+                    </label>
+                    <input class="form-control"
+                           id="phone-number"
+                           th:field="*{patient.phoneNumber}"
+                           required>
+                    <div class="invalid-feedback">
+                        To pole nie może być puste
+                    </div>
+                </div>
+                <!-- PESEL -->
+                <div class="col-3">
+                    <label for="pesel" class="form-label">
+                        PESEL
+                    </label>
+                    <input class="form-control"
+                           id="pesel"
+                           th:field="*{patient.pesel}"
+                           required>
+                    <div class="invalid-feedback">
+                        To pole nie może być puste
+                    </div>
+                </div>
+                <!-- Gender -->
+                <div class="col-3">
+                    <label for="gender" class="form-label">
+                        Płeć
+                    </label>
+                    <select id="gender"
+                            class="form-select"
+                            th:field="*{patient.gender}"
+                            required>
+                        <option selected value="">Wybierz</option>
+                        <option value="FEMALE">Kobieta</option>
+                        <option value="MALE">Mężczyzna</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        To pole nie może być puste
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <!-- Address -->
+            <div class="text-start px-4">
+                <h4>Adres:</h4>
+            </div>
+            <!-- City -->
+            <div class="row px-4 py-2">
+                <div class="col-6">
+                    <div class="input-group">
+                        <input id="city-input"
+                               type="text"
+                               class="form-control"
+                               placeholder="Miasto"
+                               th:field="*{patient.address.city}"
+                               oninput="getCityOptions(this.value);"
+                               required>
+                        <button class="btn btn-outline-secondary dropdown-toggle"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="true"></button>
+                        <ul id="city-options" class="dropdown-menu dropdown-menu-end w-100"
+                            aria-labelledby="dropdownMenuButton">
+                        </ul>
+                    </div>
+                    <div class="invalid-feedback">
+                        To pole nie może być puste
+                    </div>
+                </div>
+            </div>
+            <!-- Street -->
+            <div class="row px-4 py-2">
+                <div class="col-6">
+                    <input id="street"
+                           class="form-control"
+                           placeholder="Ulica"
+                           th:field="*{patient.address.street}"
+                           required>
+                    <div class="invalid-feedback">
+                        To pole nie może być puste
+                    </div>
+                </div>
+            </div>
+
+            <div class="row px-4 py-2">
+                <!-- Building number -->
+                <div class="col-2">
+                    <label for="building-number" class="form-label address-label">
+                        Nr domu:
+                    </label>
+                    <input id="building-number"
+                           class="form-control"
+                           placeholder="11/2"
+                           th:field="*{patient.address.buildingNumber}"
+                           required>
+                    <div class="invalid-feedback">
+                        To pole nie może być puste
+                    </div>
+                </div>
+                <!-- Flat number -->
+                <div class="col-2">
+                    <label for="flat-number" class="form-label address-label">
+                        Nr lokalu:
+                    </label>
+                    <input id="flat-number"
+                           class="form-control"
+                           th:field="*{patient.address.flatNumber}"
+                           placeholder="33A">
+                </div>
+                <!-- Postal code -->
+                <div class="col-2">
+                    <label for="postal-code" class="form-label address-label">
+                        Kod pocztowy:
+                    </label>
+                    <input id="postal-code"
+                           class="form-control"
+                           placeholder="44-555"
+                           th:field="*{patient.address.postalCode}"
+                           required>
+                    <div class="invalid-feedback">
+                        To pole nie może być puste
+                    </div>
+                </div>
+            </div>
+            <div class="row px-4 py-4 d-flex justify-content-center">
+                <div class="col-2">
+                    <button class="btn btn-primary" id="submit-personal-data" type="button">
+                        Potwierdz
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="tab-pane fade" id="second-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-            Second pane
+        <!-- Initially hidden content -->
+        <div class="container hidden" id="user-data-container">
+            <div class="text-center"><h2>Rejestracja - krok 2</h2></div>
+            <hr>
+            <!-- Email -->
+            <div class="row px-4 py-2">
+                <div class="col-6">
+                    <label for="email" class="form-label">
+                        Email:
+                    </label>
+                    <input id="email"
+                           type="email"
+                           class="form-control"
+                           th:field="*{patient.email}"
+                           required>
+                    <div class="invalid-feedback">
+                        To pole nie może być puste
+                    </div>
+                </div>
+            </div>
+            <!-- Password -->
+            <div class="row px-4 py-2">
+                <div class="col-6">
+                    <label for="password" class="form-label">
+                        Hasło:
+                    </label>
+                    <input id="password"
+                           type="password"
+                           class="form-control"
+                           th:field="*{password}"
+                           required>
+                    <div class="invalid-feedback">
+                        To pole nie może być puste
+                    </div>
+                </div>
+            </div>
+            <!-- Confirm password -->
+            <div class="row px-4 py-2">
+                <div class="col-6">
+                    <label for="confirm-password" class="form-label">
+                        Potwierdz hasło:
+                    </label>
+                    <input id="confirm-password" type="password" class="form-control" required>
+                    <div class="invalid-feedback" id="confirm-password-invalid-feedback">
+                    </div>
+                </div>
+            </div>
+            <div class="row px-4 py-2">
+                <div class="col-2">
+                    <button class="btn btn-primary" id="submit-form" type="submit">
+                        Potwierdz
+                    </button>
+                </div>
+            </div>
         </div>
     </form>
+
+
+    <!-- Hidden form to collect data from previous forms -->
+    <!-- <form action="#"
+           id="hidden-form"
+           th:object="${registration}"
+           th:action="@{/patient/create-profile}"
+           method="POST">
+         <input type="hidden" id="field-first-name" th:field="*{patient.firstName}">
+         <input type="hidden" id="field-last-name" th:field="*{patient.lastName}">
+         <input type="hidden" id="field-phone-number" th:field="*{patient.phoneNumber}">
+         <input type="hidden" id="field-pesel" th:field="*{patient.pesel}">
+         <input type="hidden" id="field-city" th:field="*{patient.address.city}">
+         <input type="hidden" id="field-street" th:field="*{patient.address.street}">
+         <input type="hidden" id="field-building-number" th:field="*{patient.address.buildingNumber}">
+         <input type="hidden" id="field-flat-number" th:field="*{patient.address.flatNumber}">
+         <input type="hidden" id="field-postal-code" th:field="*{patient.address.postalCode}">
+         <input type="hidden" id="field-email" th:field="*{patient.email}">
+         <input type="hidden" id="field-password" th:field="*{password}">
+         <button id="submit-hidden-form" type="submit">Submit</button>
+     </form>-->
 </div>
 
 
