@@ -2,6 +2,7 @@ package com.bekrenov.clinic.service;
 
 import com.bekrenov.clinic.entity.Patient;
 import com.bekrenov.clinic.entity.Registration;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface PatientService{
 
     void save(Patient patient);
 
-    void createPatientAndUser(Registration registration);
+    void createPatientAndUser(Registration registration, HttpServletRequest request);
 
     Patient findById(int id);
 

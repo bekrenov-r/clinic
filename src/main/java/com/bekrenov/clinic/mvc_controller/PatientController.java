@@ -2,9 +2,8 @@ package com.bekrenov.clinic.mvc_controller;
 
 import com.bekrenov.clinic.entity.*;
 import com.bekrenov.clinic.service.*;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
-import org.springframework.boot.autoconfigure.security.saml2.Saml2RelyingPartyProperties;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -126,11 +125,12 @@ public class PatientController {
         return "/patient/patient-profile";
     }
 
+    // mapping to create patient and corresponding user
     @PostMapping("/create-profile")
-    public String createProfile(@ModelAttribute("registration") Registration registration){
-        System.out.println(registration);
-        patientService.createPatientAndUser(registration);
-        return "redirect:/login";
+    public String createProfile(@ModelAttribute("registration") Registration registration,
+                                HttpServletRequest request){
+        patientService.createPatientAndUser(registration, request);
+        return "redirect:/patient/home";
     }
 
     // mapping for saving patient profile

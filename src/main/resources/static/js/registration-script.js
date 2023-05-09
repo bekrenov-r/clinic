@@ -1,7 +1,5 @@
 (() => {
     let form = document.querySelector('.needs-validation');
-    let personalDataContainer = document.querySelector('#personal-data-container');
-    let userDataContainer = document.querySelector('#user-data-container');
 
     let submitPersonalData = document.querySelector('#submit-personal-data');
     // let hiddenForm = document.querySelector("#hidden-form");
@@ -17,78 +15,43 @@
             event.preventDefault();
             event.stopPropagation();
         }
-        /*else {
-            personalDataContainer.classList.remove('active');
-            personalDataContainer.classList.add('hidden');
-
-            userDataContainer.classList.remove('hidden');
-            userDataContainer.classList.add('active');
-
-            hiddenForm.querySelector('#field-first-name').value = personalDataForm.querySelector('#first-name').value;
-            hiddenForm.querySelector('#field-last-name').value = personalDataForm.querySelector('#last-name').value;
-            hiddenForm.querySelector('#field-phone-number').value = personalDataForm.querySelector('#phone-number').value;
-            hiddenForm.querySelector('#field-pesel').value = personalDataForm.querySelector('#pesel').value;
-            hiddenForm.querySelector('#field-city').value = personalDataForm.querySelector('#city-input').value;
-            hiddenForm.querySelector('#field-street').value = personalDataForm.querySelector('#street').value;
-            hiddenForm.querySelector('#field-building-number').value = personalDataForm.querySelector('#building-number').value;
-            hiddenForm.querySelector('#field-flat-number').value = personalDataForm.querySelector('#flat-number').value;
-            hiddenForm.querySelector('#field-postal-code').value = personalDataForm.querySelector('#postal-code').value;
-        }
-        personalDataForm.classList.add('was-validated');*/
     }, false);
-
-    // validate user data form
-    /*userDataForm.addEventListener('submit', event => {
-        let email = userDataForm.querySelector('#email');
-        let password = userDataForm.querySelector('#password');
-        let confirmPassword = userDataForm.querySelector('#confirm-password');
-        let formIsValid = true;
-        if(email.value === ""){
-            setInvalid(email);
-            formIsValid = false;
-        } else {
-            setValid(email);
-        }
-        if(password.value === ""){
-            setInvalid(password);
-            formIsValid = false;
-        } else {
-            setValid(password);
-        }
-        if(confirmPassword.value === ""){
-            setTextContent('confirm-password-invalid-feedback', 'To pole nie moe być puste');
-            setInvalid(confirmPassword);
-            formIsValid = false;
-        } else {
-            setValid(confirmPassword);
-        }
-        if(password.value !== confirmPassword.value){
-            setTextContent('confirm-password-invalid-feedback', 'Hasła muszą odpowiadać');
-            setInvalid(confirmPassword);
-            formIsValid = false;
-        }
-        if(formIsValid){
-            hiddenForm.querySelector('#field-email').value = userDataForm.querySelector('#email').value;
-            hiddenForm.querySelector('#field-password').value = userDataForm.querySelector('#password').value;
-            console.log('submit');
-            let submit = document.getElementById('submit-hidden-form');
-
-            console.log('submit');
-        } else {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        // userDataForm.classList.add('was-validated');
-    }, false);
-
-    hiddenForm.addEventListener('submit', () => {
-        console.log("submitted");*/
 })();
 
 function validatePersonalData(){
     let items = document.querySelectorAll('#personal-data-container [required]');
     let formIsValid = true;
     Array.from(items).forEach(item => {
+        if(item.id === 'phone-number'){
+            let regex = /^[0-9]{9}$/g;
+            if(!regex.test(item.value)){
+                setTextContent('phone-number-invalid-feedback', 'Niepoprawny format numeru');
+                setInvalid(item);
+                formIsValid = false;
+            } else {
+                setValid(item);
+            }
+        }
+        if(item.id === 'pesel'){
+            let regex = /^[0-9]{11}$/g;
+            if(!regex.test(item.value)){
+                setTextContent('pesel-invalid-feedback', 'Niepoprawny format numeru');
+                setInvalid(item);
+                formIsValid = false;
+            } else {
+                setValid(item);
+            }
+        }
+        if(item.id === 'postal-code'){
+            let regex = /^[0-9]{2}-[0-9]{3}$/g;
+            if(!regex.test(item.value)){
+                setTextContent('postal-code-invalid-feedback', 'Niepoprawny format kodu');
+                setInvalid(item);
+                formIsValid = false;
+            } else {
+                setValid(item);
+            }
+        }
         if(item.value === ''){
             setInvalid(item);
             formIsValid = false;

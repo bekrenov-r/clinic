@@ -3,7 +3,9 @@ package com.bekrenov.clinic.service;
 import com.bekrenov.clinic.entity.Patient;
 import com.bekrenov.clinic.entity.Registration;
 import com.bekrenov.clinic.repository.PatientRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +22,9 @@ public class PatientServiceImpl implements PatientService{
     private final ClinicUserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
 
+    @Value("${data.phone-number-prefix}")
+    private String phoneNumberPrefix;
+
     @Autowired
     public PatientServiceImpl(PatientRepository repository, ClinicUserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         this.repository = repository;
@@ -28,13 +33,16 @@ public class PatientServiceImpl implements PatientService{
     }
 
     @Override
-    public void createPatientAndUser(Registration registration) {
+    public void createPatientAndUser(Registration registration, HttpServletRequest request) {
+        Patient patient = registration.getPatient();
         // set id to 0 so that Hibernate creates new user
-        registration.getPatient().setId(0);
+        patient.setId(0);
         // todo: fully remove 'username' field from patient, hook users to email
-        registration.getPatient().setUsername(registration.getPatient().getEmail());
+        patient.setUsername(patient.getEmail());
+
+        patient.setPhoneNumber(phoneNumberPrefix + patient.getPhoneNumber());
         // save patient to database
-        save(registration.getPatient());
+        save(patient);
 
         UserDetails user = User.builder()
                         .username(registration.getPatient().getEmail())
@@ -43,6 +51,7 @@ public class PatientServiceImpl implements PatientService{
                         .disabled(false)
                         .build();
         userDetailsService.createUser(user);
+        userDetailsService.authenticateUser(user.getUsername(), registration.getPassword(), request);
     }
 
     @Override

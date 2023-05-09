@@ -1,21 +1,19 @@
 package com.bekrenov.clinic.config;
 
 import com.bekrenov.clinic.service.ClinicUserDetailsService;
-import com.bekrenov.clinic.service.UserDetailsServiceImpl;
-import jakarta.persistence.EntityManagerFactory;
-import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
+import com.bekrenov.clinic.service.ClinicUserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
 import javax.sql.DataSource;
 
@@ -29,15 +27,22 @@ public class SecurityConfig {
     }
 
     @Bean
-    public ClinicUserDetailsService userDetailsService(JdbcUserDetailsManager jdbcUserDetailsManager){
-        return new UserDetailsServiceImpl(jdbcUserDetailsManager);
+    public ClinicUserDetailsService userDetailsService(JdbcUserDetailsManager jdbcUserDetailsManager,
+                                                       AuthenticationManager authenticationManager){
+        return new ClinicUserDetailsServiceImpl(jdbcUserDetailsManager, authenticationManager);
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService){
+    public AuthenticationProvider authenticationProvider(JdbcUserDetailsManager jdbcUserDetailsManager){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        provider.setUserDetailsService(username -> jdbcUserDetailsManager.loadUserByUsername(username));
         return provider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationProvider authenticationProvider){
+        return new ProviderManager(authenticationProvider);
     }
 
     @Bean

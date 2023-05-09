@@ -22,3 +22,4 @@ It'll create a few sample users.
 - Maven
 - HTML/CSS/JavaScript
 - Bootstrap 5
+- Thymeleaf

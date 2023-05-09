@@ -81,13 +81,18 @@
                     <label for="phone-number" class="form-label">
                         Numer telefonu
                     </label>
-                    <input class="form-control"
-                           id="phone-number"
-                           th:field="*{patient.phoneNumber}"
-                           required>
-                    <div class="invalid-feedback">
-                        To pole nie może być puste
+                    <div class="input-group has-validation">
+                        <span class="input-group-text">+48</span>
+                        <input class="form-control"
+                               id="phone-number"
+                               th:field="*{patient.phoneNumber}"
+                               required>
+                        <div class="invalid-feedback" id="phone-number-invalid-feedback">
+                            To pole nie może być puste
+                        </div>
                     </div>
+
+
                 </div>
                 <!-- PESEL -->
                 <div class="col-3">
@@ -98,7 +103,7 @@
                            id="pesel"
                            th:field="*{patient.pesel}"
                            required>
-                    <div class="invalid-feedback">
+                    <div class="invalid-feedback" id="pesel-invalid-feedback">
                         To pole nie może być puste
                     </div>
                 </div>
@@ -198,7 +203,7 @@
                            placeholder="44-555"
                            th:field="*{patient.address.postalCode}"
                            required>
-                    <div class="invalid-feedback">
+                    <div class="invalid-feedback" id="postal-code-invalid-feedback">
                         To pole nie może być puste
                     </div>
                 </div>
