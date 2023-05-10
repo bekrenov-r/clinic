@@ -18,6 +18,10 @@ hr {
     display: none;
 }
 
+.form-check-label {
+    font-size: 0.8rem;
+}
+
 #user-data-form-container label {
     margin-bottom: 0;
 }

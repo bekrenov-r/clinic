@@ -58,6 +58,17 @@ function validatePersonalData(){
         } else {
             setValid(item);
         }
+        if(item.id === 'agreement-checkbox'){
+            if(!item.checked){
+                console.log('unchecked');
+                // setInvalid(item);
+                item.classList.add('is-invalid');
+                formIsValid = false;
+            } else {
+                console.log('checked');
+                setValid(item);
+            }
+        }
     });
     return formIsValid;
 }
