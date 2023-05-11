@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
-public interface PatientService{
+public interface PatientService {
 
     void save(Patient patient);
 
@@ -21,5 +21,10 @@ public interface PatientService{
 
     void deleteById(int id);
 
+    boolean emailExists(String email);
+
+    boolean phoneNumberExists(String phoneNumber);
+
+    boolean peselExists(String pesel);
 
 }

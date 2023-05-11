@@ -64,7 +64,6 @@ async function populateDoctors() {
         .catch(e => {
             console.log(e.errorText);
         });
-
 }
 
 async function disableDoctorSelect(isChecked) {

@@ -60,6 +60,7 @@ public class SecurityConfig {
                                 .requestMatchers("/css/**").permitAll()
                                 .requestMatchers("/addresses/cities/**").permitAll()
                                 .requestMatchers("/patient/create-profile").permitAll()
+                                .requestMatchers("/patients/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->

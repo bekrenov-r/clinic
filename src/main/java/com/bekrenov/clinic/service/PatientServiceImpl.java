@@ -18,7 +18,7 @@ import java.util.Optional;
 @Service
 public class PatientServiceImpl implements PatientService{
 
-    private final PatientRepository repository;
+    private final PatientRepository patientRepository;
     private final ClinicUserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
 
@@ -26,8 +26,8 @@ public class PatientServiceImpl implements PatientService{
     private String phoneNumberPrefix;
 
     @Autowired
-    public PatientServiceImpl(PatientRepository repository, ClinicUserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-        this.repository = repository;
+    public PatientServiceImpl(PatientRepository patientRepository, ClinicUserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        this.patientRepository = patientRepository;
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
     }
@@ -56,27 +56,42 @@ public class PatientServiceImpl implements PatientService{
 
     @Override
     public void save(Patient patient) {
-        repository.save(patient);
+        patientRepository.save(patient);
     }
 
     @Override
     public Patient findById(int id) {
-        Optional<Patient> patient = repository.findById(id);
+        Optional<Patient> patient = patientRepository.findById(id);
         return patient.orElse(null);
     }
 
     @Override
     public Patient findByUsername(String username) {
-        return repository.findByUsername(username);
+        return patientRepository.findByUsername(username);
     }
 
     @Override
     public List<Patient> findAll(Sort sort) {
-        return repository.findAll(sort);
+        return patientRepository.findAll(sort);
     }
 
     @Override
     public void deleteById(int id) {
-        repository.deleteById(id);
+        patientRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean emailExists(String email) {
+        return patientRepository.emailExists(email);
+    }
+
+    @Override
+    public boolean phoneNumberExists(String phoneNumber) {
+        return patientRepository.phoneNumberExists(phoneNumber);
+    }
+
+    @Override
+    public boolean peselExists(String pesel) {
+        return patientRepository.peselExists(pesel);
     }
 }
