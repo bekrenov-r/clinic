@@ -13,10 +13,6 @@
     transition: transform ease-in-out 0.3s;
 }
 
-/*.card .card-dropdown-toggle i {*/
-/*    transform: rotate(-90deg);*/
-/*}*/
-
 .card {
     /*box-sizing: border-box;*/
     height: unset;
@@ -28,23 +24,20 @@
     transition: height 0.5s ease-in-out;
 }
 
-/*.card .card-dropdown-toggle i {*/
-/*    transform: rotate(90deg);*/
-/*}*/
-
 .card-dropdown-toggle:hover {
     color: #838383;
 }
-
-/*.card.active {*/
-/*    height: max-content;*/
-/*}*/
 
 #hidden-row {
     border-top: 1px #c5bdbc solid;
 }
 
-.code-label {
+/*.code-label {
     font-size: 0.8rem;
     color: #838383;
+}*/
+
+.no-appointments-label {
+    color: #A3A3A3;
+    font-size: 1.3rem;
 }

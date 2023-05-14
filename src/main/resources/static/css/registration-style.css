@@ -22,6 +22,20 @@ hr {
     font-size: 0.8rem;
 }
 
+.back-nav {
+    font-size: 0.9rem;
+    color: #000000;
+    text-decoration: none;
+}
+
+.back-nav:hover {
+    color: #000000;
+}
+
+.back-nav i{
+    margin-right: 0.3rem;
+}
+
 #user-data-form-container label {
     margin-bottom: 0;
 }

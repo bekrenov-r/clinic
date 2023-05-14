@@ -1,8 +1,5 @@
 (() => {
-    let form = document.querySelector('.needs-validation');
-
     let submitPersonalData = document.querySelector('#submit-personal-data');
-
     submitPersonalData.addEventListener('click', () => {
         validatePersonalData()
             .then(() => {
@@ -12,6 +9,7 @@
             });
     });
 
+    let form = document.querySelector('.needs-validation');
     form.addEventListener('submit', event => {
         event.preventDefault();
         event.stopPropagation();
@@ -27,6 +25,11 @@
             });
 
     }, false);
+
+    let backNav = document.querySelector('#step-2-back-nav');
+    backNav.addEventListener('click', () => {
+        switchTabs();
+    });
 })();
 
 async function validatePersonalData(){

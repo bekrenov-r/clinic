@@ -40,6 +40,14 @@
 
             <!-- List of appointments -->
             <div class="container me-3" th:object="${appointments}">
+                <div class="container text-center pt-5"
+                     th:if="${#lists.isEmpty(appointments)}">
+                    <img class="img-fluid mx-auto d-block" th:src="@{/images/box.png}">
+                    <label class="no-appointments-label mt-2">Na razie jeszcze nie masz wizyt</label>
+                </div>
+
+
+
                 <!-- Single appointment -->
                 <div class="row justify-content-center ms-lg-3" th:each="appointment : ${appointments}">
                     <div class="col-lg-10">
