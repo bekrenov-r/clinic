@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface PatientRepository extends JpaRepository<Patient, Integer> {
-    Patient findByUsername(String username);
+    Patient findByEmail(String username);
 
     @Query("select case when count(p)>0 then true else false end " +
             "from Patient p where p.email = :email")

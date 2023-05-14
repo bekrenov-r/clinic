@@ -38,7 +38,6 @@ public class PatientServiceImpl implements PatientService{
         // set id to 0 so that Hibernate creates new user
         patient.setId(0);
         // todo: fully remove 'username' field from patient, hook users to email
-        patient.setUsername(patient.getEmail());
 
         patient.setPhoneNumber(phoneNumberPrefix + patient.getPhoneNumber());
         // save patient to database
@@ -66,8 +65,8 @@ public class PatientServiceImpl implements PatientService{
     }
 
     @Override
-    public Patient findByUsername(String username) {
-        return patientRepository.findByUsername(username);
+    public Patient findByEmail(String email) {
+        return patientRepository.findByEmail(email);
     }
 
     @Override

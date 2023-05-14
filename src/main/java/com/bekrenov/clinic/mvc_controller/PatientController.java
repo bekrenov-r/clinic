@@ -38,7 +38,7 @@ public class PatientController {
     @GetMapping("/home")
     public String showHomePage(Model model, Authentication auth){
         String username = auth.getName();
-        Patient patient = patientService.findByUsername(username);
+        Patient patient = patientService.findByEmail(username);
         model.addAttribute("patient", patient);
         return "/patient/home-page";
     }
@@ -76,7 +76,7 @@ public class PatientController {
     // mapping for showing list of Appointments
     @GetMapping("/appointments")
     public String showAppointments(Model model, Authentication auth){
-        Patient patient = patientService.findByUsername(auth.getName());
+        Patient patient = patientService.findByEmail(auth.getName());
         List<Appointment> appointments = patient.getAppointments();
         // add list of appointments to the model
         model.addAttribute("appointments", appointments);
@@ -89,7 +89,7 @@ public class PatientController {
 
         // get patient from spring security, reattach it to persistence context and add to Appointment object
         UserDetails userDetails = userDetailsService.loadUserByUsername(authentication.getName());
-        Patient patient = patientService.findByUsername(userDetails.getUsername());
+        Patient patient = patientService.findByEmail(userDetails.getUsername());
         appointment.setPatient(patient);
 
         // reattaching department to persistence context (to avoid PersistentObjectException)
@@ -120,7 +120,7 @@ public class PatientController {
     public String showProfile(Model model, Authentication authentication){
         // get patient from spring security and reattach it to persistence context
         UserDetails userDetails = userDetailsService.loadUserByUsername(authentication.getName());
-        Patient patient = patientService.findByUsername(userDetails.getUsername());
+        Patient patient = patientService.findByEmail(userDetails.getUsername());
         model.addAttribute("patient", patient);
         return "/patient/patient-profile";
     }
@@ -136,8 +136,15 @@ public class PatientController {
     // mapping for saving patient profile
     @PostMapping("/save-profile")
     public String saveProfile(@ModelAttribute("patient") Patient patient){
-
-        String username = patientService.findById(patient.getId()).getUsername();
+        // retrieve old patient from database and check if user has changed email
+        Patient oldPatient = patientService.findById(patient.getId());
+        if(!patient.getEmail().equals(oldPatient.getEmail())){
+            // change user's username
+            String oldUsername = oldPatient.getEmail();
+            String newUsername = patient.getEmail();
+            userDetailsService.changeUsername(oldUsername, newUsername);
+        }
+        /*String username = patientService.findById(patient.getId());
 
         // if patient changed his email
         if(!username.equals(patient.getEmail())){
@@ -146,7 +153,7 @@ public class PatientController {
         }
 
         // set patient's username to value of email
-        patient.setUsername(patient.getEmail());
+        *//*patient.setUsername(patient.getEmail());*/
 
         patientService.save(patient);
         return "redirect:/patient/profile";

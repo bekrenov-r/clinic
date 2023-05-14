@@ -15,7 +15,7 @@ public interface PatientService {
 
     Patient findById(int id);
 
-    Patient findByUsername(String username);
+    Patient findByEmail(String email);
 
     List<Patient> findAll(Sort sort);
 

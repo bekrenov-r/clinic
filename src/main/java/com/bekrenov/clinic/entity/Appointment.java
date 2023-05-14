@@ -145,7 +145,7 @@ public class Appointment {
                 ",\n appointmentTime=" + appointmentTime +
                 ",\n appointmentDate=" + appointmentDate +
                 ",\n department=" + department.getDepartmentName() +
-                ",\n patient id=" + patient.getId() + "; username='" + patient.getUsername() + "'" +
+                ",\n patient id=" + patient.getId() + "; username='" + patient.getEmail() + "'" +
                 ",\n anyDoctor=" + anyDoctor +
                 ",\n doctor id=" + doctor.getId() +
                 "\n}";

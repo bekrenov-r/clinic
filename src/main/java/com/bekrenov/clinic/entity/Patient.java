@@ -33,8 +33,10 @@ public class Patient {
     @Column(name = "gender")
     private Gender gender;
 
+/*
     @Column(name = "username")
     private String username;
+*/
 
     @OneToOne(fetch = FetchType.EAGER,
                 cascade = CascadeType.ALL)
@@ -49,14 +51,14 @@ public class Patient {
     public Patient() {
     }
 
-    public Patient(String firstName, String lastName, String pesel, String phoneNumber, String email, Gender gender, String username, Address address, List<Appointment> appointments) {
+    public Patient(String firstName, String lastName, String pesel, String phoneNumber, String email, Gender gender, Address address, List<Appointment> appointments) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.pesel = pesel;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.gender = gender;
-        this.username = username;
+        /*this.username = username;*/
         this.address = address;
         this.appointments = appointments;
     }
@@ -117,13 +119,13 @@ public class Patient {
         this.gender = gender;
     }
 
-    public String getUsername() {
+/*    public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
-    }
+    }*/
 
     public Address getAddress() {
         return address;
@@ -158,7 +160,7 @@ public class Patient {
                 ",\n phoneNumber='" + phoneNumber + '\'' +
                 ",\n email='" + email + '\'' +
                 ",\n gender=" + gender +
-                ",\n username=" + username +
+                /*",\n username=" + username +*/
                 ",\n address=" + address +
                 ",\n visits=" + appointments +
                 "\n}";
@@ -168,7 +170,7 @@ public class Patient {
         MALE("MALE"),
         FEMALE("FEMALE");
 
-        private String gender;
+        private final String gender;
 
         Gender(String gender){
             this.gender = gender;
