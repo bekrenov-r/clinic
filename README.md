@@ -1,7 +1,7 @@
 
 # Clinic application
 
-Web application for clinic service. So far, you can register/login, sign up for a new
+Web application for clinic service. So far, you can sign up for a new
 appointment, edit your profile and manage existing appointments.
 
 ### How to run this application
