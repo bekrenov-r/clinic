@@ -1,5 +1,5 @@
 html {
-    font-size: 14px;
+    font-size: 22px;
 }
 
 body {
@@ -11,7 +11,8 @@ body {
 }
 
 .navbar>.container {
-    padding: 0 15%;
+    margin: 0 15vw;
+    padding: 0 2rem;
 }
 
 .navbar-brand {
@@ -20,6 +21,31 @@ body {
 
 .navbar-brand:hover {
     color: #F2E7DC;
+}
+
+.nav-dropdown {
+    background-color: transparent;
+    border: none;
+}
+
+.nav-dropdown,
+.nav-dropdown:hover,
+.nav-dropdown:focus,
+.nav-dropdown:active,
+.nav-dropdown:visited,
+.nav-dropdown:focus:not(:focus-visible),
+.nav-dropdown:not(:focus):not(:active) {
+    background-color: transparent;
+    border: none;
+}
+
+li > a > i {
+    margin-right: 0.3rem;
+}
+
+.nav-dropdown {
+    background-color: transparent;
+    border: none;
 }
 
 .main-content {

@@ -14,45 +14,9 @@
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
           crossorigin="anonymous">
 
-    <style>
-        html {
-            font-size: 14px;
-        }
-
-        body {
-            background-color: #f2f2f2;
-        }
-
-        form {
-            width: 30vw;
-        }
-
-        .navbar {
-            background-color: #027373;
-        }
-
-        .navbar>.container {
-            padding: 0 15%;
-        }
-
-        .navbar-brand {
-            color: #F2E7DC;
-        }
-
-        .navbar-brand:hover {
-            color: #F2E7DC;
-        }
-
-        a {
-            text-decoration: none;
-            color: #8d8d8d;
-        }
-
-        a:hover {
-            text-decoration: none;
-            color: #6e6e6e;
-        }
-    </style>
+    <!-- Custom CSS-->
+    <link rel="stylesheet" th:href="@{/css/common-style.css}">
+    <link rel="stylesheet" th:href="@{/css/login-page.css}">
 
 </head>
 <body>
@@ -76,6 +40,11 @@
                 <!-- Check for error param -->
                 <div class="alert alert-danger" role="alert" th:if="${param.error}">
                     Niepoprawny login lub hasło
+                </div>
+
+                <!-- Check for logout param -->
+                <div class="alert alert-success" role="alert" th:if="${param.logout}">
+                    Zostałeś wylogowany
                 </div>
 
 

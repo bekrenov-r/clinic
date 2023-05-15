@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -68,8 +69,8 @@ public class SecurityConfig {
                                 .loginPage("/login")
                                 .loginProcessingUrl("/authenticate")
                                 .permitAll()
-                );
-
+                )
+                .logout(logout -> logout.permitAll());
         return http.build();
     }
 }
