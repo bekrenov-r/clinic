@@ -20,65 +20,70 @@
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container">
-        <a class="navbar-brand" th:href=" @{/login}"><h3>MedicaPlus</h3></a>
-    </div>
-</nav>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark header">
+        <div class="container">
+            <a class="navbar-brand" th:href=" @{/login}"><h2>MedicaPlus</h2></a>
+        </div>
+    </nav>
+</header>
 
-<div class="container d-flex justify-content-center mt-5">
+<div class="container mt-5 outer-box">
+
+    <div class="container header-container py-2 px-4">
+    <span class="text-center heading">
+      Logowanie
+    </span>
+    </div>
 
     <form class="needs-validation"
           novalidate
           action="#"
           th:action="@{/authenticate}"
           method="POST">
-        <div class="row">
-            <div class="col">
-                <div class="text-center d-block"><h2>Zaloguj</h2></div>
-
-                <!-- Check for error param -->
-                <div class="alert alert-danger" role="alert" th:if="${param.error}">
-                    Niepoprawny login lub hasło
-                </div>
-
-                <!-- Check for logout param -->
-                <div class="alert alert-success" role="alert" th:if="${param.logout}">
-                    Zostałeś wylogowany
-                </div>
-
-
-                <div class="form-floating mt-3 mb-2 d-block">
-                    <input class="form-control"
-                           id="username"
-                           name="username"
-                           placeholder="Login"
-                           required
-                           autofocus>
-                    <label for="username" class="form-label">Email:</label>
-                </div>
-                <div class="form-floating mt-3">
-                    <input type="password"
-                           name="password"
-                           class="form-control"
-                           id="password"
-                           placeholder="Login"
-                           required>
-                    <label for="password" class="form-label">Hasło:</label>
-                </div>
-                <div class="d-flex justify-content-center mt-3">
-                    <button type="submit" class="btn btn-primary btn-lg justify-content-center">Potwierdz</button>
-                </div>
+        <div class="container d-flex flex-column justify-content-evenly gap-3 p-4 form-container">
+            <!-- Check for error param -->
+            <div class="alert alert-danger" role="alert" th:if="${param.error}">
+                Niepoprawny login lub hasło
             </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col d-flex justify-content-center">
-                <a href="#" th:href="@{/registration}">
-                    Nie posiadasz konta? Rejestracja
-                </a>
+
+            <!-- Check for logout param -->
+            <div class="alert alert-success" role="alert" th:if="${param.logout}">
+                Zostałeś wylogowany
+            </div>
+
+            <div class="form-floating d-block">
+                <input class="form-control"
+                       id="username"
+                       name="username"
+                       placeholder="Login"
+                       required
+                       autofocus>
+                <label for="username" class="form-label">Email:</label>
+            </div>
+            <div class="form-floating">
+                <input type="password"
+                       name="password"
+                       class="form-control"
+                       id="password"
+                       placeholder="Login"
+                       required>
+                <label for="password" class="form-label">Hasło:</label>
+            </div>
+
+            <div class="d-flex justify-content-start">
+                <button type="submit" class="btn btn-primary"><span>Potwierdz</span></button>
             </div>
         </div>
     </form>
+    <hr>
+    <div class="container footer-container px-4 py-3">
+        <div class="d-flex justify-content-start">
+            <a href="#" th:href="@{/registration}">
+                Nie posiadasz konta? Rejestracja
+            </a>
+        </div>
+    </div>
 </div>
 
 <!-- Bootstrap JS-->

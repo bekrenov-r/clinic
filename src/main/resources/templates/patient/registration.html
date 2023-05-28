@@ -22,12 +22,14 @@
     <title>MedicaPlus - Home</title>
 </head>
 <body>
-
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container">
-        <a class="navbar-brand" th:href=" @{/registration}"><h3>MedicaPlus</h3></a>
-    </div>
-</nav>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark header">
+        <div class="container">
+            <a class="navbar-brand" th:href=" @{/registration}"><h2>MedicaPlus</h2></a>
+        </div>
+    </nav>
+</header>
+<section class="outer-box">
 <div class="container main-content">
     <!-- Form -->
     <form class="needs-validation"
@@ -314,7 +316,7 @@
         </div>
     </form>
 </div>
-
+</section>
 
 <!-- Bootstrap JS-->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"

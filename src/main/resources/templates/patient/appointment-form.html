@@ -23,14 +23,19 @@
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css'>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" th:href=" @{/patient/home}"><h3>MedicaPlus</h3></a>
-            <div class="btn-group ms-auto">
-                <button type="button" class="btn btn-primary dropdown-toggle nav-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fi fi-sr-user"></i>
+<header>
+    <nav class="navbar header navbar-expand-lg navbar-dark d-flex justify-content-between">
+        <div class="d-flex justify-content-start">
+            <a class="navbar-brand" th:href="@{/patient/home}"><h2>MedicaPlus</h2></a>
+        </div>
+        <div class="d-flex justify-content-end">
+            <div class="btn-group">
+                <button type="button" class="btn nav-dropdown" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    <!--<img src="../../static/images/person-fill-gear30x30.svg" alt="">-->
+                    <img th:src="@{/images/person-fill-gear30x30.svg}" alt="settings icon">
                 </button>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu dropdown-menu-end">
                     <!--<li>
                         <hr class="dropdown-divider">
                     </li>-->
@@ -50,6 +55,8 @@
             </div>
         </div>
     </nav>
+</header>
+<section class="outer-box">
     <div class="container main-content">
         <div class="text-start px-4">
             <h3>Zapisz się na wizytę</h3>
@@ -150,6 +157,7 @@
             </div>
         </div>
     </div>
+</section>
 
 <!-- Flatpickr JS -->
 <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>

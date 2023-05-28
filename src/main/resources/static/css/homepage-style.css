@@ -1,5 +1,11 @@
+.greeting-title {
+    font-weight: 400;
+    font-size: 1.5rem;
+}
+
 .option-card {
     border: 1px solid #dee2e6;
+    border-radius: 10px;
 }
 
 .option-card:hover {
@@ -20,6 +26,7 @@
 }
 
 .option-card h5 {
+    /*font-size: 1.3rem;*/
     font-size: 1rem;
     margin-left: 10%;
 }
