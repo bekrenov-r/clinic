@@ -1,9 +1,8 @@
-html {
-    font-size: 22px;
-}
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
 
 body {
     background-color: #f2f2f2;
+    font-family: 'Lato', sans-serif;
 }
 
 .navbar {
@@ -15,8 +14,10 @@ body {
     padding: 0 2rem;
 }
 
-.navbar-brand {
+.navbar-brand h1 {
     color: #F2E7DC;
+    font-size: 2.5rem;
+    font-weight: 700;
 }
 
 .navbar-brand:hover {
@@ -49,7 +50,7 @@ li > a > i {
 }
 
 .main-content {
-    height: 200vh; /*make height auto*/
+    min-height: 200vh; /*make height auto*/
     overflow: hidden;
     width: 70vw;
     margin-right: 15vw;

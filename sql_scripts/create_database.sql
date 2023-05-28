@@ -46,7 +46,6 @@ CREATE TABLE patients(
     phone_number VARCHAR(20) DEFAULT NULL,
     email VARCHAR(255) DEFAULT NULL,
     gender VARCHAR(10) NOT NULL,
-    username varchar(255) NOT NULL,
     id_address INT,
     PRIMARY KEY(id),
     FOREIGN KEY(id_address) REFERENCES addresses(id)

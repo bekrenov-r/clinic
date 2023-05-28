@@ -15,12 +15,8 @@
         event.stopPropagation();
         validateUserData(form)
             .then(() => {
-                let valid = userDataIsValid();
-                console.log('user data vaild: ' + valid);
                 if(userDataIsValid()){
                     form.submit();
-                    /*event.preventDefault();
-                    event.stopPropagation();*/
                 }
             });
 
@@ -48,16 +44,7 @@ async function validatePersonalData(){
             if(item.value !== '' && !regex.test(item.value)){
                 setTextContent('phone-number-invalid-feedback', 'Niepoprawny format numeru');
                 setInvalid(item);
-            } /*else {
-                // check if phone number already exists
-                phoneNumberExists(item.value)
-                    .then(response => {
-                        if(response){
-                            setTextContent('phone-number-invalid-feedback', 'Podany numer telefonu już jest zarejestrowany');
-                            setInvalid(item);
-                        }
-                    });
-            }*/
+            }
         }
         if(item.id === 'pesel'){
             let regex = /^[0-9]{11}$/g;
@@ -65,16 +52,7 @@ async function validatePersonalData(){
             if(item.value !== '' && !regex.test(item.value)){
                 setTextContent('pesel-invalid-feedback', 'Niepoprawny format numeru');
                 setInvalid(item);
-            } /*else {
-                // check if pesel already exists
-                peselExists(item.value)
-                    .then(response => {
-                        if(response){
-                            setTextContent('pesel-invalid-feedback', 'Podany PESEL już jest zarejestrowany');
-                            setInvalid(item);
-                        }
-                    });
-            }*/
+            }
         }
         if(item.id === 'postal-code'){
             let regex = /^[0-9]{2}-[0-9]{3}$/g;
@@ -127,7 +105,6 @@ function personalDataIsValid(){
 }
 
 async function validateUserData(form){
-    console.log('validating user data');
     let items = document.querySelectorAll('#user-data-container [required]');
     Array.from(items).forEach(item => {
         // generic check on empty value
@@ -141,7 +118,7 @@ async function validateUserData(form){
     let password = document.querySelector('#password');
     let confirmPassword = document.querySelector('#confirm-password');
     if(password.value !== confirmPassword.value){
-        setTextContent('confirm-password-invalid-feedback', 'Hasła muszą odpowiadać');
+        setTextContent('confirm-password-invalid-feedback', 'Hasła nie są jednakowe');
         setInvalid(confirmPassword);
     }
 
@@ -153,14 +130,12 @@ async function validateUserData(form){
                 setInvalid(email);
             }
         });
-    console.log('user data validated');
 }
 
 function userDataIsValid(){
     let formIsValid = true;
     let items = document.querySelectorAll('#user-data-container [required]')
     Array.from(items).forEach(item => {
-        // console.log(item.id + ': ' + item.classList.contains('is-invalid'));
         if(item.classList.contains('is-invalid')){
             formIsValid = false;
         }

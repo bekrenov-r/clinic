@@ -8,9 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
@@ -21,22 +19,26 @@ import javax.sql.DataSource;
 @Configuration
 public class SecurityConfig {
 
+    // todo: move jpa config to another config class
     @Bean
     public JdbcUserDetailsManager userDetailsManager(DataSource dataSource){
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
         return jdbcUserDetailsManager;
     }
 
+    // todo: make ClinicUserDetailsService @Service, not bean
     @Bean
     public ClinicUserDetailsService userDetailsService(JdbcUserDetailsManager jdbcUserDetailsManager,
-                                                       AuthenticationManager authenticationManager){
-        return new ClinicUserDetailsServiceImpl(jdbcUserDetailsManager, authenticationManager);
+                                                       AuthenticationManager authenticationManager,
+                                                       PasswordEncoder passwordEncoder){
+        return new ClinicUserDetailsServiceImpl(jdbcUserDetailsManager, authenticationManager, passwordEncoder);
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider(JdbcUserDetailsManager jdbcUserDetailsManager){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
+        // todo: replace jdbcUserDetailsManager call with something else (some other implementation of UserDetailsService)
         provider.setUserDetailsService(username -> jdbcUserDetailsManager.loadUserByUsername(username));
         return provider;
     }

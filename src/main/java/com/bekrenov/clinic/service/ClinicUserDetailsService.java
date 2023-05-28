@@ -6,9 +6,9 @@ import org.springframework.security.provisioning.UserDetailsManager;
 
 public interface ClinicUserDetailsService extends UserDetailsManager {
 
-    UserDetails loadUserByUsername(String username);
-
     void changeUsername(String oldUsername, String newUsername);
 
     void authenticateUser(String username, String rawPassword, HttpServletRequest request);
+
+    boolean passwordIsCorrect(String username, String password);
 }
