@@ -1,6 +1,5 @@
 package com.bekrenov.clinic.service;
 
-import com.bekrenov.clinic.exception.InvalidPasswordException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -14,7 +13,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ClinicUserDetailsServiceImpl implements ClinicUserDetailsService {
 
     private final JdbcUserDetailsManager jdbcUserDetailsManager;
@@ -89,7 +90,7 @@ public class ClinicUserDetailsServiceImpl implements ClinicUserDetailsService {
         } else {
             throw new InvalidPasswordException("Can't change password: given current password is invalid");
         }*/
-        jdbcUserDetailsManager.setAuthenticationManager(authenticationManager);
+//        jdbcUserDetailsManager.setAuthenticationManager(authenticationManager);
         String encodedPassword = passwordEncoder.encode(newPassword);
         jdbcUserDetailsManager.changePassword(oldPassword, encodedPassword);
 

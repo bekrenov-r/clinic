@@ -2,9 +2,9 @@
     const cards = document.querySelectorAll('.card');
 
     cards.forEach(card => {
-        let visibleRow = card.querySelector('#visible-row');
+        let visibleRow = card.querySelector('.visible-row');
         let visibleRowMarginY = parseFloat(getComputedStyle(visibleRow).marginTop) + parseFloat(getComputedStyle(visibleRow).marginBottom);
-        let hiddenRow = card.querySelector('#hidden-row');
+        let hiddenRow = card.querySelector('.hidden-row');
         let hiddenRowMarginY = parseFloat(getComputedStyle(hiddenRow).marginTop) + parseFloat(getComputedStyle(hiddenRow).marginBottom);
 
         let dropdownToggle = card.querySelector('.card-dropdown-toggle');
@@ -28,11 +28,6 @@
             }
         }
     });
-
-    // const buttons = document.querySelectorAll('.btn');
-    // buttons.forEach((btn) => {
-    //     btn.addEventListener("click", event => event.preventDefault())
-    // });
 })()
 
 

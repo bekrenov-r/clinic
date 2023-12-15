@@ -103,8 +103,8 @@ public class PatientController {
                 : doctorService.findById(appointment.getDoctor().getId());
         appointment.setDoctor(doctor);
 
-        System.out.println(appointment);
-        appointmentService.save(appointment);
+        System.out.println("Saving appointment: " + appointment);
+//        appointmentService.save(appointment);
         return "redirect:/patient/appointments";
     }
 

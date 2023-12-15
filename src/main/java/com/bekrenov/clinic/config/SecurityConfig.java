@@ -4,6 +4,7 @@ import com.bekrenov.clinic.service.ClinicUserDetailsService;
 import com.bekrenov.clinic.service.ClinicUserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -19,27 +20,11 @@ import javax.sql.DataSource;
 @Configuration
 public class SecurityConfig {
 
-    // todo: move jpa config to another config class
-    @Bean
-    public JdbcUserDetailsManager userDetailsManager(DataSource dataSource){
-        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-        return jdbcUserDetailsManager;
-    }
-
-    // todo: make ClinicUserDetailsService @Service, not bean
-    @Bean
-    public ClinicUserDetailsService userDetailsService(JdbcUserDetailsManager jdbcUserDetailsManager,
-                                                       AuthenticationManager authenticationManager,
-                                                       PasswordEncoder passwordEncoder){
-        return new ClinicUserDetailsServiceImpl(jdbcUserDetailsManager, authenticationManager, passwordEncoder);
-    }
-
     @Bean
     public AuthenticationProvider authenticationProvider(JdbcUserDetailsManager jdbcUserDetailsManager){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
-        // todo: replace jdbcUserDetailsManager call with something else (some other implementation of UserDetailsService)
-        provider.setUserDetailsService(username -> jdbcUserDetailsManager.loadUserByUsername(username));
+        provider.setUserDetailsService(jdbcUserDetailsManager);
         return provider;
     }
 
@@ -73,6 +58,7 @@ public class SecurityConfig {
                                 .permitAll()
                 )
                 .logout(logout -> logout.permitAll());
+        
         return http.build();
     }
 }
