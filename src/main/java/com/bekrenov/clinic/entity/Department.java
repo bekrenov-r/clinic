@@ -1,18 +1,23 @@
 package com.bekrenov.clinic.entity;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "departments")
+@Data
 public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @Column(name="department_name")
     private String departmentName;
@@ -22,62 +27,13 @@ public class Department {
 
     @OneToOne(fetch = FetchType.EAGER,
             cascade = {CascadeType.ALL})
-    @JoinColumn(name = "id_address", referencedColumnName = "id")
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
     @OneToMany(mappedBy = "department",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private List<Doctor> doctors;
-
-    public Department() {
-    }
-
-    public Department(String departmentName, String specialization, Address address) {
-        this.departmentName = departmentName;
-        this.specialization = specialization;
-        this.address = address;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getDepartmentName() {
-        return departmentName;
-    }
-
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
-    }
-
-    public String getSpecialization() {
-        return specialization;
-    }
-
-    public void setSpecialization(String specialization) {
-        this.specialization = specialization;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public List<Doctor> getDoctors() {
-        return doctors;
-    }
-
-    public void setDoctors(List<Doctor> doctors) {
-        this.doctors = doctors;
-    }
 
     public void addDoctor(Doctor doctor){
         if(doctors.isEmpty()){
@@ -86,11 +42,9 @@ public class Department {
         doctors.add(doctor);
     }
 
-    @Override
-    public String toString() {
-        return departmentName + ", " + address.getStreet() + " " + address.getBuildingNumber();
-    }
 
+    @Getter
+    @AllArgsConstructor
     public enum Specializations{
         PHYSICIAN("Terapeuta"),
         OPHTHALMOLOGIST("Okulistyka"),
@@ -98,14 +52,6 @@ public class Department {
         PSYCHOLOGY("Psychologia"),
         GASTROENTEROLOGY("Gastroenterologia");
 
-        private String name;
-
-        Specializations(String name){
-            this.name = name;
-        }
-
-        public String toString(){
-            return name;
-        }
+        private final String name;
     }
 }

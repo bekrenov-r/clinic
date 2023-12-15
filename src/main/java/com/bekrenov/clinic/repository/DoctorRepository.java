@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
 
-    List<Doctor> findDoctorsByDepartment_Id(int id);
+    List<Doctor> findDoctorsByDepartment_Id(Long id);
 
-    Doctor findById(int id);
+    Doctor findById(Long id);
 }
