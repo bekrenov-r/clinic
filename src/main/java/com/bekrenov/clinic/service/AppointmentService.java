@@ -58,7 +58,7 @@ public class AppointmentService {
         List<Appointment> appointments = appointmentRepository.findAppointmentsByDoctor_IdAndAppointmentDate(doctorId, date);
         List<LocalTime> timesReserved = new ArrayList<>();
         for(Appointment appointment : appointments){
-            timesReserved.add(appointment.getAppointmentTime());
+            timesReserved.add(appointment.getTime());
         }
 
         return (List<LocalTime>) CollectionUtils.subtract(allPossibleTimes, timesReserved);

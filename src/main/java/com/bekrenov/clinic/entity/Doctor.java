@@ -3,7 +3,6 @@ package com.bekrenov.clinic.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.Cascade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +29,8 @@ public class Doctor {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "position")
-    private String position;
+    @Column(name = "occupation")
+    private String occupation;
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.PERSIST})

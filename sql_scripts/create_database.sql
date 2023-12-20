@@ -66,7 +66,7 @@ create table doctors
     last_name     varchar(50) not null,
     phone_number  varchar(20),
     email         varchar(100),
-    position      varchar(50),
+    occupation      varchar(50),
     id_department int,
     id_address    int,
     primary key (id),
@@ -80,6 +80,9 @@ create table appointments
     id               int  not null auto_increment,
     appointment_time time not null,
     appointment_date date not null,
+    status text not null,
+    prescription text,
+    details text,
     id_department    int,
     id_patient       int,
     id_doctor        int,
@@ -129,9 +132,9 @@ values
     ('Paweł', 'Kowalski', '74123690158', '+48375964820', 'pawel.kowalski@gmail.com', 'MALE', 9);
 insert into users
 values
-    ('zbigniew.reszka@gmail.com', '{bcrypt}$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
-    ('anna.kaminska@gmail.com', '{bcrypt}$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
-    ('pawel.kowalski@gmail.com', '{bcrypt}$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1);
+    ('zbigniew.reszka@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
+    ('anna.kaminska@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
+    ('pawel.kowalski@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1);
 
 insert into authorities
 values
@@ -140,7 +143,7 @@ values
     ('pawel.kowalski@gmail.com', 'PATIENT');
 
 -- Sample doctors
-insert into doctors(first_name, last_name, phone_number, email, position, id_department, id_address)
+insert into doctors(first_name, last_name, phone_number, email, occupation, id_department, id_address)
 values
     ('Marta', 'Stachyra', '+48321796584', 'marta.stachyra@gmail.com', 'HEAD_OF_DEPARTMENT', 1, 10),
     ('Piotr', 'Raczkowski', '+48964753791', 'piotr.raczkowski@gmail.com', 'SPECIALIST', 1, 11),

@@ -38,8 +38,8 @@ public class DoctorService {
     public Doctor getAnyDoctorForAppointment(Appointment appointment) {
         List<Doctor> doctors = findDoctorsByDepartmentId(appointment.getDepartment().getId());
         for (Doctor doctor : doctors) {
-            List<LocalTime> times = appointmentService.getAvailableTimesByDoctor(doctor.getId(), appointment.getAppointmentDate());
-            if (times.contains(appointment.getAppointmentTime())) {
+            List<LocalTime> times = appointmentService.getAvailableTimesByDoctor(doctor.getId(), appointment.getDate());
+            if (times.contains(appointment.getTime())) {
                 return doctor;
             }
         }

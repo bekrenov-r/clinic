@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+import com.bekrenov.clinic.domain.AppointmentStatus;
 import com.bekrenov.clinic.service.DoctorService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -21,10 +22,20 @@ public class Appointment {
     private Long id;
 
     @Column(name = "appointment_time")
-    private LocalTime appointmentTime;
+    private LocalTime time;
 
     @Column(name = "appointment_date")
-    private LocalDate appointmentDate;
+    private LocalDate date;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus status;
+
+    @Column(name = "prescription")
+    private String prescription;
+
+    @Column(name = "details")
+    private String details;
 
     @ManyToOne(fetch = FetchType.LAZY,
                 cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -55,10 +66,10 @@ public class Appointment {
 
     @PostLoad
     public void setTransientFields(){
-        appointmentEndTime = appointmentTime.plusMinutes(DoctorService.VISIT_DURATION_MINUTES);
+        appointmentEndTime = time.plusMinutes(DoctorService.VISIT_DURATION_MINUTES);
         DateTimeFormatter formatter =
                 DateTimeFormatter.ofPattern("EE, d MMMM yyyy", new Locale("pl"));
-        formattedDate = appointmentDate.format(formatter);
+        formattedDate = date.format(formatter);
         formattedDate = formattedDate.substring(0, 1).toUpperCase() + formattedDate.substring(1);
     }
 }
