@@ -1,6 +1,6 @@
 package com.bekrenov.clinic.controller;
 
-import com.bekrenov.clinic.entity.Doctor;
+import com.bekrenov.clinic.model.entity.Doctor;
 import com.bekrenov.clinic.service.DoctorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

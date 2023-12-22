@@ -1,4 +1,4 @@
-package com.bekrenov.clinic.entity;
+package com.bekrenov.clinic.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,6 +24,6 @@ public class Address {
     @Column(name="flat_number")
     private String flatNumber;
 
-    @Column(name="postal_code")
-    private String postalCode;
+    @Column(name="zip_code")
+    private String zipCode;
 }

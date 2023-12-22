@@ -1,11 +1,11 @@
-package com.bekrenov.clinic.entity;
+package com.bekrenov.clinic.model.entity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-import com.bekrenov.clinic.domain.AppointmentStatus;
+import com.bekrenov.clinic.model.enums.AppointmentStatus;
 import com.bekrenov.clinic.service.DoctorService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

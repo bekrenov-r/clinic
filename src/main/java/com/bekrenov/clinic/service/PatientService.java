@@ -1,14 +1,10 @@
 package com.bekrenov.clinic.service;
 
-import com.bekrenov.clinic.entity.Patient;
-import com.bekrenov.clinic.dto.Registration;
+import com.bekrenov.clinic.model.entity.Patient;
 import com.bekrenov.clinic.repository.PatientRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +16,13 @@ import java.util.Optional;
 public class PatientService {
 
     private final PatientRepository patientRepository;
-    private final ClinicUserDetailsService userDetailsService;
+    private final UserService userDetailsService;
     private final PasswordEncoder passwordEncoder;
 
     @Value("${data.phone-number-prefix}")
     private String phoneNumberPrefix;
 
-    public void createPatientAndUser(Registration registration, HttpServletRequest request) {
+    /*public void createPatientAndUser(Registration registration, HttpServletRequest request) {
         Patient patient = registration.getPatient();
         // set id to null so that Hibernate creates new user
         patient.setId(null);
@@ -44,7 +40,7 @@ public class PatientService {
                         .build();
         userDetailsService.createUser(user);
         userDetailsService.authenticateUser(user.getUsername(), registration.getPassword(), request);
-    }
+    }*/
 
     public void save(Patient patient) {
         patientRepository.save(patient);

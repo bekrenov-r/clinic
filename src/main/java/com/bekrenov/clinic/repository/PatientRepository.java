@@ -1,10 +1,8 @@
 package com.bekrenov.clinic.repository;
 
-import com.bekrenov.clinic.entity.Patient;
+import com.bekrenov.clinic.model.entity.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
 
 public interface PatientRepository extends JpaRepository<Patient, Integer> {
     Patient findByEmail(String username);

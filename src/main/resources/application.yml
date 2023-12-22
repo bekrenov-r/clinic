@@ -3,7 +3,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/clinic
     username: root
-    password: "i?u.M7afDGo)hZ=2Ny]V"
+    password: i?u.M7afDGo)hZ=2Ny]V
 
 server:
   servlet:

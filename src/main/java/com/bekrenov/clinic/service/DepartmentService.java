@@ -1,6 +1,6 @@
 package com.bekrenov.clinic.service;
 
-import com.bekrenov.clinic.entity.Department;
+import com.bekrenov.clinic.model.entity.Department;
 import com.bekrenov.clinic.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

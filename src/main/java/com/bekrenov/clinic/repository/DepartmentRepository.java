@@ -1,6 +1,6 @@
 package com.bekrenov.clinic.repository;
 
-import com.bekrenov.clinic.entity.Department;
+import com.bekrenov.clinic.model.entity.Department;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

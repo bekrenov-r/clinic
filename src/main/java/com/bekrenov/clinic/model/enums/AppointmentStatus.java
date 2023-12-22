@@ -1,4 +1,4 @@
-package com.bekrenov.clinic.domain;
+package com.bekrenov.clinic.model.enums;
 
 public enum AppointmentStatus {
     PENDING,

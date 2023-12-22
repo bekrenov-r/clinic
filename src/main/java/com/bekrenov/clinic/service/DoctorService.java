@@ -1,7 +1,7 @@
 package com.bekrenov.clinic.service;
 
-import com.bekrenov.clinic.entity.Appointment;
-import com.bekrenov.clinic.entity.Doctor;
+import com.bekrenov.clinic.model.entity.Appointment;
+import com.bekrenov.clinic.model.entity.Doctor;
 import com.bekrenov.clinic.repository.DoctorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

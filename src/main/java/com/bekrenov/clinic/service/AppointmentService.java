@@ -1,7 +1,7 @@
 package com.bekrenov.clinic.service;
 
-import com.bekrenov.clinic.entity.Appointment;
-import com.bekrenov.clinic.entity.Doctor;
+import com.bekrenov.clinic.model.entity.Appointment;
+import com.bekrenov.clinic.model.entity.Doctor;
 import com.bekrenov.clinic.repository.AppointmentRepository;
 import com.bekrenov.clinic.repository.DoctorRepository;
 import org.apache.commons.collections.CollectionUtils;
@@ -55,7 +55,7 @@ public class AppointmentService {
     }
 
     public List<LocalTime> getAvailableTimesByDoctor(Long doctorId, LocalDate date) {
-        List<Appointment> appointments = appointmentRepository.findAppointmentsByDoctor_IdAndAppointmentDate(doctorId, date);
+        List<Appointment> appointments = appointmentRepository.findAppointmentsByDoctor_IdAndDate(doctorId, date);
         List<LocalTime> timesReserved = new ArrayList<>();
         for(Appointment appointment : appointments){
             timesReserved.add(appointment.getTime());

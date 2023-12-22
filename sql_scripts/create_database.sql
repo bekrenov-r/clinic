@@ -10,7 +10,7 @@ create table addresses
     street          varchar(255) not null,
     building_number varchar(10)  not null,
     flat_number     varchar(10),
-    postal_code     varchar(10)  not null,
+    zip_code     varchar(10)  not null,
     primary key (id)
 );
 
@@ -93,7 +93,7 @@ create table appointments
 );
 
 -- Sample departments
-insert into addresses(city, street, building_number, flat_number, postal_code)
+insert into addresses(city, street, building_number, flat_number, zip_code)
 values
     ('Lublin', 'Weteranów', '17', null, '20-281'),
     ('Lublin', 'Doctora Witolda Chodźki', '2', null, '20-479'),

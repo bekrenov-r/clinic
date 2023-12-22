@@ -1,4 +1,4 @@
-package com.bekrenov.clinic.entity;
+package com.bekrenov.clinic.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

@@ -1,4 +1,4 @@
-package com.bekrenov.clinic.entity;
+package com.bekrenov.clinic.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -43,13 +43,6 @@ public class Patient {
                 fetch = FetchType.LAZY,
                 cascade = CascadeType.ALL)
     private List<Appointment> appointments;
-
-    public void addAppointment(Appointment appointment){
-        if(appointments.isEmpty()){
-            appointments = new ArrayList<>();
-        }
-        appointments.add(appointment);
-    }
 
     public enum Gender {
         MALE,

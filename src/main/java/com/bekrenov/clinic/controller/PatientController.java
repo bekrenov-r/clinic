@@ -1,6 +1,6 @@
 package com.bekrenov.clinic.controller;
 
-import com.bekrenov.clinic.entity.Patient;
+import com.bekrenov.clinic.model.entity.Patient;
 import com.bekrenov.clinic.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
