@@ -1,10 +1,13 @@
 package com.bekrenov.clinic.service;
 
 import com.bekrenov.clinic.dto.request.RegistrationRequest;
+import com.bekrenov.clinic.model.entity.ActivationToken;
 import com.bekrenov.clinic.model.enums.Role;
+import com.bekrenov.clinic.repository.ActivationTokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,7 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +29,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final JdbcUserDetailsManager jdbcUserDetailsManager;
+    private final UserDetailsManager userDetailsManager;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
+    private final ActivationTokenRepository activationTokenRepository;
 
     private static final String SPRING_SECURITY_CONTEXT_KEY = HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
@@ -44,7 +48,8 @@ public class UserService {
                 .authorities(authorities)
                 .disabled(true)
                 .build();
-        jdbcUserDetailsManager.createUser(user);
+        userDetailsManager.createUser(user);
+        createActivationTokenForUser(user);
     }
 
     public void authenticateUser(String username, String rawPassword, HttpServletRequest request) {
@@ -59,13 +64,32 @@ public class UserService {
 
     public void changePassword(String oldPassword, String newPassword) {
         String encodedPassword = passwordEncoder.encode(newPassword);
-        jdbcUserDetailsManager.changePassword(oldPassword, encodedPassword);
+        userDetailsManager.changePassword(oldPassword, encodedPassword);
 
     }
 
     public boolean existsByUsername(String username){
-        return jdbcUserDetailsManager.userExists(username);
+        return userDetailsManager.userExists(username);
     }
 
 
+    public void activateUser(String token) {
+        ActivationToken activationToken = activationTokenRepository.findByToken(token)
+                .orElseThrow(RuntimeException::new);
+        UserDetails user = userDetailsManager.loadUserByUsername(activationToken.getUsername());
+        UserDetails activatedUser = User
+                .withUserDetails(user)
+                .disabled(false)
+                .build();
+        userDetailsManager.updateUser(activatedUser);
+    }
+
+    private void createActivationTokenForUser(UserDetails user){
+        String token = RandomStringUtils.random(20, true, true);
+        ActivationToken activationToken = ActivationToken.builder()
+                .token(token)
+                .username(user.getUsername())
+                .build();
+        activationTokenRepository.save(activationToken);
+    }
 }

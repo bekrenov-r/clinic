@@ -92,6 +92,15 @@ create table appointments
     foreign key (id_doctor) references doctors (id)
 );
 
+drop table if exists activation_tokens;
+create table activation_tokens(
+    id int not null auto_increment,
+    token varchar(20),
+    username varchar(50),
+    primary key (id),
+    foreign key (username) references users(username)
+);
+
 -- Sample departments
 insert into addresses(city, street, building_number, flat_number, zip_code)
 values
