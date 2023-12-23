@@ -1,0 +1,8 @@
+Dear %s!
+
+Thank You for choosing MedicaPlus.
+
+To submit registration and activate your account, follow this link: %s
+
+Best regards,
+MedicaPlus team.

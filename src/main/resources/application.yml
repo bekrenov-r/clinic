@@ -4,7 +4,17 @@ spring:
     url: jdbc:mysql://localhost:3306/clinic
     username: root
     password: i?u.M7afDGo)hZ=2Ny]V
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: medica.plus.email@gmail.com
+    password: vdej ijms mhqa ppcu
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 server:
   servlet:
     context-path: /api/v1

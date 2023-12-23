@@ -4,6 +4,7 @@ import com.bekrenov.clinic.dto.request.RegistrationRequest;
 import com.bekrenov.clinic.model.entity.ActivationToken;
 import com.bekrenov.clinic.model.enums.Role;
 import com.bekrenov.clinic.repository.ActivationTokenRepository;
+import com.bekrenov.clinic.util.MailService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -33,33 +34,20 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final ActivationTokenRepository activationTokenRepository;
+    private final MailService mailService;
 
     private static final String SPRING_SECURITY_CONTEXT_KEY = HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
-    public void createUser(RegistrationRequest request, Set<Role> roles){
-        Set<GrantedAuthority> authorities = roles.stream()
-                .map(Role::name)
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toSet());
-
+    public void createUser(RegistrationRequest request, Set<Role> roles) {
         UserDetails user = User.builder()
                 .username(request.email())
                 .password(passwordEncoder.encode(request.password()))
-                .authorities(authorities)
+                .authorities(parseAuthorities(roles))
                 .disabled(true)
                 .build();
         userDetailsManager.createUser(user);
-        createActivationTokenForUser(user);
-    }
-
-    public void authenticateUser(String username, String rawPassword, HttpServletRequest request) {
-        UsernamePasswordAuthenticationToken authToken =
-                new UsernamePasswordAuthenticationToken(username, rawPassword);
-        Authentication authentication = authenticationManager.authenticate(authToken);
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        securityContext.setAuthentication(authentication);
-        HttpSession session = request.getSession(true);
-        session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, securityContext);
+        String activationToken = createActivationTokenForUser(user);
+        mailService.sendEmailWithActivationLink(request, activationToken);
     }
 
     public void changePassword(String oldPassword, String newPassword) {
@@ -84,12 +72,30 @@ public class UserService {
         userDetailsManager.updateUser(activatedUser);
     }
 
-    private void createActivationTokenForUser(UserDetails user){
+    private String createActivationTokenForUser(UserDetails user){
         String token = RandomStringUtils.random(20, true, true);
         ActivationToken activationToken = ActivationToken.builder()
                 .token(token)
                 .username(user.getUsername())
                 .build();
         activationTokenRepository.save(activationToken);
+        return token;
+    }
+
+    private Set<GrantedAuthority> parseAuthorities(Set<Role> roles){
+        return roles.stream()
+                .map(Role::name)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toSet());
+    }
+
+    public void authenticateUser(String username, String rawPassword, HttpServletRequest request) {
+        UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(username, rawPassword);
+        Authentication authentication = authenticationManager.authenticate(authToken);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(authentication);
+        HttpSession session = request.getSession(true);
+        session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, securityContext);
     }
 }
