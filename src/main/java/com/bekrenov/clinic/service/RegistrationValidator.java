@@ -1,10 +1,13 @@
 package com.bekrenov.clinic.service;
 
 import com.bekrenov.clinic.dto.request.RegistrationRequest;
+import com.bekrenov.clinic.exception.ClinicApplicationException;
 import com.bekrenov.clinic.repository.DoctorRepository;
 import com.bekrenov.clinic.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import static com.bekrenov.clinic.exception.ClinicApplicationExceptionReason.*;
 
 @Component
 @RequiredArgsConstructor
@@ -21,16 +24,16 @@ public class RegistrationValidator {
 
     private void assertEmailIsUnique(String email){
         if(userService.existsByUsername(email))
-            throw new RuntimeException("User with email " + email + "is already registered");
+            throw new ClinicApplicationException(ALREADY_REGISTERED_EMAIL, email);
     }
 
     private void assertPhoneNumberIsUnique(String phoneNumber){
         if(patientRepository.existsByPhoneNumber(phoneNumber) || doctorRepository.existsByPhoneNumber(phoneNumber))
-            throw new RuntimeException("User with phone number " + phoneNumber + "is already registered");
+            throw new ClinicApplicationException(ALREADY_REGISTERED_PHONE_NUMBER, phoneNumber);
     }
 
     private void assertPeselIsUnique(String pesel){
         if(patientRepository.existsByPesel(pesel) || doctorRepository.existsByPesel(pesel))
-            throw new RuntimeException("User with pesel " + pesel + "is already registered");
+            throw new ClinicApplicationException(ALREADY_REGISTERED_PESEL, pesel);
     }
 }
