@@ -3,6 +3,7 @@ package com.bekrenov.clinic.controller;
 import com.bekrenov.clinic.dto.request.PatientRegistrationRequest;
 import com.bekrenov.clinic.dto.response.PatientResponse;
 import com.bekrenov.clinic.service.RegistrationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class RegistrationController {
     private final RegistrationService registrationService;
 
     @PostMapping("/patient")
-    public ResponseEntity<PatientResponse> registerPatient(@RequestBody PatientRegistrationRequest request){
+    public ResponseEntity<PatientResponse> registerPatient(@RequestBody @Valid PatientRegistrationRequest request){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(registrationService.registerPatient(request));

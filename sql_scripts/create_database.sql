@@ -137,9 +137,9 @@ values
 
 insert into patients(first_name, last_name, pesel, phone_number, email, gender, address_id)
 values
-    ('Zbigniew', 'Reszka', '54039763148', '+48321749870', 'zbigniew.reszka@gmail.com', 'MALE', 7),
-    ('Anna', 'Kamińska', '84315964731', '+48931472530', 'anna.kaminska@gmail.com', 'FEMALE', 8),
-    ('Paweł', 'Kowalski', '74123690158', '+48375964820', 'pawel.kowalski@gmail.com', 'MALE', 9);
+    ('Zbigniew', 'Reszka', '82081957619', '321749870', 'zbigniew.reszka@gmail.com', 'MALE', 7),
+    ('Anna', 'Kamińska', '75110179764', '931472530', 'anna.kaminska@gmail.com', 'FEMALE', 8),
+    ('Paweł', 'Kowalski', '96071957936', '375964820', 'pawel.kowalski@gmail.com', 'MALE', 9);
 insert into users
 values
     ('zbigniew.reszka@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
@@ -153,14 +153,14 @@ values
     ('pawel.kowalski@gmail.com', 'PATIENT');
 
 -- Sample doctors
-insert into doctors(first_name, last_name, phone_number, email, occupation, id_department, id_address)
+insert into doctors(first_name, last_name, phone_number, email, pesel, occupation, id_department, id_address)
 values
-    ('Marta', 'Stachyra', '+48321796584', 'marta.stachyra@gmail.com', 'HEAD_OF_DEPARTMENT', 1, 10),
-    ('Piotr', 'Raczkowski', '+48964753791', 'piotr.raczkowski@gmail.com', 'SPECIALIST', 1, 11),
-    ('Michał', 'Gawroński', '+48746921068', 'michal.gawronski@gmail.com', 'SPECIALIST', 1, 12),
-    ('Krystian', 'Michalski', '+48637546970', 'krystian.michalski@gmail.com', 'SPECIALIST', 1, 13),
-    ('Lech', 'Gocłowski', '+48863102589', 'lech.goclowski@gmail.com', 'HEAD_OF_DEPARTMENT', 2, 14),
-    ('Maria', 'Duda', '+48634785209', 'maria.duda@gmail.com', 'HEAD_OF_DEPARTMENT', 3, 15),
-    ('Marta', 'Wiśniewska', '+48679254091', 'marta.wisniewska@gmail.com', 'HEAD_OF_DEPARTMENT', 4, 16),
-    ('Aleksandr', 'Dudkiewicz', '+48637492048', 'aleksandr.dudkiewicz@gmail.com', 'HEAD_OF_DEPARTMENT', 5, 17),
-    ('Magda', 'Gryniewicz', '+48697130572', 'marta.gryniewicz@gmail.com', 'HEAD_OF_DEPARTMENT', 6, 18);
+    ('Marta', 'Stachyra', '321796584', 'marta.stachyra@gmail.com', '89122468687', 'HEAD_OF_DEPARTMENT', 1, 10),
+    ('Piotr', 'Raczkowski', '964753791', 'piotr.raczkowski@gmail.com', '97030218817', 'SPECIALIST', 1, 11),
+    ('Michał', 'Gawroński', '746921068', 'michal.gawronski@gmail.com', '87092853552', 'SPECIALIST', 1, 12),
+    ('Krystian', 'Michalski', '637546970', 'krystian.michalski@gmail.com', '51090788675', 'SPECIALIST', 1, 13),
+    ('Lech', 'Gocłowski', '863102589', 'lech.goclowski@gmail.com', '89040453999', 'HEAD_OF_DEPARTMENT', 2, 14),
+    ('Maria', 'Duda', '634785209', 'maria.duda@gmail.com', '88080769149', 'HEAD_OF_DEPARTMENT', 3, 15),
+    ('Marta', 'Wiśniewska', '679254091', 'marta.wisniewska@gmail.com', '60082661681', 'HEAD_OF_DEPARTMENT', 4, 16),
+    ('Aleksandr', 'Dudkiewicz', '637492048', 'aleksandr.dudkiewicz@gmail.com', '92092437839', 'HEAD_OF_DEPARTMENT', 5, 17),
+    ('Magda', 'Gryniewicz', '697130572', 'marta.gryniewicz@gmail.com', '78061454261', 'HEAD_OF_DEPARTMENT', 6, 18);
