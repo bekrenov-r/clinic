@@ -6,6 +6,7 @@ import com.bekrenov.clinic.dto.response.PatientResponse;
 import com.bekrenov.clinic.model.entity.Patient;
 import com.bekrenov.clinic.model.enums.Role;
 import com.bekrenov.clinic.repository.PatientRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +18,13 @@ public class RegistrationService {
     private final PatientRepository patientRepository;
     private final PatientMapper patientMapper;
     private final UserService userService;
+    private final RegistrationValidator registrationValidator;
 
+    @Transactional
     public PatientResponse registerPatient(PatientRegistrationRequest request){
-        assertEmailIsUnique(request.email());
+        registrationValidator.validateRegistrationRequest(request);
         userService.createUser(request, Set.of(Role.PATIENT));
         Patient patient = patientMapper.requestToEntity(request);
         return patientMapper.entityToResponse(patientRepository.save(patient));
-    }
-
-    private void assertEmailIsUnique(String email){
-        if(userService.existsByUsername(email))
-            throw new RuntimeException("User with email " + email + "is already registered");
     }
 }

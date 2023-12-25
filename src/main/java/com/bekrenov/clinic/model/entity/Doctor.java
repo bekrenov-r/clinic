@@ -29,6 +29,9 @@ public class Doctor {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "pesel")
+    private String pesel;
+
     @Column(name = "occupation")
     private String occupation;
 

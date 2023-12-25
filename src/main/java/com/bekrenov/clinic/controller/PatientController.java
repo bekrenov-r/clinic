@@ -32,19 +32,4 @@ public class PatientController {
         return null;
     }
 
-    @GetMapping("/exists/email")
-    public boolean emailExists(@RequestParam("email") String email){
-        return patientService.emailExists(email);
-    }
-
-    @GetMapping("/exists/phone-number")
-    public boolean phoneNumberExists(@RequestParam("phone-number") String phoneNumber){
-        return patientService.phoneNumberExists(phoneNumber);
-    }
-
-    @GetMapping("/exists/pesel")
-    public boolean peselExists(@RequestParam("pesel") String pesel){
-        return patientService.peselExists(pesel);
-    }
-
 }

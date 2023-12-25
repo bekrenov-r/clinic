@@ -60,7 +60,6 @@ public class UserService {
         return userDetailsManager.userExists(username);
     }
 
-
     public void activateUser(String token) {
         ActivationToken activationToken = activationTokenRepository.findByToken(token)
                 .orElseThrow(RuntimeException::new);

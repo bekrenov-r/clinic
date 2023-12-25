@@ -66,6 +66,7 @@ create table doctors
     last_name     varchar(50) not null,
     phone_number  varchar(20),
     email         varchar(100),
+    pesel varchar(11),
     occupation      varchar(50),
     id_department int,
     id_address    int,

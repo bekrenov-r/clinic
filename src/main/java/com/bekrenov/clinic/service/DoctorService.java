@@ -27,10 +27,6 @@ public class DoctorService {
     public static final LocalTime LUNCH_BREAK_BEGIN = LocalTime.of(13,0);
     public static final LocalTime LUNCH_BREAK_END = LocalTime.of(13, 30);
 
-    public Doctor findById(Long id) {
-        return doctorRepository.findById(id);
-    }
-
     public List<Doctor> findDoctorsByDepartmentId(Long id) {
         return doctorRepository.findDoctorsByDepartment_Id(id);
     }
