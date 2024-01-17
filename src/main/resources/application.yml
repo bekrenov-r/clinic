@@ -15,6 +15,19 @@ spring:
           auth: true
           starttls:
             enable: true
+  custom:
+    security:
+      permitted-matchers: >
+        POST /users/activate,
+        GET /authenticate,
+        POST /register/**,
+        GET /doctors,
+        GET /appointment/availability/**,
+        GET /departments
+  jwt:
+    secret:
+    expiration-time-millis: 604800000
+
 server:
   servlet:
     context-path: /api/v1

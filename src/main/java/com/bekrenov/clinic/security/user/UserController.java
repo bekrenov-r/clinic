@@ -1,6 +1,5 @@
-package com.bekrenov.clinic.controller;
+package com.bekrenov.clinic.security.user;
 
-import com.bekrenov.clinic.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

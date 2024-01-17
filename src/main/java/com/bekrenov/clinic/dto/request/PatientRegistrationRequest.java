@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.pl.PESEL;
 
-// todo: add validation
 public record PatientRegistrationRequest(
         @NotBlank
         String firstName,

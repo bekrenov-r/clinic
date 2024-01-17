@@ -6,6 +6,7 @@ import com.bekrenov.clinic.dto.response.PatientResponse;
 import com.bekrenov.clinic.model.entity.Patient;
 import com.bekrenov.clinic.model.enums.Role;
 import com.bekrenov.clinic.repository.PatientRepository;
+import com.bekrenov.clinic.security.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,5 +1,7 @@
 package com.bekrenov.clinic.config;
 
+import com.bekrenov.clinic.security.auth.JwtAuthenticationFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,17 +10,26 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JdbcUserDetailsManager jdbcUserDetailsManager;
 
     @Bean
-    public AuthenticationProvider authenticationProvider(JdbcUserDetailsManager jdbcUserDetailsManager){
+    public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
         provider.setUserDetailsService(jdbcUserDetailsManager);
@@ -26,8 +37,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationProvider authenticationProvider){
-        return new ProviderManager(authenticationProvider);
+    public AuthenticationManager authenticationManager(){
+        return new ProviderManager(authenticationProvider());
     }
 
     @Bean
@@ -36,31 +47,24 @@ public class SecurityConfig {
     }
 
     @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedHeaders(List.of("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        /*http
-                .authorizeHttpRequests(configurer ->
-                        configurer
-                                .requestMatchers("/registration").permitAll()
-                                .requestMatchers("/js/**").permitAll()
-                                .requestMatchers("/css/**").permitAll()
-                                .requestMatchers("/addresses/cities/**").permitAll()
-                                .requestMatchers("/patient/create-profile").permitAll()
-                                .requestMatchers("/patients/**").permitAll()
-                                .anyRequest().authenticated()
-                )
-                .formLogin(form ->
-                        form
-                                .loginPage("/login")
-                                .loginProcessingUrl("/authenticate")
-                                .permitAll()
-                )
-                .logout(logout -> logout.permitAll());*/
-        http
+        return http
+                .cors(c -> c.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(configurer ->
-                        configurer.anyRequest().permitAll()
-                );
-        
-        return http.build();
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationManager(authenticationManager())
+                .build();
     }
 }

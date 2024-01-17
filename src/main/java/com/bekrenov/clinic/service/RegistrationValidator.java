@@ -4,10 +4,11 @@ import com.bekrenov.clinic.dto.request.RegistrationRequest;
 import com.bekrenov.clinic.exception.ClinicApplicationException;
 import com.bekrenov.clinic.repository.DoctorRepository;
 import com.bekrenov.clinic.repository.PatientRepository;
+import com.bekrenov.clinic.security.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.bekrenov.clinic.exception.ClinicApplicationExceptionReason.*;
+import static com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason.*;
 
 @Component
 @RequiredArgsConstructor

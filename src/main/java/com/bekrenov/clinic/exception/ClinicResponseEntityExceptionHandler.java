@@ -5,6 +5,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -42,6 +44,30 @@ public class ClinicResponseEntityExceptionHandler extends ResponseEntityExceptio
         return ResponseEntity
                 .status(ex.getStatus())
                 .body(response);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException ex){
+        this.logException(ex);
+        ErrorResponse response = ErrorResponse
+                .builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.FORBIDDEN)
+                .timestamp(LocalDateTime.now())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException ex){
+        this.logException(ex);
+        ErrorResponse response = ErrorResponse
+                .builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.FORBIDDEN)
+                .timestamp(LocalDateTime.now())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
     @Override
