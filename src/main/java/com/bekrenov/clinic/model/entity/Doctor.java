@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -50,14 +49,4 @@ public class Doctor {
                 fetch = FetchType.LAZY,
                 cascade = CascadeType.ALL)
     private List<Appointment> appointments;
-
-    @Transient
-    private String firstAndLastName;
-
-    public void addAppointment(Appointment appointment){
-        if(appointments.isEmpty()){
-            appointments = new ArrayList<>();
-        }
-        appointments.add(appointment);
-    }
 }

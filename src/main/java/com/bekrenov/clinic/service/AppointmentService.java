@@ -1,8 +1,11 @@
 package com.bekrenov.clinic.service;
 
+import com.bekrenov.clinic.exception.ClinicEntityNotFoundException;
 import com.bekrenov.clinic.model.entity.Appointment;
+import com.bekrenov.clinic.model.entity.Department;
 import com.bekrenov.clinic.model.entity.Doctor;
 import com.bekrenov.clinic.repository.AppointmentRepository;
+import com.bekrenov.clinic.repository.DepartmentRepository;
 import com.bekrenov.clinic.repository.DoctorRepository;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +15,22 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
+import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.DEPARTMENT;
+
 @Service
 public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
     private final DoctorRepository doctorRepository;
+    private final DepartmentRepository departmentRepository;
 
     private final List<LocalTime> allPossibleTimes;
 
     @Autowired
-    public AppointmentService(AppointmentRepository repository, DoctorRepository doctorRepository) {
+    public AppointmentService(AppointmentRepository repository, DoctorRepository doctorRepository, DepartmentRepository departmentRepository) {
         this.appointmentRepository = repository;
         this.doctorRepository = doctorRepository;
+        this.departmentRepository = departmentRepository;
         // todo: put lunch break values in properties file
         allPossibleTimes = setAllPossibleTimes();
     }
@@ -43,7 +50,9 @@ public class AppointmentService {
 
     public List<LocalTime> getAvailableTimesByDepartment(Long departmentId, LocalDate date) {
         // get list of doctors from db
-        List<Doctor> doctors = doctorRepository.findDoctorsByDepartment_Id(departmentId);
+        Department department = departmentRepository.findById(departmentId)
+                .orElseThrow(() -> new ClinicEntityNotFoundException(DEPARTMENT, departmentId));
+        List<Doctor> doctors = doctorRepository.findByDepartment(department);
 
         // create set with free times of every doctor in list
         Set<LocalTime> times = new TreeSet<>();
