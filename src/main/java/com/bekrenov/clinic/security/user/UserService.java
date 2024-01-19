@@ -29,16 +29,17 @@ public class UserService {
     private final ActivationTokenRepository activationTokenRepository;
     private final MailService mailService;
 
-    public void createUser(RegistrationRequest request, Set<Role> roles) {
+    public void createUser(RegistrationRequest request, Set<Role> roles, boolean needsActivation) {
         UserDetails user = User.builder()
                 .username(request.email())
                 .password(passwordEncoder.encode(request.password()))
                 .authorities(parseAuthorities(roles))
-                .disabled(true)
+                .disabled(needsActivation)
                 .build();
         userDetailsManager.createUser(user);
         String activationToken = createActivationTokenForUser(user);
-        mailService.sendEmailWithActivationLink(request, activationToken);
+        if(needsActivation)
+            mailService.sendEmailWithActivationLink(request, activationToken);
     }
 
     public void changePassword(String oldPassword, String newPassword) {

@@ -20,7 +20,7 @@ spring:
       permitted-matchers: >
         POST /users/activate,
         GET /authenticate,
-        POST /register/**,
+        POST /register/patient,
         GET /doctors/specialization/**,
         GET /doctors/department/**,
         GET /appointment/availability/**,
