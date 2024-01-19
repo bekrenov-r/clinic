@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,7 +21,8 @@ public class Department {
     private String departmentName;
 
     @Column(name = "specialization")
-    private String specialization;
+    @Enumerated(EnumType.STRING)
+    private Specialization specialization;
 
     @OneToOne(fetch = FetchType.EAGER,
             cascade = {CascadeType.ALL})
@@ -34,19 +34,11 @@ public class Department {
             cascade = CascadeType.ALL)
     private List<Doctor> doctors;
 
-    public void addDoctor(Doctor doctor){
-        if(doctors.isEmpty()){
-            doctors = new ArrayList<>();
-        }
-        doctors.add(doctor);
-    }
-
-
     @Getter
     @AllArgsConstructor
-    public enum Specializations{
+    public enum Specialization {
         PHYSICIAN("Terapeuta"),
-        OPHTHALMOLOGIST("Okulistyka"),
+        OPHTHALMOLOGY("Okulistyka"),
         DERMATOLOGY("Dermatologia"),
         PSYCHOLOGY("Psychologia"),
         GASTROENTEROLOGY("Gastroenterologia");

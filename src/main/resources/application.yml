@@ -21,7 +21,8 @@ spring:
         POST /users/activate,
         GET /authenticate,
         POST /register/**,
-        GET /doctors/**,
+        GET /doctors/specialization/**,
+        GET /doctors/department/**,
         GET /appointment/availability/**,
         GET /departments
   jwt:

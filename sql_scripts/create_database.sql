@@ -126,15 +126,14 @@ values
 
 insert into departments(department_name, specialization, address_id)
 values
-    ('Oddział dermatologiczny №1', 'Dermatologia', 1),
-    ('Oddział dermatologiczny №2', 'Dermatologia', 2),
-    ('Oddział okulistyczny №1', 'Okulistyka', 3),
-    ('Oddział okulistyczny №2', 'Okulistyka', 4),
-    ('Oddział okulistyczny №3', 'Okulistyka', 5),
-    ('Oddział psychologii №1', 'Psychologia', 6);
+    ('Oddział dermatologiczny №1', 'DERMATOLOGY', 1),
+    ('Oddział dermatologiczny №2', 'DERMATOLOGY', 2),
+    ('Oddział okulistyczny №1', 'OPHTHALMOLOGY', 3),
+    ('Oddział okulistyczny №2', 'OPHTHALMOLOGY', 4),
+    ('Oddział okulistyczny №3', 'OPHTHALMOLOGY', 5),
+    ('Oddział psychologii №1', 'PSYCHOLOGY', 6);
 
 -- Sample patients/users
-
 insert into patients(first_name, last_name, pesel, phone_number, email, gender, address_id)
 values
     ('Zbigniew', 'Reszka', '82081957619', '321749870', 'zbigniew.reszka@gmail.com', 'MALE', 7),
@@ -152,7 +151,7 @@ values
     ('anna.kaminska@gmail.com', 'PATIENT'),
     ('pawel.kowalski@gmail.com', 'PATIENT');
 
--- Sample doctors
+-- Sample doctors/users
 insert into doctors(first_name, last_name, phone_number, email, pesel, occupation, id_department, id_address)
 values
     ('Marta', 'Stachyra', '321796584', 'marta.stachyra@gmail.com', '89122468687', 'HEAD_OF_DEPARTMENT', 1, 10),
@@ -164,3 +163,33 @@ values
     ('Marta', 'Wiśniewska', '679254091', 'marta.wisniewska@gmail.com', '60082661681', 'HEAD_OF_DEPARTMENT', 4, 16),
     ('Aleksandr', 'Dudkiewicz', '637492048', 'aleksandr.dudkiewicz@gmail.com', '92092437839', 'HEAD_OF_DEPARTMENT', 5, 17),
     ('Magda', 'Gryniewicz', '697130572', 'marta.gryniewicz@gmail.com', '78061454261', 'HEAD_OF_DEPARTMENT', 6, 18);
+
+insert into users
+values
+    ('marta.stachyra@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
+    ('piotr.raczkowski@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
+    ('michal.gawronski@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
+    ('krystian.michalski@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
+    ('lech.goclowski@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
+    ('maria.duda@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
+    ('marta.wisniewska@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
+    ('aleksandr.dudkiewicz@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
+    ('marta.gryniewicz@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1);
+
+insert into authorities
+values
+    ('marta.stachyra@gmail.com', 'HEAD_OF_DEPARTMENT'),
+    ('marta.stachyra@gmail.com', 'DOCTOR'),
+    ('piotr.raczkowski@gmail.com', 'DOCTOR'),
+    ('michal.gawronski@gmail.com', 'DOCTOR'),
+    ('krystian.michalski@gmail.com', 'DOCTOR'),
+    ('lech.goclowski@gmail.com', 'HEAD_OF_DEPARTMENT'),
+    ('lech.goclowski@gmail.com', 'DOCTOR'),
+    ('maria.duda@gmail.com', 'HEAD_OF_DEPARTMENT'),
+    ('maria.duda@gmail.com', 'DOCTOR'),
+    ('marta.wisniewska@gmail.com', 'HEAD_OF_DEPARTMENT'),
+    ('marta.wisniewska@gmail.com', 'DOCTOR'),
+    ('aleksandr.dudkiewicz@gmail.com', 'HEAD_OF_DEPARTMENT'),
+    ('aleksandr.dudkiewicz@gmail.com', 'DOCTOR'),
+    ('marta.gryniewicz@gmail.com', 'HEAD_OF_DEPARTMENT'),
+    ('marta.gryniewicz@gmail.com', 'DOCTOR');

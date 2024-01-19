@@ -10,7 +10,8 @@ import org.springframework.http.HttpStatus;
 public enum ClinicEntityNotFoundExceptionReason implements ExceptionReasonPolicy {
     ACTIVATION_TOKEN("Activation token [%s] not found"),
     DEPARTMENT("Department with id [%s] does not exist"),
-    SPECIALIZATION("Specialization with id [%s] does not exist");
+    SPECIALIZATION("Specialization with id [%s] does not exist"),
+    DOCTOR("Doctor with id [%s] does not exist");
 
     ClinicEntityNotFoundExceptionReason(String message){
         this.message = message;

@@ -1,23 +1,29 @@
 package com.bekrenov.clinic.service;
 
 import com.bekrenov.clinic.dto.mapper.DoctorMapper;
-import com.bekrenov.clinic.dto.response.PersonDto;
+import com.bekrenov.clinic.dto.response.DoctorDetailedResponse;
+import com.bekrenov.clinic.dto.response.DoctorShortResponse;
+import com.bekrenov.clinic.exception.ClinicApplicationException;
 import com.bekrenov.clinic.exception.ClinicEntityNotFoundException;
 import com.bekrenov.clinic.model.entity.Appointment;
 import com.bekrenov.clinic.model.entity.Department;
 import com.bekrenov.clinic.model.entity.Doctor;
-import com.bekrenov.clinic.model.entity.Specialization;
+import com.bekrenov.clinic.model.enums.Role;
 import com.bekrenov.clinic.repository.DepartmentRepository;
 import com.bekrenov.clinic.repository.DoctorRepository;
-import com.bekrenov.clinic.repository.SpecializationRepository;
+import com.bekrenov.clinic.security.auth.AuthenticationService;
+import com.bekrenov.clinic.util.CurrentUserUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.util.List;
 
+import static com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason.NOT_ENTITY_OWNER;
 import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.DEPARTMENT;
-import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.SPECIALIZATION;
+import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.DOCTOR;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +32,8 @@ public class DoctorService {
     private final DoctorRepository doctorRepository;
     private final DoctorMapper doctorMapper;
     private final AppointmentService appointmentService;
-    private final SpecializationRepository specializationRepository;
+    private final CurrentUserUtil currentUserUtil;
+    private final AuthenticationService authenticationService;
 
     // duration for each visit in minutes
     public static final int VISIT_DURATION_MINUTES = 15;
@@ -39,23 +46,35 @@ public class DoctorService {
     public static final LocalTime LUNCH_BREAK_BEGIN = LocalTime.of(13,0);
     public static final LocalTime LUNCH_BREAK_END = LocalTime.of(13, 30);
 
-    public List<? extends PersonDto> getDoctorsByDepartment(Long id) {
+    public DoctorDetailedResponse getDoctorById(Long id) {
+        Doctor doctor = doctorRepository.findById(id)
+                .orElseThrow(() -> new ClinicEntityNotFoundException(DOCTOR, id));
+        if(!currentUserUtil.getCurrentUserRoles().contains(Role.HEAD_OF_DEPARTMENT))
+            assertCurrentUserIsAccountOwner(doctor);
+
+        return doctorMapper.entityToDetailedResponse(doctor);
+    }
+
+    public List<DoctorShortResponse> getDoctorsByDepartment(Long id, HttpServletRequest request) {
         Department department = departmentRepository.findById(id)
                 .orElseThrow(() -> new ClinicEntityNotFoundException(DEPARTMENT, id));
-        return mapToResponseDependingOnRole(doctorRepository.findByDepartment(department));
-    }
-
-    public List<? extends PersonDto> getDoctorsBySpecialization(Long id) {
-        Specialization specialization = specializationRepository.findById(id)
-                .orElseThrow(() -> new ClinicEntityNotFoundException(SPECIALIZATION, id));
-        return mapToResponseDependingOnRole(doctorRepository.findBySpecialization(specialization));
-    }
-
-    private List<? extends PersonDto> mapToResponseDependingOnRole(List<Doctor> doctors){
-        // todo: get role of current user, return DoctorResponse or DoctorShortResponse accordingly
-        return doctors.stream()
+        return doctorRepository.findByDepartment(department).stream()
                 .map(doctorMapper::entityToShortResponse)
                 .toList();
+    }
+
+    public List<DoctorShortResponse> getDoctorsBySpecialization(
+            Department.Specialization specialization, HttpServletRequest request
+    ) {
+        return doctorRepository.findBySpecialization(specialization).stream()
+                .map(doctorMapper::entityToShortResponse)
+                .toList();
+    }
+
+    private void assertCurrentUserIsAccountOwner(Doctor doctor) {
+        UserDetails currentUser = currentUserUtil.getCurrentUser();
+        if(!doctor.getEmail().equals(currentUser.getUsername()))
+            throw new ClinicApplicationException(NOT_ENTITY_OWNER);
     }
 
     public Doctor getAnyDoctorForAppointment(Appointment appointment) {
