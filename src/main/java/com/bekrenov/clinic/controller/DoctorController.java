@@ -7,6 +7,7 @@ import com.bekrenov.clinic.service.DoctorService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +18,8 @@ import java.util.List;
 public class DoctorController {
     private final DoctorService doctorService;
 
-    // todo: for roles DOCTOR and HEAD_OF_DEPARTMENT
     @GetMapping("/{id}")
+    @Secured({"DOCTOR", "HEAD_OF_DEPARTMENT"})
     public ResponseEntity<DoctorDetailedResponse> getDoctorById(@PathVariable Long id){
         return ResponseEntity.ok(doctorService.getDoctorById(id));
     }
