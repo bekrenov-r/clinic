@@ -1,5 +1,6 @@
 package com.bekrenov.clinic.exception;
 
+import io.jsonwebtoken.JwtException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,19 @@ public class ClinicResponseEntityExceptionHandler extends ResponseEntityExceptio
                 .body(response);
     }
 
+    @ExceptionHandler(ClinicEntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleClinicEntityNotFoundException(ClinicEntityNotFoundException ex){
+        this.logException(ex);
+        ErrorResponse response = ErrorResponse.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.NOT_FOUND)
+                .timestamp(LocalDateTime.now())
+                .build();
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(response);
+    }
+
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException ex){
         this.logException(ex);
@@ -61,6 +75,17 @@ public class ClinicResponseEntityExceptionHandler extends ResponseEntityExceptio
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException ex){
         this.logException(ex);
+        ErrorResponse response = ErrorResponse
+                .builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.FORBIDDEN)
+                .timestamp(LocalDateTime.now())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<ErrorResponse> handleJwtException(JwtException ex){
         ErrorResponse response = ErrorResponse
                 .builder()
                 .message(ex.getMessage())

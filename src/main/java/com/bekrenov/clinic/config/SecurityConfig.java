@@ -1,5 +1,6 @@
 package com.bekrenov.clinic.config;
 
+import com.bekrenov.clinic.exception.FilterChainExceptionHandlerFilter;
 import com.bekrenov.clinic.security.auth.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +28,7 @@ import java.util.List;
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JdbcUserDetailsManager jdbcUserDetailsManager;
+    private final FilterChainExceptionHandlerFilter exceptionHandlerFilter;
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
@@ -63,6 +65,7 @@ public class SecurityConfig {
                 .cors(c -> c.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(exceptionHandlerFilter, JwtAuthenticationFilter.class)
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationManager(authenticationManager())
                 .build();
