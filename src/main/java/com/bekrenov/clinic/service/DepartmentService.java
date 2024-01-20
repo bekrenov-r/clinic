@@ -1,26 +1,29 @@
 package com.bekrenov.clinic.service;
 
+import com.bekrenov.clinic.dto.mapper.DepartmentMapper;
+import com.bekrenov.clinic.dto.response.DepartmentResponse;
 import com.bekrenov.clinic.model.entity.Department;
 import com.bekrenov.clinic.repository.DepartmentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DepartmentService {
-
     private final DepartmentRepository departmentRepository;
+    private final DepartmentMapper departmentMapper;
 
-    @Autowired
-    public DepartmentService(DepartmentRepository departmentRepository) {
-        this.departmentRepository = departmentRepository;
-    }
-    public List<Department> findAll() {
-        return departmentRepository.findAll();
+    public List<DepartmentResponse> getAllDepartments() {
+        return departmentRepository.findAll().stream()
+                .map(departmentMapper::entityToResponse)
+                .toList();
     }
 
-    public Department findById(Long departmentId) {
-        return departmentRepository.findById(departmentId).get();
+    public List<DepartmentResponse> getAllDepartmentsBySpecialization(Department.Specialization specialization){
+        return departmentRepository.findAllBySpecialization(specialization).stream()
+                .map(departmentMapper::entityToResponse)
+                .toList();
     }
 }
