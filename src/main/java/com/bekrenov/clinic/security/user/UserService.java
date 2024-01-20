@@ -6,6 +6,7 @@ import com.bekrenov.clinic.model.entity.ActivationToken;
 import com.bekrenov.clinic.model.enums.Role;
 import com.bekrenov.clinic.repository.ActivationTokenRepository;
 import com.bekrenov.clinic.util.MailService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.core.GrantedAuthority;
@@ -52,6 +53,7 @@ public class UserService {
         return userDetailsManager.userExists(username);
     }
 
+    @Transactional
     public void activateUser(String token) {
         ActivationToken activationToken = activationTokenRepository.findByToken(token)
                 .orElseThrow(() -> new ClinicEntityNotFoundException(ACTIVATION_TOKEN, token));
@@ -61,6 +63,7 @@ public class UserService {
                 .disabled(false)
                 .build();
         userDetailsManager.updateUser(activatedUser);
+        activationTokenRepository.delete(activationToken);
     }
 
     private String createActivationTokenForUser(UserDetails user){
