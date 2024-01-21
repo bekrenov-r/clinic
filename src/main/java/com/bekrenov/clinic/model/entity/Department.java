@@ -25,13 +25,12 @@ public class Department {
     private Specialization specialization;
 
     @OneToOne(fetch = FetchType.EAGER,
-            cascade = {CascadeType.ALL})
+            cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
     @OneToMany(mappedBy = "department",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+            fetch = FetchType.LAZY)
     private List<Doctor> doctors;
 
     @Getter

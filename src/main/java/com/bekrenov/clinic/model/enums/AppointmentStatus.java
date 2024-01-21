@@ -3,5 +3,6 @@ package com.bekrenov.clinic.model.enums;
 public enum AppointmentStatus {
     PENDING,
     CONFIRMED,
-    FINISHED
+    FINISHED,
+    CANCELLED
 }

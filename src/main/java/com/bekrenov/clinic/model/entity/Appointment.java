@@ -1,15 +1,14 @@
 package com.bekrenov.clinic.model.entity;
 
+import com.bekrenov.clinic.model.enums.AppointmentStatus;
+import com.bekrenov.clinic.service.DoctorService;
+import jakarta.persistence.*;
+import lombok.Data;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-
-import com.bekrenov.clinic.model.enums.AppointmentStatus;
-import com.bekrenov.clinic.service.DoctorService;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import lombok.Data;
 
 @Entity
 @Table(name = "appointments")
@@ -37,22 +36,18 @@ public class Appointment {
     @Column(name = "details")
     private String details;
 
-    @ManyToOne(fetch = FetchType.LAZY,
-                cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_department", referencedColumnName = "id")
-    @JsonIgnore
     private Department department;
 
     @ManyToOne(fetch = FetchType.LAZY,
                 cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "id_patient", referencedColumnName = "id")
-    @JsonIgnore
     private Patient patient;
 
     @ManyToOne(fetch = FetchType.LAZY,
                 cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "id_doctor", referencedColumnName = "id")
-    @JsonIgnore
     private Doctor doctor;
 
     @Transient

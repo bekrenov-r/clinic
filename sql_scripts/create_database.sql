@@ -193,3 +193,7 @@ values
     ('aleksandr.dudkiewicz@gmail.com', 'DOCTOR'),
     ('marta.gryniewicz@gmail.com', 'HEAD_OF_DEPARTMENT'),
     ('marta.gryniewicz@gmail.com', 'DOCTOR');
+
+-- Admin account
+insert into users values('jan.kowalski@example.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1);
+insert into authorities values('jan.kowalski@example.com', 'ADMIN');
