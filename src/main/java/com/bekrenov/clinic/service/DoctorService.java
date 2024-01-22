@@ -11,7 +11,6 @@ import com.bekrenov.clinic.model.entity.Doctor;
 import com.bekrenov.clinic.model.enums.Role;
 import com.bekrenov.clinic.repository.DepartmentRepository;
 import com.bekrenov.clinic.repository.DoctorRepository;
-import com.bekrenov.clinic.security.auth.AuthenticationService;
 import com.bekrenov.clinic.util.CurrentUserUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 
 import static com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason.NOT_ENTITY_OWNER;
 import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.DEPARTMENT;
@@ -31,20 +31,11 @@ public class DoctorService {
     private final DepartmentRepository departmentRepository;
     private final DoctorRepository doctorRepository;
     private final DoctorMapper doctorMapper;
-    private final AppointmentService appointmentService;
+    private final AvailabilityService availabilityService;
     private final CurrentUserUtil currentUserUtil;
-    private final AuthenticationService authenticationService;
 
     // duration for each visit in minutes
     public static final int VISIT_DURATION_MINUTES = 15;
-
-    // time for beginning and ending of working day (by default 08:00-16:00)
-    public static final LocalTime WORKING_DAY_BEGIN_TIME = LocalTime.of(8, 0);
-    public static final LocalTime WORKING_DAY_END_TIME = LocalTime.of(16, 0);
-
-    // time for beginning and ending of lunch break (by default 13:00-13:30)
-    public static final LocalTime LUNCH_BREAK_BEGIN = LocalTime.of(13,0);
-    public static final LocalTime LUNCH_BREAK_END = LocalTime.of(13, 30);
 
     public DoctorDetailedResponse getDoctorById(Long id) {
         Doctor doctor = doctorRepository.findById(id)
@@ -80,7 +71,7 @@ public class DoctorService {
     public Doctor getAnyDoctorForAppointment(Appointment appointment) {
         List<Doctor> doctors = doctorRepository.findByDepartment(appointment.getDepartment());
         for (Doctor doctor : doctors) {
-            List<LocalTime> times = appointmentService.getAvailableTimesByDoctor(doctor.getId(), appointment.getDate());
+            Set<LocalTime> times = availabilityService.getAvailableTimesByDoctor(doctor.getId(), appointment.getDate());
             if (times.contains(appointment.getTime())) {
                 return doctor;
             }

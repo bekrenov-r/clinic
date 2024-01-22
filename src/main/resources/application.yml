@@ -23,12 +23,20 @@ spring:
         POST /register/patient,
         GET /doctors/specialization/**,
         GET /doctors/department/**,
-        GET /appointment/availability/**,
+        GET /appointments/availability/**,
         GET /departments
   jwt:
     secret:
     expiration-time-millis: 604800000
-
+business:
+  schedule:
+    visit-duration-mins: 15
+    working-day:
+      begins: 08:00am
+      duration-hours: 8
+    break:
+      begins: 01:00pm
+      duration-mins: 30
 server:
   servlet:
     context-path: /api/v1
