@@ -1,5 +1,8 @@
 # JDBC properties
 spring:
+  config:
+    activate:
+      on-profile: dev, prod, default
   datasource:
     url: jdbc:mysql://localhost:3306/clinic
     username: root
@@ -15,6 +18,54 @@ spring:
           auth: true
           starttls:
             enable: true
+  jwt:
+    secret:
+    expiration-time-millis: 604800000
+springdoc:
+  api-docs:
+    path: /api-docs
+business:
+  schedule:
+    visit-duration-mins: 15
+    working-day:
+      begins: 08:00am
+      duration-hours: 8
+    break:
+      begins: 01:00pm
+      duration-mins: 30
+  data:
+    phone-number-prefix: "+48"
+server:
+  servlet:
+    context-path: /api/v1
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  custom:
+    security:
+      permitted-matchers: >
+        POST /users/activate,
+        GET /authenticate,
+        POST /register/patient,
+        GET /doctors/specialization/**,
+        GET /doctors/department/**,
+        GET /appointments/availability/**,
+        GET /departments,
+        GET /swagger-ui.html,
+        GET /swagger-ui/**,
+        GET /api-docs/**
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: trace
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
   custom:
     security:
       permitted-matchers: >
@@ -25,34 +76,5 @@ spring:
         GET /doctors/department/**,
         GET /appointments/availability/**,
         GET /departments
-  jwt:
-    secret:
-    expiration-time-millis: 604800000
-business:
-  schedule:
-    visit-duration-mins: 15
-    working-day:
-      begins: 08:00am
-      duration-hours: 8
-    break:
-      begins: 01:00pm
-      duration-mins: 30
 server:
-  servlet:
-    context-path: /api/v1
-
-# Logging
-# spring:
-#   jpa:
-#     show-sql: true
-# logging:
-#   level:
-#     org.hibernate.SQL: debug
-#     org.hibernate.type.descriptor.sql: trace
-logging:
-  level:
-    org.springframework.security: DEBUG
-
-# Business logic properties
-data:
-  phone-number-prefix: "+48"
+  port: 8081
