@@ -1,6 +1,6 @@
 package com.bekrenov.clinic.util;
 
-import com.bekrenov.clinic.model.enums.Role;
+import com.bekrenov.clinic.security.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

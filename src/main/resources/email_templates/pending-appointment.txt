@@ -1,0 +1,12 @@
+Dear %s!
+
+We successfully received your appointment request:
+Department - %s
+Doctor - %s
+Date and time - %s
+
+As our department considers it necessary to confirm appointments manually, your reservation is currently being processed.
+You will receive another message when your appointment is confirmed.
+
+Best regards,
+MedicaPlus team.

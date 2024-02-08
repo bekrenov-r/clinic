@@ -20,6 +20,7 @@ create table departments
     id              int          not null auto_increment,
     department_name varchar(255) not null,
     specialization  varchar(255) not null,
+    auto_confirm_appointment boolean not null,
     address_id      int          not null,
     primary key (id),
     foreign key (address_id) references addresses (id)
@@ -124,14 +125,14 @@ values
     ('Lublin', 'Abramowicka', '62', '83', '20-799'),
     ('Lublin', 'Adama Mickiewicza', '37', '39', '20-433');
 
-insert into departments(department_name, specialization, address_id)
+insert into departments(department_name, specialization, auto_confirm_appointment, address_id)
 values
-    ('Oddział dermatologiczny №1', 'DERMATOLOGY', 1),
-    ('Oddział dermatologiczny №2', 'DERMATOLOGY', 2),
-    ('Oddział okulistyczny №1', 'OPHTHALMOLOGY', 3),
-    ('Oddział okulistyczny №2', 'OPHTHALMOLOGY', 4),
-    ('Oddział okulistyczny №3', 'OPHTHALMOLOGY', 5),
-    ('Oddział psychologii №1', 'PSYCHOLOGY', 6);
+    ('Oddział dermatologiczny №1', 'DERMATOLOGY', false, 1),
+    ('Oddział dermatologiczny №2', 'DERMATOLOGY', true, 2),
+    ('Oddział okulistyczny №1', 'OPHTHALMOLOGY', true, 3),
+    ('Oddział okulistyczny №2', 'OPHTHALMOLOGY', false, 4),
+    ('Oddział okulistyczny №3', 'OPHTHALMOLOGY', false, 5),
+    ('Oddział psychologii №1', 'PSYCHOLOGY', false, 6);
 
 -- Sample patients/users
 insert into patients(first_name, last_name, pesel, phone_number, email, gender, address_id)

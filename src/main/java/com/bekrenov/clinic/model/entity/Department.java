@@ -24,6 +24,9 @@ public class Department {
     @Enumerated(EnumType.STRING)
     private Specialization specialization;
 
+    @Column(name = "auto_confirm_appointment")
+    private Boolean autoConfirmAppointment;
+
     @OneToOne(fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
@@ -32,6 +35,10 @@ public class Department {
     @OneToMany(mappedBy = "department",
             fetch = FetchType.LAZY)
     private List<Doctor> doctors;
+
+    public String nameAndAddress(){
+        return departmentName + ", " + address.toSimpleString();
+    }
 
     @Getter
     @AllArgsConstructor

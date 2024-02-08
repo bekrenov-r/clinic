@@ -1,12 +1,13 @@
 package com.bekrenov.clinic.model.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 @Entity
 @Table(name="addresses")
 @Data
 public class Address {
+    private static final String SIMPLE_ADDRESS_FORMAT = "ul. %s %s";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +27,8 @@ public class Address {
 
     @Column(name="zip_code")
     private String zipCode;
+
+    public String toSimpleString(){
+        return String.format(SIMPLE_ADDRESS_FORMAT, street, buildingNumber);
+    }
 }

@@ -1,5 +1,6 @@
 package com.bekrenov.clinic.service;
 
+import com.bekrenov.clinic.exception.ClinicApplicationException;
 import com.bekrenov.clinic.exception.ClinicEntityNotFoundException;
 import com.bekrenov.clinic.model.entity.Appointment;
 import com.bekrenov.clinic.model.entity.Department;
@@ -22,6 +23,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason.APPOINTMENT_TIME_IS_NOT_AVAILABLE;
 import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.DEPARTMENT;
 import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.DOCTOR;
 
@@ -64,6 +66,10 @@ public class AvailabilityService {
     public Set<LocalTime> getAvailableTimesByDoctor(Long doctorId, LocalDate date) {
         Doctor doctor = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new ClinicEntityNotFoundException(DOCTOR, doctorId));
+        return getAvailableTimesByDoctor(doctor, date);
+    }
+
+    public Set<LocalTime> getAvailableTimesByDoctor(Doctor doctor, LocalDate date){
         Set<LocalTime> reservedTimes = appointmentRepository.findAllByDoctorAndDate(doctor, date)
                 .stream()
                 .map(Appointment::getTime)
@@ -71,6 +77,12 @@ public class AvailabilityService {
         return allTimes.stream()
                 .filter(t -> !reservedTimes.contains(t))
                 .collect(Collectors.toCollection(TreeSet::new));
+    }
+
+    public void validateAvailabilityByDoctor(Doctor doctor, LocalDate date, LocalTime time){
+        boolean appointmentTimeIsAvailable = getAvailableTimesByDoctor(doctor.getId(), date).contains(time);
+        if(!appointmentTimeIsAvailable)
+            throw new ClinicApplicationException(APPOINTMENT_TIME_IS_NOT_AVAILABLE, time, date);
     }
 
     /**
