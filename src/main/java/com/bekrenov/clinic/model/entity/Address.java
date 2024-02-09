@@ -3,6 +3,8 @@ package com.bekrenov.clinic.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Objects;
+
 @Entity
 @Table(name="addresses")
 @Data
@@ -30,5 +32,18 @@ public class Address {
 
     public String toSimpleString(){
         return String.format(SIMPLE_ADDRESS_FORMAT, street, buildingNumber);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(other == this)
+            return true;
+        if(!(other instanceof Address address))
+            return false;
+        return Objects.equals(this.city, address.getCity()) &&
+                Objects.equals(this.street, address.getStreet()) &&
+                Objects.equals(this.buildingNumber, address.getBuildingNumber()) &&
+                Objects.equals(this.flatNumber, address.getFlatNumber()) &&
+                Objects.equals(this.zipCode, address.getZipCode());
     }
 }

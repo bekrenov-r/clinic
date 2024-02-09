@@ -10,6 +10,7 @@ import com.bekrenov.clinic.model.entity.Department;
 import com.bekrenov.clinic.model.enums.AppointmentStatus;
 import com.bekrenov.clinic.repository.AppointmentRepository;
 import com.bekrenov.clinic.repository.DepartmentRepository;
+import com.bekrenov.clinic.validation.DepartmentValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class DepartmentService {
     private final DepartmentRepository departmentRepository;
     private final DepartmentMapper departmentMapper;
     private final AppointmentRepository appointmentRepository;
+    private final DepartmentValidator departmentValidator;
 
     public List<DepartmentResponse> getAllDepartments() {
         return departmentRepository.findAll().stream()
@@ -41,6 +43,7 @@ public class DepartmentService {
 
     public DepartmentResponse createDepartment(DepartmentRequest request) {
         Department department = departmentMapper.requestToEntity(request);
+        departmentValidator.validateDepartment(department);
         return departmentMapper.entityToResponse(departmentRepository.save(department));
     }
 
@@ -65,7 +68,7 @@ public class DepartmentService {
                 .stream()
                 .anyMatch(isActive);
         if(hasActiveAppointments)
-            throw new ClinicApplicationException(CANNOT_DELETE_DEPARTMENT_WITH_APPOINTMENTS);
+            throw new ClinicApplicationException(CANNOT_DELETE_DEPARTMENT_WITH_APPOINTMENTS, department.getId());
     }
 
 

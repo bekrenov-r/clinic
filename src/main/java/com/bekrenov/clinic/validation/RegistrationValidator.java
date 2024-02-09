@@ -1,4 +1,4 @@
-package com.bekrenov.clinic.service;
+package com.bekrenov.clinic.validation;
 
 import com.bekrenov.clinic.dto.request.RegistrationRequest;
 import com.bekrenov.clinic.exception.ClinicApplicationException;

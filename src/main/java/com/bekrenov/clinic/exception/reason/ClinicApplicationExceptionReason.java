@@ -17,7 +17,9 @@ public enum ClinicApplicationExceptionReason implements ExceptionReasonPolicy {
     APPOINTMENT_TIME_IS_NOT_AVAILABLE("Appointment time [%s] is not available on date [%s]", HttpStatus.BAD_REQUEST),
     NO_AVAILABLE_DOCTORS_IN_DEPARTMENT("Selected department has no doctors available on given date", HttpStatus.BAD_REQUEST),
     DOCTOR_IS_NOT_FROM_DEPARTMENT("Doctor with id [%s] is not registered in given department", HttpStatus.BAD_REQUEST),
-    PATIENT_ALREADY_HAS_APPOINTMENT_AT_DATETIME("This patient already has an appointment on date [%s] at [%s]", HttpStatus.CONFLICT);
+    PATIENT_ALREADY_HAS_APPOINTMENT_AT_DATETIME("This patient already has an appointment on date [%s] at [%s]", HttpStatus.CONFLICT),
+    DEPARTMENT_WITH_NAME_ALREADY_EXISTS("Department with name [%s] already exists", HttpStatus.CONFLICT),
+    DEPARTMENT_WITH_ADDRESS_ALREADY_EXISTS("Department at this address already exists", HttpStatus.CONFLICT);
 
     private final String message;
     private final HttpStatus status;

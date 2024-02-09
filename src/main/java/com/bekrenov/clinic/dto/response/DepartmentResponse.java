@@ -4,7 +4,7 @@ import com.bekrenov.clinic.model.entity.Address;
 
 public record DepartmentResponse(
         Long id,
-        String departmentName,
+        String name,
         String specialization,
         Address address
 ) { }

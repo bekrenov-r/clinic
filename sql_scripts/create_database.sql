@@ -18,7 +18,7 @@ drop table if exists departments;
 create table departments
 (
     id              int          not null auto_increment,
-    department_name varchar(255) not null,
+    name varchar(255) not null,
     specialization  varchar(255) not null,
     auto_confirm_appointment boolean not null,
     address_id      int          not null,
@@ -125,7 +125,7 @@ values
     ('Lublin', 'Abramowicka', '62', '83', '20-799'),
     ('Lublin', 'Adama Mickiewicza', '37', '39', '20-433');
 
-insert into departments(department_name, specialization, auto_confirm_appointment, address_id)
+insert into departments(name, specialization, auto_confirm_appointment, address_id)
 values
     ('Oddział dermatologiczny №1', 'DERMATOLOGY', false, 1),
     ('Oddział dermatologiczny №2', 'DERMATOLOGY', true, 2),

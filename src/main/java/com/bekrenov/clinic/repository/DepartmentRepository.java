@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
     List<Department> findAllBySpecialization(Department.Specialization specialization);
+    boolean existsByName(String name);
 }

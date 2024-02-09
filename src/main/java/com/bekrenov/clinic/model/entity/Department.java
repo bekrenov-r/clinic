@@ -17,8 +17,8 @@ public class Department {
     @Column(name = "id")
     private Long id;
 
-    @Column(name="department_name")
-    private String departmentName;
+    @Column(name="name")
+    private String name;
 
     @Column(name = "specialization")
     @Enumerated(EnumType.STRING)
@@ -37,7 +37,7 @@ public class Department {
     private List<Doctor> doctors;
 
     public String nameAndAddress(){
-        return departmentName + ", " + address.toSimpleString();
+        return name + ", " + address.toSimpleString();
     }
 
     @Getter

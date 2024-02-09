@@ -7,9 +7,11 @@ import jakarta.validation.constraints.NotNull;
 
 public record DepartmentRequest(
         @NotBlank
-        String departmentName,
+        String name,
         @NotNull
         Department.Specialization specialization,
+        @NotNull
+        Boolean autoConfirmAppointment,
         @Valid
         AddressRequest address
 ) { }

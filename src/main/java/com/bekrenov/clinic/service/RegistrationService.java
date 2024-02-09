@@ -12,6 +12,7 @@ import com.bekrenov.clinic.repository.DoctorRepository;
 import com.bekrenov.clinic.repository.PatientRepository;
 import com.bekrenov.clinic.security.Role;
 import com.bekrenov.clinic.security.user.UserService;
+import com.bekrenov.clinic.validation.RegistrationValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
