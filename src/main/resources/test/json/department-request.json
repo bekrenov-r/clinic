@@ -1,0 +1,12 @@
+{
+  "name": "Oddział psychologii №2",
+  "specialization": "PSYCHOLOGY",
+  "autoConfirmAppointment": true,
+  "address": {
+    "city": "Lublin",
+    "street": "Testowa",
+    "buildingNumber": "13A",
+    "flatNumber": null,
+    "zipCode": "12-344"
+  }
+}

@@ -1,12 +1,7 @@
-# JDBC properties
 spring:
   config:
     activate:
-      on-profile: dev, prod
-  datasource:
-    url: jdbc:mysql://localhost:3306/clinic
-    username: root
-    password: i?u.M7afDGo)hZ=2Ny]V
+      on-profile: dev, prod, test
   mail:
     host: smtp.gmail.com
     port: 587
@@ -43,6 +38,10 @@ spring:
   config:
     activate:
       on-profile: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/clinic
+    username: root
+    password: i?u.M7afDGo)hZ=2Ny]V
   custom:
     security:
       permitted-matchers: >
@@ -66,6 +65,10 @@ spring:
   config:
     activate:
       on-profile: prod
+  datasource:
+    url: jdbc:mysql://localhost:3306/clinic
+    username: root
+    password: i?u.M7afDGo)hZ=2Ny]V
   custom:
     security:
       permitted-matchers: >
@@ -78,3 +81,36 @@ spring:
         GET /departments
 server:
   port: 8081
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  custom:
+    security:
+      permitted-matchers: >
+        POST /users/activate,
+        GET /authenticate,
+        POST /register/patient,
+        GET /doctors/specialization/**,
+        GET /doctors/department/**,
+        GET /appointments/availability/**,
+        GET /departments,
+        GET /swagger-ui.html,
+        GET /swagger-ui/**,
+        GET /api-docs/**,
+        GET /h2-console,
+        GET /h2-console/**
+  datasource:
+    url: jdbc:h2:mem:testdb;NON_KEYWORDS=USER;
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: default
+  jpa:
+    defer-datasource-initialization: true
+test:
+  server:
+    baseUrl: http://localhost:8082/api/v1
+server:
+  port: 8082
