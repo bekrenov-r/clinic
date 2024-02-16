@@ -1,9 +1,14 @@
 package com.bekrenov.clinic.integrationtests;
 
-import com.bekrenov.clinic.integrationtests.util.JSONUtil;
+import com.bekrenov.clinic.dto.request.AddressRequest;
 import com.bekrenov.clinic.integrationtests.util.TestAuthenticator;
+import com.bekrenov.clinic.integrationtests.util.TestUtil;
+import com.bekrenov.clinic.model.entity.Address;
 import com.bekrenov.clinic.model.entity.Department;
+import com.bekrenov.clinic.repository.DepartmentRepository;
 import com.bekrenov.clinic.security.Role;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import org.json.JSONException;
@@ -18,8 +23,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -33,6 +36,8 @@ public class DepartmentIT {
     private TestRestTemplate restTemplate;
     @Autowired
     private TestAuthenticator testAuthenticator;
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
     @Nested
     class GetAllDepartments {
@@ -73,7 +78,7 @@ public class DepartmentIT {
 
     @Nested
     class CreateDepartment {
-        private static final String JSON_PATH = "/test/json/department-request.json";
+        private static final String REQUEST_BODY_JSON = "/test/json/request/department-request.json";
 
         @Test
         public void createDepartment_Basic() {
@@ -82,7 +87,7 @@ public class DepartmentIT {
                     .post("/departments")
                     .header(HttpHeaders.AUTHORIZATION, authHeader)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                    .body(validRequestBody());
+                    .body(TestUtil.getResourceAsString(REQUEST_BODY_JSON));
 
             ResponseEntity<String> response = restTemplate.exchange(request, String.class);
             DocumentContext responseJson = JsonPath.parse(response.getBody());
@@ -99,7 +104,7 @@ public class DepartmentIT {
         @Test
         public void createDepartment_InvalidRequestBody() throws JSONException {
             String authHeader = testAuthenticator.authenticateAsAdmin();
-            String requestBody = prepareRequestBody(Map.of(
+            String requestBody = TestUtil.prepareRequestBody(REQUEST_BODY_JSON, Map.of(
                     "name", "",
                     "specialization", "asd",
                     "address.zipCode", "1234"));
@@ -142,7 +147,7 @@ public class DepartmentIT {
                     .post("/departments")
                     .header(HttpHeaders.AUTHORIZATION, authHeader)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                    .body(validRequestBody());
+                    .body(TestUtil.getResourceAsString(REQUEST_BODY_JSON));
 
             ResponseEntity<String> response = restTemplate.exchange(request, String.class);
 
@@ -152,7 +157,8 @@ public class DepartmentIT {
         @Test
         public void createDepartment_ShouldReturn409_WhenDepartmentWithNameAlreadyExists() throws JSONException {
             String authHeader = testAuthenticator.authenticateAsAdmin();
-            String requestBody = prepareRequestBody("name", "Oddział psychologii №1");
+            String requestBody = TestUtil
+                    .prepareRequestBody(REQUEST_BODY_JSON, "name", getExistingName());
             RequestEntity<String> request = RequestEntity
                     .post("/departments")
                     .header(HttpHeaders.AUTHORIZATION, authHeader)
@@ -168,18 +174,10 @@ public class DepartmentIT {
         }
 
         @Test
-        public void createDepartment_ShouldReturn409_WhenDepartmentWithAddressAlreadyExists() throws JSONException {
+        public void createDepartment_ShouldReturn409_WhenDepartmentWithAddressAlreadyExists() throws JSONException, JsonProcessingException {
             String authHeader = testAuthenticator.authenticateAsAdmin();
-            String requestBody = prepareRequestBody(
-                    "address",
-                    new JSONObject("""
-                    {
-                        "city": "Lublin",
-                        "street": "Lubartowska",
-                        "buildingNumber": "47",
-                        "flatNumber": null,
-                        "zipCode": "20-890"
-                    }""")
+            String requestBody = TestUtil.prepareRequestBody(
+                    REQUEST_BODY_JSON, "address", new JSONObject(getExistingAddress())
             );
             RequestEntity<String> request = RequestEntity
                     .post("/departments")
@@ -195,30 +193,28 @@ public class DepartmentIT {
             assertThat(responseJson.read("$.status"), is(HttpStatus.CONFLICT.name()));
         }
 
-        private String prepareRequestBody(Map<String, String> properties) throws JSONException {
-            JSONObject json = new JSONObject(validRequestBody());
-            properties.forEach((key, value) -> JSONUtil.setProperty(json, key, value));
-            return json.toString();
+        private String getExistingName(){
+            return departmentRepository.findAll()
+                    .stream()
+                    .findAny()
+                    .orElseThrow(() -> new RuntimeException("No departments found"))
+                    .getName();
         }
 
-        private String prepareRequestBody(String property, String value) throws JSONException {
-            JSONObject json = new JSONObject(validRequestBody());
-            JSONUtil.setProperty(json, property, value);
-            return json.toString();
-        }
-
-        private String prepareRequestBody(String property, JSONObject value) throws JSONException {
-            JSONObject json = new JSONObject(validRequestBody());
-            JSONUtil.setProperty(json, property, value);
-            return json.toString();
-        }
-
-        private String validRequestBody() {
-            try(InputStream is = getClass().getResourceAsStream(JSON_PATH)){
-                return new String(is.readAllBytes());
-            } catch(IOException ex){
-                throw new RuntimeException(ex);
-            }
+        private String getExistingAddress() throws JsonProcessingException {
+            Address address = departmentRepository.findAll()
+                    .stream()
+                    .findAny()
+                    .orElseThrow(() -> new RuntimeException("No departments found"))
+                    .getAddress();
+            AddressRequest addressRequest = new AddressRequest(
+                    address.getCity(),
+                    address.getStreet(),
+                    address.getBuildingNumber(),
+                    address.getFlatNumber(),
+                    address.getZipCode()
+            );
+            return new ObjectMapper().writeValueAsString(addressRequest);
         }
     }
 

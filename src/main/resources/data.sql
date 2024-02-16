@@ -40,7 +40,7 @@ values
 -- Sample doctors/users
 insert into doctors(first_name, last_name, phone_number, email, pesel, occupation, id_department, id_address)
 values
-    ('Marta', 'Stachyra', '321796584', 'marta.stachyra@gmail.com', '89122468687', 'HEAD_OF_DEPARTMENT', 1, 7),
+    ('Marta', 'Stachyra', '321796584', 'marta.stachyra@gmail.com', '66020735162', 'HEAD_OF_DEPARTMENT', 1, 7),
     ('Piotr', 'Raczkowski', '964753791', 'piotr.raczkowski@gmail.com', '97030218817', 'SPECIALIST', 1, 8);
 
 insert into users

@@ -1,0 +1,30 @@
+{
+  "id": 3,
+  "firstName": "John",
+  "lastName": "Doe",
+  "phoneNumber": "347013485",
+  "email": "test@example.com",
+  "pesel": "80121192156",
+  "occupation": "SPECIALIST",
+  "address": {
+    "city": "Anytown",
+    "street": "123 Main St",
+    "buildingNumber": "12A",
+    "flatNumber": null,
+    "zipCode": "12-342"
+  },
+  "department": {
+    "id": 1,
+    "name": "Oddział dermatologiczny №1",
+    "specialization": "DERMATOLOGY",
+    "autoConfirmAppointment": false,
+    "address": {
+      "id": 1,
+      "city": "Lublin",
+      "street": "Weteranów",
+      "buildingNumber": "17",
+      "flatNumber": null,
+      "zipCode": "20-281"
+    }
+  }
+}

@@ -155,7 +155,7 @@ values
 -- Sample doctors/users
 insert into doctors(first_name, last_name, phone_number, email, pesel, occupation, id_department, id_address)
 values
-    ('Marta', 'Stachyra', '321796584', 'marta.stachyra@gmail.com', '89122468687', 'HEAD_OF_DEPARTMENT', 1, 10),
+    ('Marta', 'Stachyra', '321796584', 'marta.stachyra@gmail.com', '66020735162', 'HEAD_OF_DEPARTMENT', 1, 10),
     ('Piotr', 'Raczkowski', '964753791', 'piotr.raczkowski@gmail.com', '97030218817', 'SPECIALIST', 1, 11),
     ('Michał', 'Gawroński', '746921068', 'michal.gawronski@gmail.com', '87092853552', 'SPECIALIST', 1, 12),
     ('Krystian', 'Michalski', '637546970', 'krystian.michalski@gmail.com', '51090788675', 'SPECIALIST', 1, 13),

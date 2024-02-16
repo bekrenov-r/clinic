@@ -1,0 +1,15 @@
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "pesel": "89112354656",
+  "email": "romabeta627@gmail.com",
+  "phoneNumber": "875301249",
+  "password": "password",
+  "address": {
+    "city": "Lublin",
+    "street": "Testowa",
+    "buildingNumber": "12A",
+    "flatNumber": null,
+    "zipCode": "12-342"
+  }
+}

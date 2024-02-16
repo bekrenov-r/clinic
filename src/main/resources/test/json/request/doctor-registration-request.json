@@ -1,0 +1,17 @@
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "pesel": "80121192156",
+  "email": "test@example.com",
+  "phoneNumber": "347013485",
+  "password": "password",
+  "occupation": "SPECIALIST",
+  "departmentId": 1,
+  "address": {
+    "city": "Anytown",
+    "street": "123 Main St",
+    "buildingNumber": "12A",
+    "flatNumber": null,
+    "zipCode": "12-342"
+  }
+}
