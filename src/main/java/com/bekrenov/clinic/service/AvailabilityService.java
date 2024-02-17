@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -35,22 +34,20 @@ public class AvailabilityService {
     private final AppointmentRepository appointmentRepository;
 
     @Value("${business.schedule.visit-duration-mins}")
-    private int visitDurationMinutes;
+    private int appointmentDurationMinutes;
 
-    @Value("${business.schedule.working-day.begins}")
-    private String workingDayBeginTime;
+    @Value("#{T(java.time.LocalTime).parse('${business.schedule.working-day.begins}', T(java.time.format.DateTimeFormatter).ofPattern('HH:mm'))}")
+    private LocalTime workingDayBeginTime;
 
     @Value("${business.schedule.working-day.duration-hours}")
     private int workingDayDurationHours;
 
-    @Value("${business.schedule.break.begins}")
-    private String breakBegins;
+    @Value("#{T(java.time.LocalTime).parse('${business.schedule.break.begins}', T(java.time.format.DateTimeFormatter).ofPattern('HH:mm'))}")
+    private LocalTime breakBeginTime;
 
     @Value("${business.schedule.break.duration-mins}")
     private int breakDurationMinutes;
     private Set<LocalTime> allTimes;
-
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("hh:mma");
 
     public Set<LocalTime> getAvailableTimesByDepartment(Long departmentId, LocalDate date) {
         Department department = departmentRepository.findById(departmentId)
@@ -89,11 +86,11 @@ public class AvailabilityService {
      * Generates a list of all possible times to make an appointment (e.g. 08:00, 08:15, 08:30 etc)
      */
     private Set<LocalTime> generateAllPossibleTimes(){
-        int visitDurationSeconds = visitDurationMinutes * 60;
-        int workingDayBeginTimeSeconds = LocalTime.parse(workingDayBeginTime, FORMATTER).toSecondOfDay();
-        int workingDayEndTimeSeconds = LocalTime.parse(workingDayBeginTime, FORMATTER).plusHours(workingDayDurationHours).toSecondOfDay();
-        int lunchBreakBeginTimeSeconds = LocalTime.parse(breakBegins, FORMATTER).toSecondOfDay();
-        int lunchBreakEndTimeSeconds = LocalTime.parse(breakBegins, FORMATTER).plusMinutes(breakDurationMinutes).toSecondOfDay();
+        int visitDurationSeconds = appointmentDurationMinutes * 60;
+        int workingDayBeginTimeSeconds = workingDayBeginTime.toSecondOfDay();
+        int workingDayEndTimeSeconds = workingDayBeginTime.plusHours(workingDayDurationHours).toSecondOfDay();
+        int lunchBreakBeginTimeSeconds = breakBeginTime.toSecondOfDay();
+        int lunchBreakEndTimeSeconds = breakBeginTime.plusMinutes(breakDurationMinutes).toSecondOfDay();
 
         return Stream.iterate(workingDayBeginTimeSeconds, i -> i < workingDayEndTimeSeconds, i -> i + visitDurationSeconds)
                 .filter(i -> i < lunchBreakBeginTimeSeconds || i >= lunchBreakEndTimeSeconds)

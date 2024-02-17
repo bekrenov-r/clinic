@@ -1,6 +1,8 @@
 package com.bekrenov.clinic.exception;
 
 import io.jsonwebtoken.JwtException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -93,6 +95,30 @@ public class ClinicResponseEntityExceptionHandler extends ResponseEntityExceptio
                 .timestamp(LocalDateTime.now())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex){
+        StringBuilder message = new StringBuilder("Errors:");
+        for(ConstraintViolation<?> cv : ex.getConstraintViolations()){
+            message
+                    .append(" [")
+                    .append(cv.getPropertyPath())
+                    .append(" ")
+                    .append(cv.getMessage())
+                    .append(", rejected value: ")
+                    .append(cv.getInvalidValue())
+                    .append("]");
+        }
+        ErrorResponse response = ErrorResponse
+                .builder()
+                .message(message.toString())
+                .status(HttpStatus.BAD_REQUEST)
+                .timestamp(LocalDateTime.now())
+                .build();
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(response);
     }
 
     @Override

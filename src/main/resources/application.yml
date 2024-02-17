@@ -23,10 +23,10 @@ business:
   schedule:
     visit-duration-mins: 15
     working-day:
-      begins: 08:00am
+      begins: "08:00"
       duration-hours: 8
     break:
-      begins: 01:00pm
+      begins: "13:00"
       duration-mins: 30
   data:
     phone-number-prefix: "+48"
