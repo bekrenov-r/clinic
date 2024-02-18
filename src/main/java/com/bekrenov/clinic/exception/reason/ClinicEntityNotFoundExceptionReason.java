@@ -12,7 +12,8 @@ public enum ClinicEntityNotFoundExceptionReason implements ExceptionReasonPolicy
     DEPARTMENT("Department with id [%s] does not exist"),
     SPECIALIZATION("Specialization with id [%s] does not exist"),
     DOCTOR("Doctor with id [%s] does not exist"),
-    PATIENT("Patient with id [%s] does not exist");
+    PATIENT("Patient with id [%s] does not exist"),
+    APPOINTMENT("Appointment with id [%s] does not exist");
 
     ClinicEntityNotFoundExceptionReason(String message){
         this.message = message;

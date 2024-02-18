@@ -45,7 +45,11 @@ public class AppointmentController {
     }
 
     @DeleteMapping("/{id}/cancel")
+    @Secured("PATIENT")
     public ResponseEntity<Void> cancelAppointment(@PathVariable Long id){
-        return null;
+        appointmentService.cancelAppointment(id);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
     }
 }

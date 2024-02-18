@@ -92,6 +92,15 @@ public class AppointmentService {
         return appointmentMapper.entityToResponse(appointmentRepository.save(appointment));
     }
 
+    public void cancelAppointment(Long id) {
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new ClinicEntityNotFoundException(APPOINTMENT, id));
+        assertPatientIsAppointmentOwner(appointment);
+        assertAppointmentCanBeCancelled(appointment);
+        appointment.setStatus(AppointmentStatus.CANCELLED);
+        appointmentRepository.save(appointment);
+    }
+
     private List<AppointmentShortResponse> getAllAppointmentsForDoctor(AppointmentStatus status) {
         Doctor doctor = doctorRepository.findByEmail(currentUserUtil.getCurrentUser().getUsername());
         return appointmentRepository.findAllByDoctor(doctor)
@@ -140,5 +149,17 @@ public class AppointmentService {
     private void assertPatientHasNoAppointmentAtDateTime(Patient patient, LocalDate date, LocalTime time) {
         if(appointmentRepository.existsByPatientAndDateAndTime(patient, date, time))
             throw new ClinicApplicationException(PATIENT_ALREADY_HAS_APPOINTMENT_AT_DATETIME, date, time);
+    }
+
+    private void assertPatientIsAppointmentOwner(Appointment appointment) {
+        Patient patient = patientRepository.findByEmail(currentUserUtil.getCurrentUser().getUsername());
+        if(!appointment.getPatient().equals(patient))
+            throw new ClinicApplicationException(NOT_ENTITY_OWNER);
+    }
+
+    private void assertAppointmentCanBeCancelled(Appointment appointment) {
+        AppointmentStatus status = appointment.getStatus();
+        if(status.equals(AppointmentStatus.CANCELLED) || status.equals(AppointmentStatus.FINISHED))
+            throw new ClinicApplicationException(CANNOT_CANCEL_APPOINTMENT);
     }
 }
