@@ -29,6 +29,7 @@ business:
       begins: "13:00"
       duration-mins: 30
   data:
+    page-size: 5
     phone-number-prefix: "+48"
 server:
   servlet:

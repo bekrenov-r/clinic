@@ -6,16 +6,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public record AppointmentResponse(
+public record AppointmentShortResponse(
         Long id,
         @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate date,
         LocalTime startTime,
         LocalTime endTime,
         AppointmentStatus status,
-        String prescription,
-        String details,
-        DepartmentResponse department,
-        PatientResponse patient,
+        String departmentAddress,
+        PersonDTO patient,
         PersonDTO doctor
 ) { }

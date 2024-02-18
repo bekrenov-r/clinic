@@ -12,4 +12,4 @@ public record DoctorDetailedResponse(
         String occupation,
         Address address,
         DepartmentResponse department
-) implements PersonDto { }
+) { }

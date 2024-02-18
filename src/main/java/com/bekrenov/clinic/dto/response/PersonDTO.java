@@ -1,7 +1,7 @@
 package com.bekrenov.clinic.dto.response;
 
-public record DoctorShortResponse(
+public record PersonDTO(
         Long id,
         String firstName,
         String lastName
-) implements PersonDto { }
+) { }

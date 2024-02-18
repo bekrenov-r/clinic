@@ -111,19 +111,7 @@ values
     ('Lublin', 'Metalurgiczna', '71', null, '20-831'),
     ('Lublin', 'Fabryczna', '16', null, '20-642'),
     ('Lublin', 'Ignacego Radziszewskiego', '4', null, '20-188'),
-    ('Lublin', 'Lubartowska', '47', null, '20-890'),
-    ('Lublin', 'Doctora Witolda Chodźki', '12', null, '20-546'),
-    ('Świdnik', 'Energetyków', '48', null, '19-621'),
-    ('Kraśnik', 'Józefa Piłsudskiego', '50', null, '13-340'),
-    ('Lublin', 'Diamentowa', '67', '15A', '20-546'),
-    ('Lublin', 'Krochmalna', '74', '87', '20-981'),
-    ('Lublin', 'Granitowa', '53', '66', '20-852'),
-    ('Lublin', 'Wrotkowska', '4', '71', '20-648'),
-    ('Lublin', 'Niecała', '32', '78', '20-466'),
-    ('Lublin', 'Krochmalna', '389', '12', '20-664'),
-    ('Lublin', 'Warszawska', '34', '17', '20-678'),
-    ('Lublin', 'Abramowicka', '62', '83', '20-799'),
-    ('Lublin', 'Adama Mickiewicza', '37', '39', '20-433');
+    ('Lublin', 'Lubartowska', '47', null, '20-890');
 
 insert into departments(name, specialization, auto_confirm_appointment, address_id)
 values
@@ -135,6 +123,12 @@ values
     ('Oddział psychologii №1', 'PSYCHOLOGY', false, 6);
 
 -- Sample patients/users
+insert into addresses(city, street, building_number, flat_number, zip_code)
+values
+    ('Lublin', 'Doctora Witolda Chodźki', '12', null, '20-546'),
+    ('Świdnik', 'Energetyków', '48', null, '19-621'),
+    ('Kraśnik', 'Józefa Piłsudskiego', '50', null, '13-340');
+
 insert into patients(first_name, last_name, pesel, phone_number, email, gender, address_id)
 values
     ('Zbigniew', 'Reszka', '82081957619', '321749870', 'zbigniew.reszka@gmail.com', 'MALE', 7),
@@ -153,6 +147,18 @@ values
     ('pawel.kowalski@gmail.com', 'PATIENT');
 
 -- Sample doctors/users
+insert into addresses(city, street, building_number, flat_number, zip_code)
+values
+    ('Lublin', 'Diamentowa', '67', '15A', '20-546'),
+    ('Lublin', 'Krochmalna', '74', '87', '20-981'),
+    ('Lublin', 'Granitowa', '53', '66', '20-852'),
+    ('Lublin', 'Wrotkowska', '4', '71', '20-648'),
+    ('Lublin', 'Niecała', '32', '78', '20-466'),
+    ('Lublin', 'Krochmalna', '389', '12', '20-664'),
+    ('Lublin', 'Warszawska', '34', '17', '20-678'),
+    ('Lublin', 'Abramowicka', '62', '83', '20-799'),
+    ('Lublin', 'Adama Mickiewicza', '37', '39', '20-433');
+
 insert into doctors(first_name, last_name, phone_number, email, pesel, occupation, id_department, id_address)
 values
     ('Marta', 'Stachyra', '321796584', 'marta.stachyra@gmail.com', '66020735162', 'HEAD_OF_DEPARTMENT', 1, 10),
@@ -194,6 +200,40 @@ values
     ('aleksandr.dudkiewicz@gmail.com', 'DOCTOR'),
     ('marta.gryniewicz@gmail.com', 'HEAD_OF_DEPARTMENT'),
     ('marta.gryniewicz@gmail.com', 'DOCTOR');
+
+-- Sample appointments
+insert into appointments(appointment_time, appointment_date, status, prescription, details, id_department, id_patient, id_doctor)
+values
+    ('12:00', curdate(), 'CONFIRMED', null, null, 1, 2, 2),
+    ('10:15', curdate() + interval 1 day, 'CONFIRMED', null, null, 1, 1, 1),
+    ('08:45', curdate() + interval 2 day, 'CONFIRMED', null, null, 1, 1, 2),
+    ('14:15', curdate(), 'CONFIRMED', null, null, 1, 2, 3),
+    ('15:30', curdate() + interval 7 day, 'CONFIRMED', null, null, 1, 3, 3),
+    ('12:45', curdate() + interval 12 day, 'CONFIRMED', null, null, 1, 1, 4),
+    ('11:00', curdate() + interval 3 day, 'CONFIRMED', null, null, 1, 2, 2),
+    ('11:45', curdate(), 'CONFIRMED', null, null, 1, 3, 1),
+    ('08:00', curdate() + interval 5 day, 'CONFIRMED', null, null, 1, 1, 3),
+    ('09:30', curdate() + interval 17 day, 'CONFIRMED', null, null, 1, 2, 4),
+    ('13:45', curdate() + interval 9 day, 'CONFIRMED', null, null, 1, 3, 2),
+    ('12:00', curdate() + interval 13 day, 'CONFIRMED', null, null, 1, 3, 2),
+    ('14:30', curdate() + interval 18 day, 'CONFIRMED', null, null, 1, 1, 2),
+    ('12:00', curdate() + interval 4 day, 'CONFIRMED', null, null, 1, 2, 2),
+    ('09:30', curdate() + interval 10 day, 'CONFIRMED', null, null, 1, 1, 2),
+    ('10:15', curdate() + interval 3 day, 'CONFIRMED', null, null, 1, 2, 2),
+    ('12:00', curdate() + interval 8 day, 'CONFIRMED', null, null, 1, 3, 2),
+    ('08:45', curdate() + interval 9 day, 'CONFIRMED', null, null, 1, 1, 2),
+    ('14:15', curdate() + interval 1 day, 'CONFIRMED', null, null, 1, 3, 2),
+    ('14:30', curdate() + interval 2 day, 'CONFIRMED', null, null, 1, 2, 2),
+    ('08:00', '2024-05-15', 'FINISHED', null, null, 1, 1, 2),
+    ('12:45', '2024-03-10', 'FINISHED', null, null, 1, 2, 3),
+    ('13:30', '2024-07-05', 'FINISHED', null, null, 1, 3, 1),
+    ('15:45', '2024-09-20', 'FINISHED', null, null, 1, 1, 4),
+    ('09:15', '2024-11-25', 'FINISHED', null, null, 1, 2, 2),
+    ('11:30', '2024-04-30', 'FINISHED', null, null, 1, 3, 3),
+    ('14:00', '2024-08-04', 'FINISHED', null, null, 1, 1, 1),
+    ('10:45', '2024-12-09', 'FINISHED', null, null, 1, 2, 4),
+    ('16:00', '2024-06-14', 'FINISHED', null, null, 1, 3, 2),
+    ('08:30', '2024-10-19', 'FINISHED', null, null, 1, 1, 3);
 
 -- Admin account
 insert into users values('jan.kowalski@example.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1);

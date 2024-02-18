@@ -2,7 +2,7 @@ package com.bekrenov.clinic.dto.mapper;
 
 import com.bekrenov.clinic.dto.request.DoctorRegistrationRequest;
 import com.bekrenov.clinic.dto.response.DoctorDetailedResponse;
-import com.bekrenov.clinic.dto.response.DoctorShortResponse;
+import com.bekrenov.clinic.dto.response.PersonDTO;
 import com.bekrenov.clinic.exception.ClinicEntityNotFoundException;
 import com.bekrenov.clinic.model.entity.Department;
 import com.bekrenov.clinic.model.entity.Doctor;
@@ -19,7 +19,7 @@ public abstract class DoctorMapper {
     @Autowired
     protected DepartmentRepository departmentRepository;
 
-    public abstract DoctorShortResponse entityToShortResponse(Doctor doctor);
+    public abstract PersonDTO entityToPersonDto(Doctor doctor);
 
     public abstract DoctorDetailedResponse entityToDetailedResponse(Doctor doctor);
 

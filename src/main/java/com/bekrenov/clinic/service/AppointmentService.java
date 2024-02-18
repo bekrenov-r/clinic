@@ -4,6 +4,7 @@ import com.bekrenov.clinic.dto.mapper.AppointmentMapper;
 import com.bekrenov.clinic.dto.request.AppointmentRequestByDoctor;
 import com.bekrenov.clinic.dto.request.AppointmentRequestByPatient;
 import com.bekrenov.clinic.dto.response.AppointmentResponse;
+import com.bekrenov.clinic.dto.response.AppointmentShortResponse;
 import com.bekrenov.clinic.exception.ClinicApplicationException;
 import com.bekrenov.clinic.exception.ClinicEntityNotFoundException;
 import com.bekrenov.clinic.model.entity.Appointment;
@@ -15,9 +16,13 @@ import com.bekrenov.clinic.repository.AppointmentRepository;
 import com.bekrenov.clinic.repository.DepartmentRepository;
 import com.bekrenov.clinic.repository.DoctorRepository;
 import com.bekrenov.clinic.repository.PatientRepository;
+import com.bekrenov.clinic.security.Role;
 import com.bekrenov.clinic.util.CurrentUserUtil;
 import com.bekrenov.clinic.util.MailService;
+import com.bekrenov.clinic.util.PageUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -39,6 +44,18 @@ public class AppointmentService {
     private final CurrentUserUtil currentUserUtil;
     private final AvailabilityService availabilityService;
     private final MailService mailService;
+
+    @Value("${business.data.page-size}")
+    private Integer pageSize;
+
+    public Page<AppointmentShortResponse> getAllAppointmentsForCurrentUser(
+            Integer page, AppointmentStatus status
+    ) {
+        List<AppointmentShortResponse> appointments = currentUserUtil.getCurrentUserRoles().contains(Role.DOCTOR)
+                ? getAllAppointmentsForDoctor(status)
+                : getAllAppointmentsForPatient(status);
+        return PageUtil.paginateList(appointments, page, pageSize);
+    }
 
     public AppointmentResponse createAppointmentAsDoctor(AppointmentRequestByDoctor request) {
         Appointment appointment = appointmentMapper.requestByDoctorToEntity(request);
@@ -73,6 +90,24 @@ public class AppointmentService {
         appointment.setStatus(status);
         mailService.sendEmailWithAppointment(appointment);
         return appointmentMapper.entityToResponse(appointmentRepository.save(appointment));
+    }
+
+    private List<AppointmentShortResponse> getAllAppointmentsForDoctor(AppointmentStatus status) {
+        Doctor doctor = doctorRepository.findByEmail(currentUserUtil.getCurrentUser().getUsername());
+        return appointmentRepository.findAllByDoctor(doctor)
+                .stream()
+                .filter(a -> status == null || a.getStatus().equals(status))
+                .map(appointmentMapper::entityToShortResponse)
+                .toList();
+    }
+
+    private List<AppointmentShortResponse> getAllAppointmentsForPatient(AppointmentStatus status) {
+        Patient patient = patientRepository.findByEmail(currentUserUtil.getCurrentUser().getUsername());
+        return appointmentRepository.findAllByPatient(patient)
+                .stream()
+                .filter(a -> status == null || a.getStatus().equals(status))
+                .map(appointmentMapper::entityToShortResponse)
+                .toList();
     }
 
     private Doctor resolveDoctorFromRequest(AppointmentRequestByPatient request, Department department){

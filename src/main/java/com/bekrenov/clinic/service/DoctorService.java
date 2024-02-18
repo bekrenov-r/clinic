@@ -2,7 +2,7 @@ package com.bekrenov.clinic.service;
 
 import com.bekrenov.clinic.dto.mapper.DoctorMapper;
 import com.bekrenov.clinic.dto.response.DoctorDetailedResponse;
-import com.bekrenov.clinic.dto.response.DoctorShortResponse;
+import com.bekrenov.clinic.dto.response.PersonDTO;
 import com.bekrenov.clinic.exception.ClinicApplicationException;
 import com.bekrenov.clinic.exception.ClinicEntityNotFoundException;
 import com.bekrenov.clinic.model.entity.Department;
@@ -39,19 +39,19 @@ public class DoctorService {
         return doctorMapper.entityToDetailedResponse(doctor);
     }
 
-    public List<DoctorShortResponse> getDoctorsByDepartment(Long id, HttpServletRequest request) {
+    public List<PersonDTO> getDoctorsByDepartment(Long id, HttpServletRequest request) {
         Department department = departmentRepository.findById(id)
                 .orElseThrow(() -> new ClinicEntityNotFoundException(DEPARTMENT, id));
         return doctorRepository.findByDepartment(department).stream()
-                .map(doctorMapper::entityToShortResponse)
+                .map(doctorMapper::entityToPersonDto)
                 .toList();
     }
 
-    public List<DoctorShortResponse> getDoctorsBySpecialization(
+    public List<PersonDTO> getDoctorsBySpecialization(
             Department.Specialization specialization, HttpServletRequest request
     ) {
         return doctorRepository.findBySpecialization(specialization).stream()
-                .map(doctorMapper::entityToShortResponse)
+                .map(doctorMapper::entityToPersonDto)
                 .toList();
     }
 
