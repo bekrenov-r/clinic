@@ -34,6 +34,7 @@ public class TestAuthenticator {
             case PATIENT -> authenticateAsPatient();
             case DOCTOR -> authenticateAsDoctor();
             case HEAD_OF_DEPARTMENT -> authenticateAsHeadOfDepartment();
+            default -> throw new UnsupportedOperationException();
         };
     }
 

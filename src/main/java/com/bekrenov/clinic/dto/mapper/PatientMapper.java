@@ -3,6 +3,7 @@ package com.bekrenov.clinic.dto.mapper;
 import com.bekrenov.clinic.dto.request.PatientRegistrationRequest;
 import com.bekrenov.clinic.dto.response.PatientResponse;
 import com.bekrenov.clinic.model.entity.Patient;
+import com.bekrenov.clinic.model.entity.Person;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -17,8 +18,8 @@ public abstract class PatientMapper {
     @Named("determineGender")
     protected Patient.Gender determineGender(String pesel){
         if((int) pesel.charAt(9) % 2 == 0)
-            return Patient.Gender.FEMALE;
+            return Person.Gender.FEMALE;
         else
-            return Patient.Gender.MALE;
+            return Person.Gender.MALE;
     }
 }

@@ -2,10 +2,7 @@ package com.bekrenov.clinic.model.entity;
 
 import com.bekrenov.clinic.model.enums.AppointmentStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -13,14 +10,10 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "appointments")
 @Data
-@Builder
+@EqualsAndHashCode(callSuper = true)@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Appointment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+public class Appointment extends AbstractEntity {
 
     @Column(name = "appointment_time")
     private LocalTime time;

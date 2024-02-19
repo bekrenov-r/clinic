@@ -3,6 +3,7 @@ package com.bekrenov.clinic.model.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.List;
@@ -10,13 +11,8 @@ import java.util.List;
 @Entity
 @Table(name = "departments")
 @Data
-public class Department {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
+@EqualsAndHashCode(callSuper = true)
+public class Department extends AbstractEntity {
     @Column(name="name")
     private String name;
 
@@ -34,7 +30,7 @@ public class Department {
 
     @OneToMany(mappedBy = "department",
             fetch = FetchType.LAZY)
-    private List<Doctor> doctors;
+    private List<Employee> employees;
 
     public String nameAndAddress(){
         return name + ", " + address.toSimpleString();

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason.CANNOT_DELETE_DEPARTMENT_WITH_DOCTORS;
+import static com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason.CANNOT_DELETE_DEPARTMENT_WITH_EMPLOYEES;
 import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.DEPARTMENT;
 
 @Service
@@ -44,12 +44,12 @@ public class DepartmentService {
     public void deleteDepartment(Long id) {
         Department department = departmentRepository.findById(id)
                 .orElseThrow(() -> new ClinicEntityNotFoundException(DEPARTMENT, id));
-        assertDepartmentHasNoDoctors(department);
+        assertDepartmentHasNoEmployees(department);
         departmentRepository.delete(department);
     }
 
-    private void assertDepartmentHasNoDoctors(Department department) {
-        if(!department.getDoctors().isEmpty())
-            throw new ClinicApplicationException(CANNOT_DELETE_DEPARTMENT_WITH_DOCTORS, department.getId());
+    private void assertDepartmentHasNoEmployees(Department department) {
+        if(!department.getEmployees().isEmpty())
+            throw new ClinicApplicationException(CANNOT_DELETE_DEPARTMENT_WITH_EMPLOYEES, department.getId());
     }
 }

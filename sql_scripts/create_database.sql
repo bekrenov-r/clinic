@@ -59,21 +59,22 @@ create table authorities
     constraint authorities_ibfk_1 foreign key (username) references users (username)
 );
 
-drop table if exists doctors;
-create table doctors
+drop table if exists employees;
+create table employees
 (
+    employee_type varchar(100),
     id            int         not null auto_increment,
-    first_name    varchar(50) not null,
-    last_name     varchar(50) not null,
+    first_name    varchar(50),
+    last_name     varchar(50),
     phone_number  varchar(20),
     email         varchar(100),
     pesel varchar(11),
     occupation      varchar(50),
     id_department int,
-    id_address    int,
+    address_id    int,
     primary key (id),
     foreign key (id_department) references departments (id),
-    foreign key (id_address) references addresses (id)
+    foreign key (address_id) references addresses (id)
 );
 
 drop table if exists appointments;
@@ -91,7 +92,7 @@ create table appointments
     primary key (id),
     foreign key (id_department) references departments (id),
     foreign key (id_patient) references patients (id),
-    foreign key (id_doctor) references doctors (id)
+    foreign key (id_doctor) references employees (id)
 );
 
 drop table if exists activation_tokens;
@@ -157,19 +158,30 @@ values
     ('Lublin', 'Krochmalna', '389', '12', '20-664'),
     ('Lublin', 'Warszawska', '34', '17', '20-678'),
     ('Lublin', 'Abramowicka', '62', '83', '20-799'),
-    ('Lublin', 'Adama Mickiewicza', '37', '39', '20-433');
+    ('Lublin', 'Adama Mickiewicza', '37', '39', '20-433'),
+    ('Lublin', 'Kraśnicka', '123A', NULL, '20-123'),
+    ('Lublin', 'Nałęczowska', '456B', NULL, '20-456'),
+    ('Lublin', 'Zana', '789C', NULL, '20-789'),
+    ('Lublin', 'Lipowa', '321D', NULL, '20-321'),
+    ('Lublin', 'Głęboka', '654E', NULL, '20-654'),
+    ('Lublin', 'Peowiaków', '987F', NULL, '20-987');;
 
-insert into doctors(first_name, last_name, phone_number, email, pesel, occupation, id_department, id_address)
-values
-    ('Marta', 'Stachyra', '321796584', 'marta.stachyra@gmail.com', '66020735162', 'HEAD_OF_DEPARTMENT', 1, 10),
-    ('Piotr', 'Raczkowski', '964753791', 'piotr.raczkowski@gmail.com', '97030218817', 'SPECIALIST', 1, 11),
-    ('Michał', 'Gawroński', '746921068', 'michal.gawronski@gmail.com', '87092853552', 'SPECIALIST', 1, 12),
-    ('Krystian', 'Michalski', '637546970', 'krystian.michalski@gmail.com', '51090788675', 'SPECIALIST', 1, 13),
-    ('Lech', 'Gocłowski', '863102589', 'lech.goclowski@gmail.com', '89040453999', 'HEAD_OF_DEPARTMENT', 2, 14),
-    ('Maria', 'Duda', '634785209', 'maria.duda@gmail.com', '88080769149', 'HEAD_OF_DEPARTMENT', 3, 15),
-    ('Marta', 'Wiśniewska', '679254091', 'marta.wisniewska@gmail.com', '60082661681', 'HEAD_OF_DEPARTMENT', 4, 16),
-    ('Aleksandr', 'Dudkiewicz', '637492048', 'aleksandr.dudkiewicz@gmail.com', '92092437839', 'HEAD_OF_DEPARTMENT', 5, 17),
-    ('Magda', 'Gryniewicz', '697130572', 'marta.gryniewicz@gmail.com', '78061454261', 'HEAD_OF_DEPARTMENT', 6, 18);
+INSERT INTO employees(employee_type, first_name, last_name, phone_number, email, pesel, occupation, id_department, address_id)
+VALUES
+    ('DOCTOR', 'Marta', 'Stachyra', '321796584', 'marta.stachyra@gmail.com', '66020735162', 'HEAD_OF_DEPARTMENT', 1, 10),
+    ('DOCTOR', 'Piotr', 'Raczkowski', '964753791', 'piotr.raczkowski@gmail.com', '97030218817', 'SPECIALIST', 1, 11),
+    ('DOCTOR', 'Michał', 'Gawroński', '746921068', 'michal.gawronski@gmail.com', '87092853552', 'SPECIALIST', 1, 12),
+    ('DOCTOR', 'Krystian', 'Michalski', '637546970', 'krystian.michalski@gmail.com', '51090788675', 'SPECIALIST', 1, 13),
+    ('DOCTOR', 'Lech', 'Gocłowski', '863102589', 'lech.goclowski@gmail.com', '89040453999', 'HEAD_OF_DEPARTMENT', 2, 14),
+    ('DOCTOR', 'Maria', 'Duda', '634785209', 'maria.duda@gmail.com', '88080769149', 'HEAD_OF_DEPARTMENT', 3, 15),
+    ('DOCTOR', 'Marta', 'Wiśniewska', '679254091', 'marta.wisniewska@gmail.com', '60082661681', 'HEAD_OF_DEPARTMENT', 4, 16),
+    ('DOCTOR', 'Aleksandr', 'Dudkiewicz', '637492048', 'aleksandr.dudkiewicz@gmail.com', '92092437839', 'HEAD_OF_DEPARTMENT', 5, 17),
+    ('RECEPTIONIST', 'Zuzanna', 'Majchrzak', '123456789', 'zuzanna.majchrzak@gmail.com', '84091665966', 'RECEPTIONIST', 1, 18),
+    ('RECEPTIONIST', 'Wiktoria', 'Szymańska', '234567890', 'wiktoria.szymanska@gmail.com', '77073069461', 'RECEPTIONIST', 2, 19),
+    ('RECEPTIONIST', 'Gabriela', 'Woźniak', '345678901', 'gabriela.wozniak@gmail.com', '03312036226', 'RECEPTIONIST', 3, 20),
+    ('RECEPTIONIST', 'Natalia', 'Zawadzka', '456789012', 'natalia.zawadzka@gmail.com', '87122435761', 'RECEPTIONIST', 4, 21),
+    ('RECEPTIONIST', 'Aleksandra', 'Kaczmarek', '567890123', 'aleksandra.kaczmarek@gmail.com', '57062166566', 'RECEPTIONIST', 5, 22),
+    ('RECEPTIONIST', 'Patrycja', 'Kowalczyk', '678901234', 'patrycja.kowalczyk@gmail.com', '60111349665', 'RECEPTIONIST', 6, 23);
 
 insert into users
 values

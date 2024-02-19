@@ -37,11 +37,11 @@ values
     ('Oddział okulistyczny №3', 'OPHTHALMOLOGY', false, 5),
     ('Oddział psychologii №1', 'PSYCHOLOGY', false, 6);
 
--- Sample doctors/users
-insert into doctors(first_name, last_name, phone_number, email, pesel, occupation, id_department, id_address)
-values
-    ('Marta', 'Stachyra', '321796584', 'marta.stachyra@gmail.com', '66020735162', 'HEAD_OF_DEPARTMENT', 1, 7),
-    ('Piotr', 'Raczkowski', '964753791', 'piotr.raczkowski@gmail.com', '97030218817', 'SPECIALIST', 1, 8);
+-- Sample employees/users
+INSERT INTO employees(employee_type, first_name, last_name, phone_number, email, pesel, occupation, id_department, address_id)
+VALUES
+    ('DOCTOR', 'Marta', 'Stachyra', '321796584', 'marta.stachyra@gmail.com', '66020735162', 'HEAD_OF_DEPARTMENT', 1, 7),
+    ('DOCTOR', 'Piotr', 'Raczkowski', '964753791', 'piotr.raczkowski@gmail.com', '97030218817', 'SPECIALIST', 1, 8);
 
 insert into users
 values

@@ -1,6 +1,8 @@
 package com.bekrenov.clinic.model.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 import java.util.Objects;
@@ -8,12 +10,8 @@ import java.util.Objects;
 @Entity
 @Table(name="addresses")
 @Data
-public class Address {
+public class Address extends AbstractEntity {
     private static final String SIMPLE_ADDRESS_FORMAT = "ul. %s %s";
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(name="city")
     private String city;
