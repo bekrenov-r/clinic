@@ -1,0 +1,9 @@
+Dear %s!
+
+Your appointment is cancelled:
+Department - %s
+Doctor - %s
+Date and time - %s
+
+Best regards,
+MedicaPlus team.

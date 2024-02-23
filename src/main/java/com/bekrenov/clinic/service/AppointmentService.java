@@ -92,6 +92,15 @@ public class AppointmentService {
         return appointmentMapper.entityToResponse(appointmentRepository.save(appointment));
     }
 
+    public void confirmAppointment(Long id) {
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new ClinicEntityNotFoundException(APPOINTMENT, id));
+        assertAppointmentCanBeConfirmed(appointment);
+        appointment.setStatus(AppointmentStatus.CONFIRMED);
+        appointmentRepository.save(appointment);
+        mailService.sendEmailWithAppointment(appointment);
+    }
+
     public void cancelAppointment(Long id) {
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new ClinicEntityNotFoundException(APPOINTMENT, id));
@@ -99,6 +108,7 @@ public class AppointmentService {
         assertAppointmentCanBeCancelled(appointment);
         appointment.setStatus(AppointmentStatus.CANCELLED);
         appointmentRepository.save(appointment);
+        mailService.sendEmailWithAppointment(appointment);
     }
 
     private List<AppointmentShortResponse> getAllAppointmentsForDoctor(AppointmentStatus status) {
@@ -161,5 +171,10 @@ public class AppointmentService {
         AppointmentStatus status = appointment.getStatus();
         if(status.equals(AppointmentStatus.CANCELLED) || status.equals(AppointmentStatus.FINISHED))
             throw new ClinicApplicationException(CANNOT_CANCEL_APPOINTMENT);
+    }
+
+    private void assertAppointmentCanBeConfirmed(Appointment appointment) {
+        if(!appointment.getStatus().equals(AppointmentStatus.PENDING))
+            throw new ClinicApplicationException(CANNOT_CONFIRM_APPOINTMENT);
     }
 }

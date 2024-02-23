@@ -19,7 +19,8 @@ public enum ClinicApplicationExceptionReason implements ExceptionReasonPolicy {
     PATIENT_ALREADY_HAS_APPOINTMENT_AT_DATETIME("This patient already has an appointment on date [%s] at [%s]", HttpStatus.CONFLICT),
     DEPARTMENT_WITH_NAME_ALREADY_EXISTS("Department with name [%s] already exists", HttpStatus.CONFLICT),
     DEPARTMENT_WITH_ADDRESS_ALREADY_EXISTS("Department at this address already exists", HttpStatus.CONFLICT),
-    CANNOT_CANCEL_APPOINTMENT("Only appointments with status PENDING or CONFIRMED can be cancelled", HttpStatus.BAD_REQUEST);
+    CANNOT_CANCEL_APPOINTMENT("Only appointments with status PENDING or CONFIRMED can be cancelled", HttpStatus.BAD_REQUEST),
+    CANNOT_CONFIRM_APPOINTMENT("Only appointments with status PENDING can be confirmed", HttpStatus.BAD_REQUEST);
 
     private final String message;
     private final HttpStatus status;

@@ -19,6 +19,7 @@ public class MailService {
     private static final String EMAIL_TEMPLATES_RESOURCE_PATH = "/email_templates";
     private static final String PENDING_APPOINTMENT_TEMPLATE_NAME = "/pending-appointment.txt";
     private static final String CONFIRMED_APPOINTMENT_TEMPLATE_NAME = "/confirmed-appointment.txt";
+    private static final String CANCELLED_APPOINTMENT_TEMPLATE_NAME = "/cancelled-appointment.txt";
 
     @Value("${spring.mail.username}")
     private String fromAddress;
@@ -59,6 +60,7 @@ public class MailService {
         String templatePath = switch (status) {
             case PENDING -> PENDING_APPOINTMENT_TEMPLATE_NAME;
             case CONFIRMED -> CONFIRMED_APPOINTMENT_TEMPLATE_NAME;
+            case CANCELLED -> CANCELLED_APPOINTMENT_TEMPLATE_NAME;
             default -> throw new IllegalArgumentException();
         };
         return EMAIL_TEMPLATES_RESOURCE_PATH + templatePath;

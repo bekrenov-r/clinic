@@ -44,6 +44,15 @@ public class AppointmentController {
                 .body(appointmentService.createAppointmentAsPatient(request));
     }
 
+    @PatchMapping("/{id}/confirm")
+    @Secured({"DOCTOR", "RECEPTIONIST"})
+    public ResponseEntity<Void> confirmAppointment(@PathVariable Long id){
+        appointmentService.confirmAppointment(id);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
+
     @DeleteMapping("/{id}/cancel")
     @Secured("PATIENT")
     public ResponseEntity<Void> cancelAppointment(@PathVariable Long id){
