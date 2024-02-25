@@ -1,6 +1,7 @@
 package com.bekrenov.clinic.controller;
 
 import com.bekrenov.clinic.dto.request.DepartmentRequest;
+import com.bekrenov.clinic.dto.response.DepartmentDetailedResponse;
 import com.bekrenov.clinic.dto.response.DepartmentResponse;
 import com.bekrenov.clinic.model.entity.Department;
 import com.bekrenov.clinic.service.DepartmentService;
@@ -27,6 +28,12 @@ public class DepartmentController {
     @GetMapping(params = "spec")
     public ResponseEntity<List<DepartmentResponse>> getAllDepartments(@RequestParam("spec") Department.Specialization specialization){
         return ResponseEntity.ok(departmentService.getAllDepartmentsBySpecialization(specialization));
+    }
+
+    @GetMapping("/{id}")
+    @Secured({"ADMIN", "HEAD_OF_DEPARTMENT"})
+    public ResponseEntity<DepartmentDetailedResponse> getDepartmentById(@PathVariable Long id){
+        return ResponseEntity.ok(departmentService.getDepartmentById(id));
     }
 
     @PostMapping

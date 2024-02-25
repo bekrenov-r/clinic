@@ -1,6 +1,5 @@
 package com.bekrenov.clinic.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,6 +18,5 @@ public class Employee extends Person {
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "id_department", referencedColumnName = "id")
-    @JsonIgnore
     protected Department department;
 }

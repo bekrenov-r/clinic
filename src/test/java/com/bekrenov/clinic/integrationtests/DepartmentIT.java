@@ -97,7 +97,6 @@ public class DepartmentIT {
             assertNotNull(responseJson.read("$.id"));
             assertThat(responseJson.read("$.name"), is("Oddział psychologii №2"));
             assertThat(responseJson.read("$.specialization"), is("PSYCHOLOGY"));
-            assertThat(responseJson.read("$.autoConfirmAppointment"), is(true));
             assertNotNull(responseJson.read("$.address"));
         }
 

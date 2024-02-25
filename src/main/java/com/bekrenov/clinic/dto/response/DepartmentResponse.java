@@ -6,6 +6,5 @@ public record DepartmentResponse(
         Long id,
         String name,
         String specialization,
-        Boolean autoConfirmAppointment,
         Address address
 ) { }

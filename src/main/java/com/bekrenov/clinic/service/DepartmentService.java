@@ -2,6 +2,7 @@ package com.bekrenov.clinic.service;
 
 import com.bekrenov.clinic.dto.mapper.DepartmentMapper;
 import com.bekrenov.clinic.dto.request.DepartmentRequest;
+import com.bekrenov.clinic.dto.response.DepartmentDetailedResponse;
 import com.bekrenov.clinic.dto.response.DepartmentResponse;
 import com.bekrenov.clinic.exception.ClinicApplicationException;
 import com.bekrenov.clinic.exception.ClinicEntityNotFoundException;
@@ -33,6 +34,12 @@ public class DepartmentService {
         return departmentRepository.findAllBySpecialization(specialization).stream()
                 .map(departmentMapper::entityToResponse)
                 .toList();
+    }
+
+    public DepartmentDetailedResponse getDepartmentById(Long id) {
+        Department department = departmentRepository.findById(id)
+                .orElseThrow(() -> new ClinicEntityNotFoundException(DEPARTMENT, id));
+        return departmentMapper.entityToDetailedResponse(department);
     }
 
     public DepartmentResponse createDepartment(DepartmentRequest request) {
