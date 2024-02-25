@@ -88,6 +88,7 @@ public class ClinicResponseEntityExceptionHandler extends ResponseEntityExceptio
 
     @ExceptionHandler(JwtException.class)
     public ResponseEntity<ErrorResponse> handleJwtException(JwtException ex){
+        this.logException(ex);
         ErrorResponse response = ErrorResponse
                 .builder()
                 .message(ex.getMessage())
@@ -99,6 +100,7 @@ public class ClinicResponseEntityExceptionHandler extends ResponseEntityExceptio
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex){
+        this.logException(ex);
         StringBuilder message = new StringBuilder("Errors:");
         for(ConstraintViolation<?> cv : ex.getConstraintViolations()){
             message
@@ -123,6 +125,7 @@ public class ClinicResponseEntityExceptionHandler extends ResponseEntityExceptio
 
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request){
+        this.logException(ex);
         StringBuilder message = new StringBuilder("Errors:");
         for(FieldError error : ex.getFieldErrors()){
             message

@@ -6,6 +6,7 @@ import com.bekrenov.clinic.dto.response.AppointmentResponse;
 import com.bekrenov.clinic.dto.response.AppointmentShortResponse;
 import com.bekrenov.clinic.model.enums.AppointmentStatus;
 import com.bekrenov.clinic.service.AppointmentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class AppointmentController {
 
     @PostMapping("/doctor")
     @Secured("DOCTOR")
-    public ResponseEntity<AppointmentResponse> createAppointmentAsDoctor(@RequestBody AppointmentRequestByDoctor request){
+    public ResponseEntity<AppointmentResponse> createAppointmentAsDoctor(@RequestBody @Valid AppointmentRequestByDoctor request){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(appointmentService.createAppointmentAsDoctor(request));
@@ -38,7 +39,7 @@ public class AppointmentController {
 
     @PostMapping("/patient")
     @Secured("PATIENT")
-    public ResponseEntity<AppointmentResponse> createAppointmentAsPatient(@RequestBody AppointmentRequestByPatient request){
+    public ResponseEntity<AppointmentResponse> createAppointmentAsPatient(@RequestBody @Valid AppointmentRequestByPatient request){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(appointmentService.createAppointmentAsPatient(request));
