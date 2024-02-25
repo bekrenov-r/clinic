@@ -17,6 +17,7 @@ import com.bekrenov.clinic.repository.DepartmentRepository;
 import com.bekrenov.clinic.repository.DoctorRepository;
 import com.bekrenov.clinic.repository.PatientRepository;
 import com.bekrenov.clinic.security.Role;
+import com.bekrenov.clinic.util.AppointmentSortComparator;
 import com.bekrenov.clinic.util.CurrentUserUtil;
 import com.bekrenov.clinic.util.MailService;
 import com.bekrenov.clinic.util.PageUtil;
@@ -51,9 +52,11 @@ public class AppointmentService {
     public Page<AppointmentShortResponse> getAllAppointmentsForCurrentUser(
             Integer page, AppointmentStatus status
     ) {
-        List<AppointmentShortResponse> appointments = currentUserUtil.getCurrentUserRoles().contains(Role.DOCTOR)
-                ? getAllAppointmentsForDoctor(status)
-                : getAllAppointmentsForPatient(status);
+        List<AppointmentShortResponse> appointments  = getAllAppointmentsDependingOnRole().stream()
+                .filter(a -> status == null || a.getStatus().equals(status))
+                .sorted(new AppointmentSortComparator())
+                .map(appointmentMapper::entityToShortResponse)
+                .toList();
         return PageUtil.paginateList(appointments, page, pageSize);
     }
 
@@ -111,22 +114,15 @@ public class AppointmentService {
         mailService.sendEmailWithAppointment(appointment);
     }
 
-    private List<AppointmentShortResponse> getAllAppointmentsForDoctor(AppointmentStatus status) {
-        Doctor doctor = doctorRepository.findByEmail(currentUserUtil.getCurrentUser().getUsername());
-        return appointmentRepository.findAllByDoctor(doctor)
-                .stream()
-                .filter(a -> status == null || a.getStatus().equals(status))
-                .map(appointmentMapper::entityToShortResponse)
-                .toList();
-    }
-
-    private List<AppointmentShortResponse> getAllAppointmentsForPatient(AppointmentStatus status) {
-        Patient patient = patientRepository.findByEmail(currentUserUtil.getCurrentUser().getUsername());
-        return appointmentRepository.findAllByPatient(patient)
-                .stream()
-                .filter(a -> status == null || a.getStatus().equals(status))
-                .map(appointmentMapper::entityToShortResponse)
-                .toList();
+    private List<Appointment> getAllAppointmentsDependingOnRole(){
+        String username = currentUserUtil.getCurrentUser().getUsername();
+        if(currentUserUtil.getCurrentUserRoles().contains(Role.DOCTOR)){
+            Doctor doctor = doctorRepository.findByEmail(username);
+            return appointmentRepository.findAllByDoctor(doctor);
+        } else {
+            Patient patient = patientRepository.findByEmail(currentUserUtil.getCurrentUser().getUsername());
+            return appointmentRepository.findAllByPatient(patient);
+        }
     }
 
     private Doctor resolveDoctorFromRequest(AppointmentRequestByPatient request, Department department){

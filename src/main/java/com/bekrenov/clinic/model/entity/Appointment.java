@@ -10,7 +10,8 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "appointments")
 @Data
-@EqualsAndHashCode(callSuper = true)@Builder
+@EqualsAndHashCode(callSuper = true)
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Appointment extends AbstractEntity {
