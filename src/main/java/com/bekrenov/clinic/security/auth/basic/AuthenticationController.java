@@ -1,4 +1,4 @@
-package com.bekrenov.clinic.security.auth;
+package com.bekrenov.clinic.security.auth.basic;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
