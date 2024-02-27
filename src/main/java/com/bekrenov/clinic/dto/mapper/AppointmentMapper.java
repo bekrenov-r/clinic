@@ -4,6 +4,7 @@ import com.bekrenov.clinic.dto.request.AppointmentRequestByDoctor;
 import com.bekrenov.clinic.dto.request.AppointmentRequestByPatient;
 import com.bekrenov.clinic.dto.response.AppointmentResponse;
 import com.bekrenov.clinic.dto.response.AppointmentShortResponse;
+import com.bekrenov.clinic.model.entity.Address;
 import com.bekrenov.clinic.model.entity.Appointment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -23,6 +24,7 @@ public abstract class AppointmentMapper {
 
     @Mapping(target = "startTime", source = "time")
     @Mapping(target = "endTime", source = "time", qualifiedByName = "calculateEndTime")
+    @Mapping(target = "departmentAddress", source = "department.address", qualifiedByName = "mapDepartmentAddress")
     public abstract AppointmentShortResponse entityToShortResponse(Appointment entity);
 
     public abstract Appointment requestByDoctorToEntity(AppointmentRequestByDoctor request);
@@ -32,5 +34,10 @@ public abstract class AppointmentMapper {
     @Named("calculateEndTime")
     protected LocalTime calculateEndTime(LocalTime time){
         return time.plusMinutes(visitDurationMinutes);
+    }
+
+    @Named("mapDepartmentAddress")
+    protected String mapDepartmentAddress(Address address){
+        return address.toSimpleString();
     }
 }
