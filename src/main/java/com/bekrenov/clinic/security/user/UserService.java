@@ -4,21 +4,18 @@ import com.bekrenov.clinic.dto.request.RegistrationRequest;
 import com.bekrenov.clinic.exception.ClinicEntityNotFoundException;
 import com.bekrenov.clinic.model.entity.ActivationToken;
 import com.bekrenov.clinic.repository.ActivationTokenRepository;
-import com.bekrenov.clinic.security.Role;
 import com.bekrenov.clinic.util.MailService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Collection;
 
 import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.ACTIVATION_TOKEN;
 
@@ -30,11 +27,15 @@ public class UserService {
     private final ActivationTokenRepository activationTokenRepository;
     private final MailService mailService;
 
-    public void createUser(RegistrationRequest request, Set<Role> roles, boolean needsActivation) {
+    public void createUser(
+            RegistrationRequest request,
+            Collection<GrantedAuthority> authorities,
+            boolean needsActivation
+    ) {
         UserDetails user = User.builder()
                 .username(request.email())
                 .password(passwordEncoder.encode(request.password()))
-                .authorities(parseAuthorities(roles))
+                .authorities(authorities)
                 .disabled(needsActivation)
                 .build();
         userDetailsManager.createUser(user);
@@ -74,12 +75,5 @@ public class UserService {
                 .build();
         activationTokenRepository.save(activationToken);
         return token;
-    }
-
-    private Set<GrantedAuthority> parseAuthorities(Set<Role> roles){
-        return roles.stream()
-                .map(Role::name)
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toSet());
     }
 }

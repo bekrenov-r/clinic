@@ -4,6 +4,7 @@ import com.bekrenov.clinic.security.Role;
 import io.jsonwebtoken.Claims;
 import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,7 +16,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     private String jwt;
     private String principal;
 
-    private static final Function<Claims, Collection<Role>> extractRoles = claims -> {
+    private static final Function<Claims, Collection<GrantedAuthority>> extractAuthorities = claims -> {
         String[] rolesStr = claims.get("roles", String.class).split(",");
         return Arrays.stream(rolesStr)
                 .map(Role::valueOf)
@@ -23,7 +24,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     };
 
     public JwtAuthenticationToken(String jwtToken, JwtProvider jwtProvider){
-        super(jwtProvider.getClaimFromToken(jwtToken, extractRoles));
+        super(jwtProvider.getClaimFromToken(jwtToken, extractAuthorities));
         this.principal = jwtProvider.getSubject(jwtToken);
         this.jwt = jwtToken;
     }
