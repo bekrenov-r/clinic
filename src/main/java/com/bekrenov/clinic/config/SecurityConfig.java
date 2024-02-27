@@ -7,6 +7,7 @@ import com.bekrenov.clinic.security.auth.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -28,6 +29,7 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 @EnableMethodSecurity(securedEnabled = true)
+@EnableScheduling
 public class SecurityConfig {
     private final JwtProvider jwtProvider;
     private final JdbcUserDetailsManager jdbcUserDetailsManager;
