@@ -54,6 +54,15 @@ public class AppointmentController {
                 .build();
     }
 
+    @PatchMapping("/{id}/finish")
+    @Secured("DOCTOR")
+    public ResponseEntity<Void> finishAppointment(@PathVariable Long id){
+        appointmentService.finishAppointment(id);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
+
     @DeleteMapping("/{id}/cancel")
     @Secured("PATIENT")
     public ResponseEntity<Void> cancelAppointment(@PathVariable Long id){

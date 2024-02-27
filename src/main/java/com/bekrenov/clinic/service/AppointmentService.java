@@ -97,10 +97,20 @@ public class AppointmentService {
     public void confirmAppointment(Long id) {
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new ClinicEntityNotFoundException(APPOINTMENT, id));
+        assertDoctorIsAppointmentOwner(appointment);
         assertAppointmentCanBeConfirmed(appointment);
         appointment.setStatus(AppointmentStatus.CONFIRMED);
         appointmentRepository.save(appointment);
         mailService.sendEmailWithAppointment(appointment);
+    }
+
+    public void finishAppointment(Long id) {
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new ClinicEntityNotFoundException(APPOINTMENT, id));
+        assertDoctorIsAppointmentOwner(appointment);
+        assertAppointmentCanBeFinished(appointment);
+        appointment.setStatus(AppointmentStatus.FINISHED);
+        appointmentRepository.save(appointment);
     }
 
     public void cancelAppointment(Long id) {
@@ -162,10 +172,21 @@ public class AppointmentService {
             throw new ClinicApplicationException(NOT_ENTITY_OWNER);
     }
 
+    private void assertDoctorIsAppointmentOwner(Appointment appointment){
+        Doctor doctor = doctorRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
+        if(!appointment.getDoctor().equals(doctor))
+            throw new ClinicApplicationException(NOT_ENTITY_OWNER);
+    }
+
     private void assertAppointmentCanBeCancelled(Appointment appointment) {
         AppointmentStatus status = appointment.getStatus();
         if(status.equals(AppointmentStatus.CANCELLED) || status.equals(AppointmentStatus.FINISHED))
             throw new ClinicApplicationException(CANNOT_CANCEL_APPOINTMENT);
+    }
+
+    private void assertAppointmentCanBeFinished(Appointment appointment) {
+        if(!appointment.getStatus().equals(AppointmentStatus.CONFIRMED))
+            throw new ClinicApplicationException(CANNOT_FINISH_APPOINTMENT);
     }
 
     private void assertAppointmentCanBeConfirmed(Appointment appointment) {
