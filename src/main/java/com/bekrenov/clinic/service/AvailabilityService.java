@@ -1,7 +1,6 @@
 package com.bekrenov.clinic.service;
 
 import com.bekrenov.clinic.exception.ClinicApplicationException;
-import com.bekrenov.clinic.exception.ClinicEntityNotFoundException;
 import com.bekrenov.clinic.model.entity.Appointment;
 import com.bekrenov.clinic.model.entity.Department;
 import com.bekrenov.clinic.model.entity.Doctor;
@@ -23,8 +22,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason.APPOINTMENT_TIME_IS_NOT_AVAILABLE;
-import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.DEPARTMENT;
-import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.DOCTOR;
 
 @Service
 @RequiredArgsConstructor
@@ -50,8 +47,7 @@ public class AvailabilityService {
     private Set<LocalTime> allTimes;
 
     public Set<LocalTime> getAvailableTimesByDepartment(Long departmentId, LocalDate date) {
-        Department department = departmentRepository.findById(departmentId)
-                .orElseThrow(() -> new ClinicEntityNotFoundException(DEPARTMENT, departmentId));
+        Department department = departmentRepository.findByIdOrThrowDefault(departmentId);
         List<Doctor> doctors = doctorRepository.findByDepartment(department);
 
         return doctors.stream()
@@ -61,8 +57,7 @@ public class AvailabilityService {
     }
 
     public Set<LocalTime> getAvailableTimesByDoctor(Long doctorId, LocalDate date) {
-        Doctor doctor = doctorRepository.findById(doctorId)
-                .orElseThrow(() -> new ClinicEntityNotFoundException(DOCTOR, doctorId));
+        Doctor doctor = doctorRepository.findByIdOrThrowDefault(doctorId);
         return getAvailableTimesByDoctor(doctor, date);
     }
 

@@ -6,7 +6,6 @@ import com.bekrenov.clinic.dto.request.AppointmentRequestByPatient;
 import com.bekrenov.clinic.dto.response.AppointmentResponse;
 import com.bekrenov.clinic.dto.response.AppointmentShortResponse;
 import com.bekrenov.clinic.exception.ClinicApplicationException;
-import com.bekrenov.clinic.exception.ClinicEntityNotFoundException;
 import com.bekrenov.clinic.model.entity.*;
 import com.bekrenov.clinic.model.enums.AppointmentStatus;
 import com.bekrenov.clinic.repository.AppointmentRepository;
@@ -27,7 +26,6 @@ import java.util.function.Predicate;
 
 import static com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason.DOCTOR_IS_NOT_FROM_DEPARTMENT;
 import static com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason.NO_AVAILABLE_DOCTORS_IN_DEPARTMENT;
-import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.*;
 
 @Service
 @RequiredArgsConstructor
@@ -55,8 +53,7 @@ public class AppointmentService {
     }
 
     public AppointmentResponse getAppointmentById(Long id) {
-        Appointment appointment = appointmentRepository.findById(id)
-                .orElseThrow(() -> new ClinicEntityNotFoundException(APPOINTMENT, id));
+        Appointment appointment = appointmentRepository.findByIdOrThrowDefault(id);
         Person currentPerson = CurrentAuthUtil.hasAuthority(Role.DOCTOR)
                 ? doctorRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName())
                 : patientRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
@@ -68,8 +65,7 @@ public class AppointmentService {
         Appointment appointment = appointmentMapper.requestByDoctorToEntity(request);
         Doctor doctor = doctorRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
         availabilityService.validateAvailabilityByDoctor(doctor, request.date(), request.time());
-        Patient patient = patientRepository.findById(request.patientId())
-                .orElseThrow(() -> new ClinicEntityNotFoundException(PATIENT, request.patientId()));
+        Patient patient = patientRepository.findByIdOrThrowDefault(request.patientId());
         AppointmentAssert.assertPatientHasNoAppointmentAtDateTime(patient, request.date(), request.time());
 
         appointment.setDoctor(doctor);
@@ -82,8 +78,7 @@ public class AppointmentService {
 
     public AppointmentResponse createAppointmentAsPatient(AppointmentRequestByPatient request) {
         Appointment appointment = appointmentMapper.requestByPatientToEntity(request);
-        Department department = departmentRepository.findById(request.departmentId())
-                .orElseThrow(() -> new ClinicEntityNotFoundException(DEPARTMENT, request.departmentId()));
+        Department department = departmentRepository.findByIdOrThrowDefault(request.departmentId());
         Doctor doctor = resolveDoctorFromRequest(request, department);
         Patient patient = patientRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
         AppointmentAssert.assertPatientHasNoAppointmentAtDateTime(patient, request.date(), request.time());
@@ -100,8 +95,7 @@ public class AppointmentService {
     }
 
     public void confirmAppointment(Long id) {
-        Appointment appointment = appointmentRepository.findById(id)
-                .orElseThrow(() -> new ClinicEntityNotFoundException(APPOINTMENT, id));
+        Appointment appointment = appointmentRepository.findByIdOrThrowDefault(id);
         Doctor doctor = doctorRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
         AppointmentAssert.assertDoctorIsAppointmentOwner(appointment, doctor);
         AppointmentAssert.assertAppointmentCanBeConfirmed(appointment);
@@ -111,8 +105,7 @@ public class AppointmentService {
     }
 
     public void finishAppointment(Long id) {
-        Appointment appointment = appointmentRepository.findById(id)
-                .orElseThrow(() -> new ClinicEntityNotFoundException(APPOINTMENT, id));
+        Appointment appointment = appointmentRepository.findByIdOrThrowDefault(id);
         Doctor doctor = doctorRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
         AppointmentAssert.assertDoctorIsAppointmentOwner(appointment, doctor);
         AppointmentAssert.assertAppointmentCanBeFinished(appointment);
@@ -121,8 +114,7 @@ public class AppointmentService {
     }
 
     public void cancelAppointment(Long id) {
-        Appointment appointment = appointmentRepository.findById(id)
-                .orElseThrow(() -> new ClinicEntityNotFoundException(APPOINTMENT, id));
+        Appointment appointment = appointmentRepository.findByIdOrThrowDefault(id);
         Patient patient = patientRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
         AppointmentAssert.assertPatientIsAppointmentOwner(appointment, patient);
         AppointmentAssert.assertAppointmentCanBeCancelled(appointment);
@@ -146,8 +138,7 @@ public class AppointmentService {
         if(request.anyDoctor()){
             return findAnyDoctorForAppointment(department, request.date(), request.time());
         } else {
-            Doctor doctor = doctorRepository.findById(request.doctorId())
-                    .orElseThrow(() -> new ClinicEntityNotFoundException(DOCTOR, request.doctorId()));
+            Doctor doctor = doctorRepository.findByIdOrThrowDefault(request.doctorId());
             assertDoctorIsFromDepartment(doctor, department);
             availabilityService.validateAvailabilityByDoctor(doctor, request.date(), request.time());
             return doctor;

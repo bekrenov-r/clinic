@@ -5,7 +5,6 @@ import com.bekrenov.clinic.dto.request.DepartmentRequest;
 import com.bekrenov.clinic.dto.response.DepartmentDetailedResponse;
 import com.bekrenov.clinic.dto.response.DepartmentResponse;
 import com.bekrenov.clinic.exception.ClinicApplicationException;
-import com.bekrenov.clinic.exception.ClinicEntityNotFoundException;
 import com.bekrenov.clinic.model.entity.Department;
 import com.bekrenov.clinic.repository.DepartmentRepository;
 import com.bekrenov.clinic.validation.DepartmentValidator;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason.CANNOT_DELETE_DEPARTMENT_WITH_EMPLOYEES;
-import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.DEPARTMENT;
 
 @Service
 @RequiredArgsConstructor
@@ -37,8 +35,7 @@ public class DepartmentService {
     }
 
     public DepartmentDetailedResponse getDepartmentById(Long id) {
-        Department department = departmentRepository.findById(id)
-                .orElseThrow(() -> new ClinicEntityNotFoundException(DEPARTMENT, id));
+        Department department = departmentRepository.findByIdOrThrowDefault(id);
         return departmentMapper.entityToDetailedResponse(department);
     }
 
@@ -49,8 +46,7 @@ public class DepartmentService {
     }
 
     public void deleteDepartment(Long id) {
-        Department department = departmentRepository.findById(id)
-                .orElseThrow(() -> new ClinicEntityNotFoundException(DEPARTMENT, id));
+        Department department = departmentRepository.findByIdOrThrowDefault(id);
         assertDepartmentHasNoEmployees(department);
         departmentRepository.delete(department);
     }
