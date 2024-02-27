@@ -7,20 +7,14 @@ import com.bekrenov.clinic.dto.response.AppointmentResponse;
 import com.bekrenov.clinic.dto.response.AppointmentShortResponse;
 import com.bekrenov.clinic.exception.ClinicApplicationException;
 import com.bekrenov.clinic.exception.ClinicEntityNotFoundException;
-import com.bekrenov.clinic.model.entity.Appointment;
-import com.bekrenov.clinic.model.entity.Department;
-import com.bekrenov.clinic.model.entity.Doctor;
-import com.bekrenov.clinic.model.entity.Patient;
+import com.bekrenov.clinic.model.entity.*;
 import com.bekrenov.clinic.model.enums.AppointmentStatus;
 import com.bekrenov.clinic.repository.AppointmentRepository;
 import com.bekrenov.clinic.repository.DepartmentRepository;
 import com.bekrenov.clinic.repository.DoctorRepository;
 import com.bekrenov.clinic.repository.PatientRepository;
 import com.bekrenov.clinic.security.Role;
-import com.bekrenov.clinic.util.AppointmentSortComparator;
-import com.bekrenov.clinic.util.CurrentAuthUtil;
-import com.bekrenov.clinic.util.MailService;
-import com.bekrenov.clinic.util.PageUtil;
+import com.bekrenov.clinic.util.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -31,7 +25,8 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason.*;
+import static com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason.DOCTOR_IS_NOT_FROM_DEPARTMENT;
+import static com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason.NO_AVAILABLE_DOCTORS_IN_DEPARTMENT;
 import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.*;
 
 @Service
@@ -59,13 +54,23 @@ public class AppointmentService {
         return PageUtil.paginateList(appointments, page, pageSize);
     }
 
+    public AppointmentResponse getAppointmentById(Long id) {
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new ClinicEntityNotFoundException(APPOINTMENT, id));
+        Person currentPerson = CurrentAuthUtil.hasAuthority(Role.DOCTOR)
+                ? doctorRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName())
+                : patientRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
+        AppointmentAssert.assertPersonIsAppointmentOwner(appointment, currentPerson);
+        return appointmentMapper.entityToResponse(appointment);
+    }
+
     public AppointmentResponse createAppointmentAsDoctor(AppointmentRequestByDoctor request) {
         Appointment appointment = appointmentMapper.requestByDoctorToEntity(request);
         Doctor doctor = doctorRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
         availabilityService.validateAvailabilityByDoctor(doctor, request.date(), request.time());
         Patient patient = patientRepository.findById(request.patientId())
                 .orElseThrow(() -> new ClinicEntityNotFoundException(PATIENT, request.patientId()));
-        assertPatientHasNoAppointmentAtDateTime(patient, request.date(), request.time());
+        AppointmentAssert.assertPatientHasNoAppointmentAtDateTime(patient, request.date(), request.time());
 
         appointment.setDoctor(doctor);
         appointment.setDepartment(doctor.getDepartment());
@@ -81,7 +86,7 @@ public class AppointmentService {
                 .orElseThrow(() -> new ClinicEntityNotFoundException(DEPARTMENT, request.departmentId()));
         Doctor doctor = resolveDoctorFromRequest(request, department);
         Patient patient = patientRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
-        assertPatientHasNoAppointmentAtDateTime(patient, request.date(), request.time());
+        AppointmentAssert.assertPatientHasNoAppointmentAtDateTime(patient, request.date(), request.time());
         AppointmentStatus status = department.getAutoConfirmAppointment()
                 ? AppointmentStatus.CONFIRMED
                 : AppointmentStatus.PENDING;
@@ -97,8 +102,9 @@ public class AppointmentService {
     public void confirmAppointment(Long id) {
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new ClinicEntityNotFoundException(APPOINTMENT, id));
-        assertDoctorIsAppointmentOwner(appointment);
-        assertAppointmentCanBeConfirmed(appointment);
+        Doctor doctor = doctorRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
+        AppointmentAssert.assertDoctorIsAppointmentOwner(appointment, doctor);
+        AppointmentAssert.assertAppointmentCanBeConfirmed(appointment);
         appointment.setStatus(AppointmentStatus.CONFIRMED);
         appointmentRepository.save(appointment);
         mailService.sendEmailWithAppointment(appointment);
@@ -107,8 +113,9 @@ public class AppointmentService {
     public void finishAppointment(Long id) {
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new ClinicEntityNotFoundException(APPOINTMENT, id));
-        assertDoctorIsAppointmentOwner(appointment);
-        assertAppointmentCanBeFinished(appointment);
+        Doctor doctor = doctorRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
+        AppointmentAssert.assertDoctorIsAppointmentOwner(appointment, doctor);
+        AppointmentAssert.assertAppointmentCanBeFinished(appointment);
         appointment.setStatus(AppointmentStatus.FINISHED);
         appointmentRepository.save(appointment);
     }
@@ -116,8 +123,9 @@ public class AppointmentService {
     public void cancelAppointment(Long id) {
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new ClinicEntityNotFoundException(APPOINTMENT, id));
-        assertPatientIsAppointmentOwner(appointment);
-        assertAppointmentCanBeCancelled(appointment);
+        Patient patient = patientRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
+        AppointmentAssert.assertPatientIsAppointmentOwner(appointment, patient);
+        AppointmentAssert.assertAppointmentCanBeCancelled(appointment);
         appointment.setStatus(AppointmentStatus.CANCELLED);
         appointmentRepository.save(appointment);
         mailService.sendEmailWithAppointment(appointment);
@@ -159,38 +167,5 @@ public class AppointmentService {
     private void assertDoctorIsFromDepartment(Doctor doctor, Department department){
         if(!doctor.getDepartment().equals(department))
             throw new ClinicApplicationException(DOCTOR_IS_NOT_FROM_DEPARTMENT, doctor.getId());
-    }
-
-    private void assertPatientHasNoAppointmentAtDateTime(Patient patient, LocalDate date, LocalTime time) {
-        if(appointmentRepository.existsByPatientAndDateAndTime(patient, date, time))
-            throw new ClinicApplicationException(PATIENT_ALREADY_HAS_APPOINTMENT_AT_DATETIME, date, time);
-    }
-
-    private void assertPatientIsAppointmentOwner(Appointment appointment) {
-        Patient patient = patientRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
-        if(!appointment.getPatient().equals(patient))
-            throw new ClinicApplicationException(NOT_ENTITY_OWNER);
-    }
-
-    private void assertDoctorIsAppointmentOwner(Appointment appointment){
-        Doctor doctor = doctorRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
-        if(!appointment.getDoctor().equals(doctor))
-            throw new ClinicApplicationException(NOT_ENTITY_OWNER);
-    }
-
-    private void assertAppointmentCanBeCancelled(Appointment appointment) {
-        AppointmentStatus status = appointment.getStatus();
-        if(status.equals(AppointmentStatus.CANCELLED) || status.equals(AppointmentStatus.FINISHED))
-            throw new ClinicApplicationException(CANNOT_CANCEL_APPOINTMENT);
-    }
-
-    private void assertAppointmentCanBeFinished(Appointment appointment) {
-        if(!appointment.getStatus().equals(AppointmentStatus.CONFIRMED))
-            throw new ClinicApplicationException(CANNOT_FINISH_APPOINTMENT);
-    }
-
-    private void assertAppointmentCanBeConfirmed(Appointment appointment) {
-        if(!appointment.getStatus().equals(AppointmentStatus.PENDING))
-            throw new ClinicApplicationException(CANNOT_CONFIRM_APPOINTMENT);
     }
 }

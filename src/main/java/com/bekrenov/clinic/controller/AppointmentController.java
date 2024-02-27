@@ -29,6 +29,12 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.getAllAppointmentsForCurrentUser(page, status));
     }
 
+    @GetMapping("/{id}")
+    @Secured({"DOCTOR", "PATIENT"})
+    public ResponseEntity<AppointmentResponse> getAppointmentById(@PathVariable Long id){
+        return ResponseEntity.ok(appointmentService.getAppointmentById(id));
+    }
+
     @PostMapping("/doctor")
     @Secured("DOCTOR")
     public ResponseEntity<AppointmentResponse> createAppointmentAsDoctor(@RequestBody @Valid AppointmentRequestByDoctor request){
