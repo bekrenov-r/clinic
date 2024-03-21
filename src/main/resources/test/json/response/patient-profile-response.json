@@ -1,0 +1,16 @@
+{
+  "firstName": "Zbigniew",
+  "lastName": "Reszka",
+  "pesel": "82081957619",
+  "phoneNumber": "321749870",
+  "email": "zbigniew.reszka@gmail.com",
+  "gender": "MALE",
+  "address": {
+    "id": 9,
+    "city": "Kraśnik",
+    "street": "Józefa Piłsudskiego",
+    "buildingNumber": "50",
+    "flatNumber": null,
+    "zipCode": "13-340"
+  }
+}

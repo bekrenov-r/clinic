@@ -25,7 +25,8 @@ values
     ('Lublin', 'Lubartowska', '47', null, '20-890'),
     ('Lublin', 'Doctora Witolda Chodźki', '12', null, '20-546'),
     ('Świdnik', 'Energetyków', '48', null, '19-621'),
-    ('Kraśnik', 'Józefa Piłsudskiego', '50', null, '13-340');
+    ('Kraśnik', 'Józefa Piłsudskiego', '50', null, '13-340'),
+    ('Lublin', 'Diamentowa', '67', '15A', '20-546');
 
 -- Sample departments
 insert into departments(name, specialization, auto_confirm_appointment, address_id)
@@ -41,18 +42,21 @@ values
 INSERT INTO employees(employee_type, first_name, last_name, phone_number, email, pesel, occupation, id_department, address_id)
 VALUES
     ('DOCTOR', 'Marta', 'Stachyra', '321796584', 'marta.stachyra@gmail.com', '66020735162', 'HEAD_OF_DEPARTMENT', 1, 7),
-    ('DOCTOR', 'Piotr', 'Raczkowski', '964753791', 'piotr.raczkowski@gmail.com', '97030218817', 'SPECIALIST', 1, 8);
+    ('DOCTOR', 'Piotr', 'Raczkowski', '964753791', 'piotr.raczkowski@gmail.com', '97030218817', 'SPECIALIST', 1, 8),
+    ('RECEPTIONIST', 'Zuzanna', 'Majchrzak', '123456789', 'zuzanna.majchrzak@gmail.com', '84091665966', 'RECEPTIONIST', 1, 10);
 
 insert into users
 values
     ('marta.stachyra@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
-    ('piotr.raczkowski@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1);
+    ('piotr.raczkowski@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
+    ('zuzanna.majchrzak@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1);
 
 insert into authorities
 values
     ('marta.stachyra@gmail.com', 'HEAD_OF_DEPARTMENT'),
     ('marta.stachyra@gmail.com', 'DOCTOR'),
-    ('piotr.raczkowski@gmail.com', 'DOCTOR');
+    ('piotr.raczkowski@gmail.com', 'DOCTOR'),
+    ('zuzanna.majchrzak@gmail.com', 'RECEPTIONIST');
 
 -- Sample patients/users
 insert into patients(first_name, last_name, pesel, phone_number, email, gender, address_id)
