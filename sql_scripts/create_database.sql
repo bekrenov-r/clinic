@@ -176,6 +176,7 @@ VALUES
     ('DOCTOR', 'Maria', 'Duda', '634785209', 'maria.duda@gmail.com', '88080769149', 'HEAD_OF_DEPARTMENT', 3, 15),
     ('DOCTOR', 'Marta', 'Wiśniewska', '679254091', 'marta.wisniewska@gmail.com', '60082661681', 'HEAD_OF_DEPARTMENT', 4, 16),
     ('DOCTOR', 'Aleksandr', 'Dudkiewicz', '637492048', 'aleksandr.dudkiewicz@gmail.com', '92092437839', 'HEAD_OF_DEPARTMENT', 5, 17),
+    ('DOCTOR', 'Marta', 'Gryniewicz', '832570120', 'marta.gryniewicz@gmail.com', '98052238148', 'HEAD_OF_DEPARTMENT', 5, 24),
     ('RECEPTIONIST', 'Zuzanna', 'Majchrzak', '123456789', 'zuzanna.majchrzak@gmail.com', '84091665966', 'RECEPTIONIST', 1, 18),
     ('RECEPTIONIST', 'Wiktoria', 'Szymańska', '234567890', 'wiktoria.szymanska@gmail.com', '77073069461', 'RECEPTIONIST', 2, 19),
     ('RECEPTIONIST', 'Gabriela', 'Woźniak', '345678901', 'gabriela.wozniak@gmail.com', '03312036226', 'RECEPTIONIST', 3, 20),
@@ -193,7 +194,12 @@ values
     ('maria.duda@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
     ('marta.wisniewska@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
     ('aleksandr.dudkiewicz@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
-    ('marta.gryniewicz@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1);
+    ('zuzanna.majchrzak@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
+    ('wiktoria.szymanska@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
+    ('gabriela.wozniak@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
+    ('natalia.zawadzka@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
+    ('aleksandra.kaczmarek@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1),
+    ('patrycja.kowalczyk@gmail.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1);
 
 insert into authorities
 values
@@ -211,7 +217,13 @@ values
     ('aleksandr.dudkiewicz@gmail.com', 'HEAD_OF_DEPARTMENT'),
     ('aleksandr.dudkiewicz@gmail.com', 'DOCTOR'),
     ('marta.gryniewicz@gmail.com', 'HEAD_OF_DEPARTMENT'),
-    ('marta.gryniewicz@gmail.com', 'DOCTOR');
+    ('marta.gryniewicz@gmail.com', 'DOCTOR'),
+    ('zuzanna.majchrzak@gmail.com', 'RECEPTIONIST'),
+    ('wiktoria.szymanska@gmail.com', 'RECEPTIONIST'),
+    ('gabriela.wozniak@gmail.com', 'RECEPTIONIST'),
+    ('natalia.zawadzka@gmail.com', 'RECEPTIONIST'),
+    ('aleksandra.kaczmarek@gmail.com', 'RECEPTIONIST'),
+    ('patrycja.kowalczyk@gmail.com', 'RECEPTIONIST');
 
 -- Sample appointments
 insert into appointments(appointment_time, appointment_date, status, prescription, details, id_department, id_patient, id_doctor)

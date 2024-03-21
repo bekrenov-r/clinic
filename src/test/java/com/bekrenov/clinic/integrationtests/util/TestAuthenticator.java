@@ -18,6 +18,8 @@ public class TestAuthenticator {
     private static final String DOCTOR_PASSWORD = "pass";
     private static final String HEAD_OF_DEPARTMENT_USERNAME = "marta.stachyra@gmail.com";
     private static final String HEAD_OF_DEPARTMENT_PASSWORD = "pass";
+    private static final String RECEPTIONIST_USERNAME = "zuzanna.majchrzak@gmail.com";
+    private static final String RECEPTIONIST_PASSWORD = "pass";
     private static final String BEARER_PREFIX = "Bearer ";
 
     @Value("${test.server.baseUrl}")
@@ -34,6 +36,7 @@ public class TestAuthenticator {
             case PATIENT -> authenticateAsPatient();
             case DOCTOR -> authenticateAsDoctor();
             case HEAD_OF_DEPARTMENT -> authenticateAsHeadOfDepartment();
+            case RECEPTIONIST -> authenticateAsReceptionist();
             default -> throw new UnsupportedOperationException();
         };
     }
@@ -52,6 +55,10 @@ public class TestAuthenticator {
 
     public String authenticateAsHeadOfDepartment() {
         return authenticate(HEAD_OF_DEPARTMENT_USERNAME, HEAD_OF_DEPARTMENT_PASSWORD);
+    }
+
+    public String authenticateAsReceptionist(){
+        return authenticate(RECEPTIONIST_USERNAME, RECEPTIONIST_PASSWORD);
     }
 
     private String authenticate(String username, String password){
