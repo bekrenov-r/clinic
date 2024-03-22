@@ -2,6 +2,7 @@ package com.bekrenov.clinic.integrationtests;
 
 import com.bekrenov.clinic.integrationtests.util.TestAuthenticator;
 import com.bekrenov.clinic.integrationtests.util.TestUtil;
+import com.bekrenov.clinic.model.entity.Department;
 import com.bekrenov.clinic.security.Role;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
@@ -147,6 +148,50 @@ public class DoctorIT {
 
             assertThat(response.getStatusCode(), is(HttpStatus.BAD_REQUEST));
             assertThat(responseJson.read("$.status"), is(HttpStatus.BAD_REQUEST.name()));
+        }
+    }
+
+    @Nested
+    class GetDoctorsBySpecialization {
+        @ParameterizedTest
+        @EnumSource(value = Department.Specialization.class)
+        public void getDoctorsBySpecialization_Basic(Department.Specialization specialization){
+            ResponseEntity<String> response = restTemplate.getForEntity(
+                    "/doctors/specialization?spec={spec}",
+                    String.class,
+                    specialization
+            );
+
+            assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        }
+    }
+
+    @Nested
+    class GetDoctorsByDepartment {
+        @Test
+        public void getDoctorsByDepartment_Basic(){
+            Long departmentId = 1L;
+            ResponseEntity<String> response = restTemplate.getForEntity(
+                    "/doctors/department/{departmentId}",
+                    String.class,
+                    departmentId
+            );
+
+            assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        }
+
+        @Test
+        public void getDoctorsByDepartment_ShouldReturn404_WhenDepartmentNotFound(){
+            Long departmentId = 111L;
+            ResponseEntity<String> response = restTemplate.getForEntity(
+                    "/doctors/department/{departmentId}",
+                    String.class,
+                    departmentId
+            );
+            DocumentContext responseJson = JsonPath.parse(response.getBody());
+
+            assertThat(response.getStatusCode(), is(HttpStatus.NOT_FOUND));
+            assertThat(responseJson.read("$.status"), is(HttpStatus.NOT_FOUND.name()));
         }
     }
 }
