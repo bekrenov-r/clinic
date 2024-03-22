@@ -10,6 +10,7 @@ import com.bekrenov.clinic.repository.DepartmentRepository;
 import com.bekrenov.clinic.repository.DoctorRepository;
 import com.bekrenov.clinic.security.Role;
 import com.bekrenov.clinic.util.CurrentAuthUtil;
+import com.bekrenov.clinic.validation.DoctorAssert;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -26,10 +27,18 @@ public class DoctorService {
     private final DoctorRepository doctorRepository;
     private final DoctorMapper doctorMapper;
 
+    public DoctorDetailedResponse getDoctorProfile() {
+        Doctor currentDoctor = doctorRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
+        return doctorMapper.entityToDetailedResponse(currentDoctor);
+    }
+
     public DoctorDetailedResponse getDoctorById(Long id) {
         Doctor doctor = doctorRepository.findByIdOrThrowDefault(id);
-        if(!CurrentAuthUtil.hasAuthority(Role.HEAD_OF_DEPARTMENT))
-            assertCurrentUserIsAccountOwner(doctor);
+
+        if(!CurrentAuthUtil.hasAuthority(Role.ADMIN)){
+            Doctor headOfDepartment = doctorRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
+            DoctorAssert.assertDoctorIsFromDepartment(doctor, headOfDepartment.getDepartment());
+        }
 
         return doctorMapper.entityToDetailedResponse(doctor);
     }
@@ -47,11 +56,5 @@ public class DoctorService {
         return doctorRepository.findBySpecialization(specialization).stream()
                 .map(doctorMapper::entityToPersonDto)
                 .toList();
-    }
-
-    private void assertCurrentUserIsAccountOwner(Doctor doctor) {
-        Authentication currentAuth = CurrentAuthUtil.getAuthentication();
-        if(!doctor.getEmail().equals(currentAuth.getName()))
-            throw new ClinicApplicationException(NOT_ENTITY_OWNER);
     }
 }

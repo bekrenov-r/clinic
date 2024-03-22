@@ -14,6 +14,8 @@ import com.bekrenov.clinic.repository.DoctorRepository;
 import com.bekrenov.clinic.repository.PatientRepository;
 import com.bekrenov.clinic.security.Role;
 import com.bekrenov.clinic.util.*;
+import com.bekrenov.clinic.validation.AppointmentAssert;
+import com.bekrenov.clinic.validation.DoctorAssert;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -139,7 +141,7 @@ public class AppointmentService {
             return findAnyDoctorForAppointment(department, request.date(), request.time());
         } else {
             Doctor doctor = doctorRepository.findByIdOrThrowDefault(request.doctorId());
-            assertDoctorIsFromDepartment(doctor, department);
+            DoctorAssert.assertDoctorIsFromDepartment(doctor, department);
             availabilityService.validateAvailabilityByDoctor(doctor, request.date(), request.time());
             return doctor;
         }
@@ -153,10 +155,5 @@ public class AppointmentService {
                 .filter(doctorIsAvailable)
                 .findAny()
                 .orElseThrow(() -> new ClinicApplicationException(NO_AVAILABLE_DOCTORS_IN_DEPARTMENT));
-    }
-
-    private void assertDoctorIsFromDepartment(Doctor doctor, Department department){
-        if(!doctor.getDepartment().equals(department))
-            throw new ClinicApplicationException(DOCTOR_IS_NOT_FROM_DEPARTMENT, doctor.getId());
     }
 }

@@ -18,8 +18,14 @@ import java.util.List;
 public class DoctorController {
     private final DoctorService doctorService;
 
+    @GetMapping("/profile")
+    @Secured("DOCTOR")
+    public ResponseEntity<DoctorDetailedResponse> getDoctorProfile(){
+        return ResponseEntity.ok(doctorService.getDoctorProfile());
+    }
+
     @GetMapping("/{id}")
-    @Secured({"DOCTOR", "HEAD_OF_DEPARTMENT"})
+    @Secured({"HEAD_OF_DEPARTMENT", "ADMIN"})
     public ResponseEntity<DoctorDetailedResponse> getDoctorById(@PathVariable Long id){
         return ResponseEntity.ok(doctorService.getDoctorById(id));
     }
