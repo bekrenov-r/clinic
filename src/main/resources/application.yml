@@ -53,6 +53,7 @@ spring:
         GET /doctors/department/**,
         GET /appointments/availability/**,
         GET /departments,
+        GET /holidays,
         GET /swagger-ui.html,
         GET /swagger-ui/**,
         GET /api-docs/**
@@ -79,7 +80,8 @@ spring:
         GET /doctors/specialization/**,
         GET /doctors/department/**,
         GET /appointments/availability/**,
-        GET /departments
+        GET /departments,
+        GET /holidays
 server:
   port: 8081
 ---
@@ -97,6 +99,7 @@ spring:
         GET /doctors/department/**,
         GET /appointments/availability/**,
         GET /departments,
+        GET /holidays,
         GET /swagger-ui.html,
         GET /swagger-ui/**,
         GET /api-docs/**,

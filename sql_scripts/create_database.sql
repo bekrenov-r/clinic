@@ -104,6 +104,11 @@ create table activation_tokens(
     foreign key (username) references users(username)
 );
 
+drop table if exists holidays;
+create table holidays(
+    holiday_date date
+);
+
 -- Sample departments
 insert into addresses(city, street, building_number, flat_number, zip_code)
 values
@@ -263,3 +268,5 @@ values
 -- Admin account
 insert into users values('jan.kowalski@example.com', '$2a$12$eZMj.VH/CNTunH6Q9TE/M.Ryr5svpD.3xdUwdZ6bKc9NrhUMxtO2C', 1);
 insert into authorities values('jan.kowalski@example.com', 'ADMIN');
+
+insert into holidays values('2024-01-01'), ('2024-01-06'), ('2024-03-31'), ('2024-04-01'), ('2024-05-01'), ('2024-05-03'), ('2024-05-19'), ('2024-05-30'), ('2024-08-15'), ('2024-11-01'), ('2024-11-11'), ('2024-12-25'), ('2024-12-26');
