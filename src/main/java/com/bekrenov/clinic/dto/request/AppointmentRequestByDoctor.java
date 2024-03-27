@@ -1,5 +1,6 @@
 package com.bekrenov.clinic.dto.request;
 
+import com.bekrenov.clinic.validation.annotation.WorkingDay;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 
@@ -8,6 +9,7 @@ import java.time.LocalTime;
 
 public record AppointmentRequestByDoctor(
         @FutureOrPresent
+        @WorkingDay
         @NotNull
         LocalDate date,
         @NotNull

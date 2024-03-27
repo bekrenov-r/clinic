@@ -1,6 +1,7 @@
 package com.bekrenov.clinic.controller;
 
 import com.bekrenov.clinic.service.AvailabilityService;
+import com.bekrenov.clinic.validation.annotation.WorkingDay;
 import jakarta.validation.constraints.FutureOrPresent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class AvailabilityController {
     @GetMapping("/department")
     public ResponseEntity<Set<LocalTime>> getAvailableTimesByDepartment(
             @RequestParam("departmentId") Long departmentId,
-            @RequestParam("date") @FutureOrPresent LocalDate date
+            @RequestParam("date") @WorkingDay @FutureOrPresent LocalDate date
     ){
         return ResponseEntity.ok(availabilityService.getAvailableTimesByDepartment(departmentId, date));
     }
@@ -32,7 +33,7 @@ public class AvailabilityController {
     @GetMapping("/doctor")
     public ResponseEntity<Set<LocalTime>> getAvailableTimesByDoctor(
             @RequestParam("doctorId") Long doctorId,
-            @RequestParam("date") @FutureOrPresent LocalDate date
+            @RequestParam("date") @WorkingDay @FutureOrPresent LocalDate date
     ){
         return ResponseEntity.ok(availabilityService.getAvailableTimesByDoctor(doctorId, date));
     }
