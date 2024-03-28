@@ -224,7 +224,7 @@ public class DepartmentIT {
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.AUTHORIZATION, testAuthenticator.authenticateAsAdmin());
             HttpEntity<Void> request = new HttpEntity<>(headers);
-            Long departmentId = 2L;
+            Long departmentId = 3L;
 
             ResponseEntity<Void> response = restTemplate.exchange(
                     "/departments/{id}", HttpMethod.DELETE, request, Void.class, departmentId

@@ -26,7 +26,8 @@ values
     ('Lublin', 'Doctora Witolda Chodźki', '12', null, '20-546'),
     ('Świdnik', 'Energetyków', '48', null, '19-621'),
     ('Kraśnik', 'Józefa Piłsudskiego', '50', null, '13-340'),
-    ('Lublin', 'Diamentowa', '67', '15A', '20-546');
+    ('Lublin', 'Diamentowa', '67', '15A', '20-546'),
+    ('Lublin', 'Krochmalna', '74', '87', '20-981');
 
 -- Sample departments
 insert into departments(name, specialization, auto_confirm_appointment, address_id)
@@ -43,6 +44,7 @@ INSERT INTO employees(employee_type, first_name, last_name, phone_number, email,
 VALUES
     ('DOCTOR', 'Marta', 'Stachyra', '321796584', 'marta.stachyra@gmail.com', '66020735162', 'HEAD_OF_DEPARTMENT', 1, 7),
     ('DOCTOR', 'Piotr', 'Raczkowski', '964753791', 'piotr.raczkowski@gmail.com', '97030218817', 'SPECIALIST', 1, 8),
+    ('DOCTOR', 'Lech', 'Gocłowski', '863102589', 'lech.goclowski@gmail.com', '89040453999', 'HEAD_OF_DEPARTMENT', 2, 11),
     ('RECEPTIONIST', 'Zuzanna', 'Majchrzak', '123456789', 'zuzanna.majchrzak@gmail.com', '84091665966', 'RECEPTIONIST', 1, 10);
 
 insert into users

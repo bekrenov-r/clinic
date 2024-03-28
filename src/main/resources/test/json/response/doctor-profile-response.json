@@ -1,16 +1,18 @@
 {
-  "firstName": "John",
-  "lastName": "Doe",
-  "phoneNumber": "347013485",
-  "email": "test@example.com",
-  "pesel": "80121192156",
+  "id": 2,
+  "firstName": "Piotr",
+  "lastName": "Raczkowski",
+  "phoneNumber": "964753791",
+  "email": "piotr.raczkowski@gmail.com",
+  "pesel": "97030218817",
   "occupation": "SPECIALIST",
   "address": {
-    "city": "Anytown",
-    "street": "123 Main St",
-    "buildingNumber": "12A",
+    "id": 8,
+    "city": "Świdnik",
+    "street": "Energetyków",
+    "buildingNumber": "48",
     "flatNumber": null,
-    "zipCode": "12-342"
+    "zipCode": "19-621"
   },
   "department": {
     "id": 1,

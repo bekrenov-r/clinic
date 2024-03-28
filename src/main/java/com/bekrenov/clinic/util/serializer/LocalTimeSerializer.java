@@ -1,4 +1,4 @@
-package com.bekrenov.clinic.util;
+package com.bekrenov.clinic.util.serializer;
 
 import java.io.IOException;
 import java.time.LocalTime;

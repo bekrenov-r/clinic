@@ -1,4 +1,4 @@
-package com.bekrenov.clinic.util;
+package com.bekrenov.clinic.validation;
 
 import com.bekrenov.clinic.exception.ClinicApplicationException;
 import com.bekrenov.clinic.model.entity.Appointment;
