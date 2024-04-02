@@ -1,5 +1,6 @@
 package com.bekrenov.clinic.integrationtests.util;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,6 +26,15 @@ public class JSONUtil {
             }
         } catch(Exception ex) {
             throw new RuntimeException(ex);
+        }
+    }
+
+    public static boolean isJsonArray(String str){
+        try {
+            new JSONArray(str);
+            return true;
+        } catch(JSONException ex){
+            return false;
         }
     }
 
