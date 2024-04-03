@@ -1,4 +1,4 @@
-package com.bekrenov.clinic.validation.annotation;
+package com.bekrenov.clinic.validation.constraint;
 
 import com.bekrenov.clinic.repository.HolidaysRepository;
 import jakarta.validation.ConstraintValidator;

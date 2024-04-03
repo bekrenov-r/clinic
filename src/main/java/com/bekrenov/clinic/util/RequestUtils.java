@@ -8,4 +8,8 @@ public class RequestUtils {
     public static HttpServletRequest getRequest(){
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     }
+
+    public static boolean requestHasHeader(String header){
+        return getRequest().getHeader(header) != null;
+    }
 }

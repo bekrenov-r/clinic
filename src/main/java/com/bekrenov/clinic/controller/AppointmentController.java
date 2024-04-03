@@ -6,12 +6,15 @@ import com.bekrenov.clinic.dto.response.AppointmentResponse;
 import com.bekrenov.clinic.dto.response.AppointmentShortResponse;
 import com.bekrenov.clinic.model.enums.AppointmentStatus;
 import com.bekrenov.clinic.service.AppointmentService;
+import com.bekrenov.clinic.validation.constraint.group.PatientRegistrationWithUser;
+import com.bekrenov.clinic.validation.constraint.group.PatientRegistrationWithoutUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -37,7 +40,9 @@ public class AppointmentController {
 
     @PostMapping("/doctor")
     @Secured("DOCTOR")
-    public ResponseEntity<AppointmentResponse> createAppointmentAsDoctor(@RequestBody @Valid AppointmentRequestByDoctor request){
+    public ResponseEntity<AppointmentResponse> createAppointmentAsDoctor(
+            @RequestBody @Valid AppointmentRequestByDoctor request
+    ){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(appointmentService.createAppointmentAsDoctor(request));
@@ -45,7 +50,11 @@ public class AppointmentController {
 
     @PostMapping("/patient")
     @Secured("PATIENT")
-    public ResponseEntity<AppointmentResponse> createAppointmentAsPatient(@RequestBody @Valid AppointmentRequestByPatient request){
+    public ResponseEntity<AppointmentResponse> createAppointmentAsPatient(
+            @RequestBody
+            @Validated(PatientRegistrationWithoutUser.class)
+            AppointmentRequestByPatient request
+    ){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(appointmentService.createAppointmentAsPatient(request));

@@ -45,18 +45,21 @@ spring:
     password: i?u.M7afDGo)hZ=2Ny]V
   custom:
     security:
-      permitted-matchers: >
-        POST /users/activate,
-        GET /authenticate,
-        POST /register/patient,
-        GET /doctors/specialization/**,
-        GET /doctors/department/**,
-        GET /appointments/availability/**,
-        GET /departments,
-        GET /holidays,
-        GET /swagger-ui.html,
-        GET /swagger-ui/**,
-        GET /api-docs/**
+      request-matchers:
+        permit-all: >
+          POST /users/activate,
+          GET /authenticate,
+          POST /register/patient,
+          GET /doctors/specialization/**,
+          GET /doctors/department/**,
+          GET /appointments/availability/**,
+          GET /departments,
+          GET /holidays,
+          GET /swagger-ui.html,
+          GET /swagger-ui/**,
+          GET /api-docs/**
+        optional-auth:
+          POST /appointments/patient
 logging:
   level:
     org.springframework.security: DEBUG
@@ -73,15 +76,18 @@ spring:
     password: i?u.M7afDGo)hZ=2Ny]V
   custom:
     security:
-      permitted-matchers: >
-        POST /users/activate,
-        GET /authenticate,
-        POST /register/patient,
-        GET /doctors/specialization/**,
-        GET /doctors/department/**,
-        GET /appointments/availability/**,
-        GET /departments,
-        GET /holidays
+      request-matchers:
+        permit-all: >
+          POST /users/activate,
+          GET /authenticate,
+          POST /register/patient,
+          GET /doctors/specialization/**,
+          GET /doctors/department/**,
+          GET /appointments/availability/**,
+          GET /departments,
+          GET /holidays
+        optional-auth:
+          POST /appointments/patient
 server:
   port: 8081
 ---
@@ -91,20 +97,23 @@ spring:
       on-profile: test
   custom:
     security:
-      permitted-matchers: >
-        POST /users/activate,
-        GET /authenticate,
-        POST /register/patient,
-        GET /doctors/specialization/**,
-        GET /doctors/department/**,
-        GET /appointments/availability/**,
-        GET /departments,
-        GET /holidays,
-        GET /swagger-ui.html,
-        GET /swagger-ui/**,
-        GET /api-docs/**,
-        GET /h2-console,
-        GET /h2-console/**
+      request-matchers:
+        permit-all: >
+          POST /users/activate,
+          GET /authenticate,
+          POST /register/patient,
+          GET /doctors/specialization/**,
+          GET /doctors/department/**,
+          GET /appointments/availability/**,
+          GET /departments,
+          GET /holidays,
+          GET /swagger-ui.html,
+          GET /swagger-ui/**,
+          GET /api-docs/**,
+          GET /h2-console,
+          GET /h2-console/**
+        optional-auth:
+          POST /appointments/patient
   datasource:
     url: jdbc:h2:mem:testdb;NON_KEYWORDS=USER;
   data:

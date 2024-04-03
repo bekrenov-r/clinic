@@ -1,4 +1,4 @@
-package com.bekrenov.clinic.validation.annotation;
+package com.bekrenov.clinic.validation.constraint;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

@@ -7,6 +7,7 @@ import com.bekrenov.clinic.model.entity.Doctor;
 import com.bekrenov.clinic.repository.AppointmentRepository;
 import com.bekrenov.clinic.repository.DepartmentRepository;
 import com.bekrenov.clinic.repository.DoctorRepository;
+import com.bekrenov.clinic.util.CurrentAuthUtil;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

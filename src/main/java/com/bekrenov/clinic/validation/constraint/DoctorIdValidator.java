@@ -1,4 +1,4 @@
-package com.bekrenov.clinic.validation.annotation;
+package com.bekrenov.clinic.validation.constraint;
 
 import com.bekrenov.clinic.dto.request.AppointmentRequestByPatient;
 import jakarta.validation.ConstraintValidator;

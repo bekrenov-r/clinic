@@ -1,7 +1,7 @@
 package com.bekrenov.clinic.controller;
 
 import com.bekrenov.clinic.service.AvailabilityService;
-import com.bekrenov.clinic.validation.annotation.WorkingDay;
+import com.bekrenov.clinic.validation.constraint.WorkingDay;
 import jakarta.validation.constraints.FutureOrPresent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

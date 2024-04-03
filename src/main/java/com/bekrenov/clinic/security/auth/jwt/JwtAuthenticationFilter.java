@@ -1,6 +1,7 @@
 package com.bekrenov.clinic.security.auth.jwt;
 
 import com.bekrenov.clinic.exception.InvalidAuthHeaderException;
+import com.bekrenov.clinic.util.RequestUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,11 +15,15 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    @Value("${spring.custom.security.permitted-matchers}")
-    private String[] permittedMatchers;
+    @Value("${spring.custom.security.request-matchers.permit-all}")
+    private String[] permitAllMatchers;
+
+    @Value("${spring.custom.security.request-matchers.optional-auth}")
+    private String[] optionalAuthMatchers;
 
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
@@ -34,7 +39,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request){
-        return Arrays.stream(permittedMatchers)
+        boolean isOptionalAuthRequest = Arrays.stream(this.optionalAuthMatchers)
+                .map(this::parseMatcher)
+                .anyMatch(m -> m.matches(request));
+        if(isOptionalAuthRequest && !RequestUtils.requestHasHeader(HttpHeaders.AUTHORIZATION)){
+            return true;
+        }
+
+        return Arrays.stream(permitAllMatchers)
                 .map(this::parseMatcher)
                 .anyMatch(matcher -> matcher.matches(request));
     }

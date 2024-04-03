@@ -6,6 +6,9 @@ import com.bekrenov.clinic.dto.request.AppointmentRequestByPatient;
 import com.bekrenov.clinic.dto.response.AppointmentResponse;
 import com.bekrenov.clinic.dto.response.AppointmentShortResponse;
 import com.bekrenov.clinic.exception.ClinicApplicationException;
+import com.bekrenov.clinic.exception.ClinicEntityNotFoundException;
+import com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason;
+import com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason;
 import com.bekrenov.clinic.model.entity.*;
 import com.bekrenov.clinic.model.enums.AppointmentStatus;
 import com.bekrenov.clinic.repository.AppointmentRepository;
@@ -26,8 +29,8 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason.DOCTOR_IS_NOT_FROM_DEPARTMENT;
 import static com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason.NO_AVAILABLE_DOCTORS_IN_DEPARTMENT;
+import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.PATIENT_BY_PESEL;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +39,7 @@ public class AppointmentService {
     private final DoctorRepository doctorRepository;
     private final DepartmentRepository departmentRepository;
     private final PatientRepository patientRepository;
+    private final PatientService patientService;
     private final AppointmentMapper appointmentMapper;
     private final AvailabilityService availabilityService;
     private final MailService mailService;
@@ -82,7 +86,7 @@ public class AppointmentService {
         Appointment appointment = appointmentMapper.requestByPatientToEntity(request);
         Department department = departmentRepository.findByIdOrThrowDefault(request.departmentId());
         Doctor doctor = resolveDoctorFromRequest(request, department);
-        Patient patient = patientRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
+        Patient patient = resolvePatientFromRequest(request);
         AppointmentAssert.assertPatientHasNoAppointmentAtDateTime(patient, request.date(), request.time());
         AppointmentStatus status = department.getAutoConfirmAppointment()
                 ? AppointmentStatus.CONFIRMED
@@ -144,6 +148,24 @@ public class AppointmentService {
             DoctorAssert.assertDoctorIsFromDepartment(doctor, department);
             availabilityService.validateAvailabilityByDoctor(doctor, request.date(), request.time());
             return doctor;
+        }
+    }
+
+    private Patient resolvePatientFromRequest(AppointmentRequestByPatient request) {
+        if(CurrentAuthUtil.isAuthenticated()){
+            return patientRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
+        } else {
+            String pesel = request.patient().pesel();
+            if(patientRepository.existsByPesel(pesel)){
+                return patientService.updatePatient(
+                        patientRepository.findByPesel(pesel)
+                                .orElseThrow(() -> new ClinicEntityNotFoundException(PATIENT_BY_PESEL))
+                                .getId(),
+                        request.patient()
+                );
+            } else {
+                return patientService.createPatient(request.patient());
+            }
         }
     }
 

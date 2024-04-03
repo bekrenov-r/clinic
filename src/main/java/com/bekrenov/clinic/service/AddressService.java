@@ -17,4 +17,16 @@ public class AddressService {
         Address address = addressMapper.requestToEntity(request);
         return addressRepository.save(address);
     }
+
+    public Address updateAddress(Long id, AddressRequest request){
+        Address address = addressRepository.findByIdOrThrowDefault(id);
+
+        address.setCity(request.city());
+        address.setStreet(request.street());
+        address.setBuildingNumber(request.buildingNumber());
+        address.setFlatNumber(request.flatNumber());
+        address.setZipCode(request.zipCode());
+
+        return addressRepository.save(address);
+    }
 }

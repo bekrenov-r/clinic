@@ -3,13 +3,11 @@ package com.bekrenov.clinic.service;
 import com.bekrenov.clinic.dto.mapper.DoctorMapper;
 import com.bekrenov.clinic.dto.mapper.PatientMapper;
 import com.bekrenov.clinic.dto.request.DoctorRegistrationRequest;
-import com.bekrenov.clinic.dto.request.PatientRegistrationRequest;
+import com.bekrenov.clinic.dto.request.PatientRequest;
 import com.bekrenov.clinic.dto.response.DoctorDetailedResponse;
 import com.bekrenov.clinic.dto.response.PatientResponse;
 import com.bekrenov.clinic.model.entity.Doctor;
-import com.bekrenov.clinic.model.entity.Patient;
 import com.bekrenov.clinic.repository.DoctorRepository;
-import com.bekrenov.clinic.repository.PatientRepository;
 import com.bekrenov.clinic.security.Role;
 import com.bekrenov.clinic.security.user.UserService;
 import com.bekrenov.clinic.validation.RegistrationValidator;
@@ -22,7 +20,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class RegistrationService {
-    private final PatientRepository patientRepository;
+    private final PatientService patientService;
     private final DoctorRepository doctorRepository;
     private final PatientMapper patientMapper;
     private final DoctorMapper doctorMapper;
@@ -30,11 +28,10 @@ public class RegistrationService {
     private final RegistrationValidator registrationValidator;
 
     @Transactional
-    public PatientResponse registerPatient(PatientRegistrationRequest request){
+    public PatientResponse registerPatient(PatientRequest request){
         registrationValidator.validateRegistrationRequest(request);
         userService.createUser(request, Set.of(Role.PATIENT), true);
-        Patient patient = patientMapper.requestToEntity(request);
-        return patientMapper.entityToResponse(patientRepository.save(patient));
+        return patientMapper.entityToResponse(patientService.createPatient(request));
     }
 
     @Transactional
