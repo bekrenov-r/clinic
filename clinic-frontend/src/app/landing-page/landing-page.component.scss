@@ -1,0 +1,23 @@
+@import '../../styles.scss';
+
+main {
+    background-image: url('../../assets/images/landing-page-image.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position-x: center;
+}
+
+.heading {
+    font-size: 3rem;
+    font-weight: 900;
+    text-shadow: 0 5px 20px rgba(255, 255, 255, 0.5);
+}
+
+.subheading {
+    font-size: 2.5rem;
+    font-weight: 300;
+}
+
+.text {
+    font-weight: 400;
+}

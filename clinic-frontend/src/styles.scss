@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400;1,700&display=swap');
+@import "bootstrap";
+
+$orange: #F2A71B;
+$beige: #FFF4BC;
+$blueish-black: #011F26;
+$dark-green: #194C39;
+$light-green: #36A47C;
+$grey: #797979;
+$light-grey: #BFBFBF;
+$light-red: #DC6868;
+
+$card-box-shadow: 3px 5px 15px 1px rgba(0, 0, 0, 0.25);
+$card-border-radius: 10px;
+
+html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    font-size: 18px;
+    color: $blueish-black;
+}
+
+.no-effect-anchor, .no-effect-anchor:link, .no-effect-anchor:visited, .no-effect-anchor:hover, .no-effect-anchor:active {
+    text-decoration: none;
+    color: inherit; 
+    cursor: pointer;
+}
+
+.btn-primary {
+    @include button-variant($orange, $orange, $blueish-black, darken($orange, 5%),  darken($orange, 5%), $beige, darken($orange, 10%), darken($orange, 1%), $beige);
+    --bs-btn-font-weight: 700;
+}
+
+h3 {
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+.card {
+    box-shadow: $card-box-shadow;
+}
+
+.card-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.action-card-strip {
+    background-color: $dark-green;
+    width: 50%;
+    height: 5%;
+    transition: .5s ease;
+}
+
+.card:hover .action-card-strip {
+    width: 100%;
+    transition: .5s ease;
+}
