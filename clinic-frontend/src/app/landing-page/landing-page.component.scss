@@ -1,11 +1,12 @@
 @import '../../styles.scss';
 
 main {
-    background-image: url('../../assets/images/landing-page-image.png');
-    background-repeat: no-repeat;
-    background-size: 100%;
-    background-position-x: center;
-    background-attachment: fixed;
+    @media (min-width: 1068px) {
+        background-image: url('../../assets/images/landing-page-image.png');
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-attachment: scroll;
+    }
 }
 
 .heading {
@@ -20,13 +21,13 @@ main {
 }
 
 .w-lg-75 {
-    @include media-breakpoint-up(lg){
+    @include media-breakpoint-up(lg) {
         width: 75% !important;
     }
 }
 
 .w-xl-75 {
-    @include media-breakpoint-up(xl){
+    @include media-breakpoint-up(xl) {
         width: 75% !important;
     }
 }
