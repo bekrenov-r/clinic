@@ -2,12 +2,13 @@
 
 .navbar {
     background-color: $dark-green;
-    --bs-navbar-brand-font-size: 2.5rem;
+    --bs-navbar-brand-font-size: 2rem;
     --bs-navbar-brand-color: #{$beige};
     --bs-navbar-brand-hover-color: #{$beige};
     --bs-navbar-toggler-border-color: #{$beige};
     --bs-navbar-toggler-icon-bg: #{escape-svg(url('../../assets/icons/navbar-toggle-icon.svg'))};
     --bs-navbar-toggler-focus-width: 0;
+    --bs-navbar-padding-y: 0;
 }
 
 .navbar-brand {
@@ -18,8 +19,7 @@
     --bs-nav-link-color: #{$beige};
     --bs-nav-link-hover-color: #{$beige};
     --bs-nav-link-font-weight: 400;
-    --bs-nav-link-font-size: 1.3rem;
-    --bs-nav-link-padding-y: .3rem;
+    --bs-nav-link-padding-y: .2rem;
 }
 
 .nav-link:hover {

@@ -9,12 +9,24 @@ main {
 }
 
 .heading {
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: 900;
     text-shadow: 0 5px 20px rgba(255, 255, 255, 0.5);
 }
 
 .subheading {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     font-weight: 300;
+}
+
+.w-lg-75 {
+    @include media-breakpoint-up(lg){
+        width: 75% !important;
+    }
+}
+
+.w-xl-75 {
+    @include media-breakpoint-up(xl){
+        width: 75% !important;
+    }
 }

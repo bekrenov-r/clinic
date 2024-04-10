@@ -17,21 +17,30 @@ html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-size: 18px;
+
+    @include media-breakpoint-up(md) {
+        font-size: 20px;
+    }
+
+    @include media-breakpoint-up(lg) {
+        font-size: 22px;
+    }
 }
 
 body {
     font-family: 'Lato', sans-serif;
-    font-size: 18px;
     color: $blueish-black;
 }
 
 .btn-primary {
-    @include button-variant($orange, $orange, $blueish-black, darken($orange, 5%),  darken($orange, 5%), $beige, darken($orange, 10%), darken($orange, 1%), $beige);
+    @include button-variant($orange, $orange, $blueish-black, darken($orange, 5%), darken($orange, 5%), $beige, darken($orange, 10%), darken($orange, 1%), $beige);
     --bs-btn-font-weight: 700;
+    --bs-btn-font-size: .9rem;
 }
 
-h3 {
-    font-size: 2.2rem;
+strong {
+    font-size: 1.5rem;
     font-weight: 700;
 }
 
@@ -40,15 +49,22 @@ h3 {
 }
 
 .card-title {
-    font-size: 1.8rem;
-    font-weight: 700;
+    font-size: 1.2rem;
 }
 
 .action-card-strip {
     background-color: $dark-green;
     width: 50%;
-    height: 5%;
+    height: 6px;
     transition: .5s ease;
+
+    @include media-breakpoint-down(md) {
+        width: 75%;
+    }
+
+    @include media-breakpoint-down(sm) {
+        width: 100%;
+    }
 }
 
 .card:hover .action-card-strip {
