@@ -17,6 +17,7 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
+.idea
 clinic-backend/.idea
 *.iws
 *.iml

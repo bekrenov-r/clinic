@@ -25,12 +25,6 @@ body {
     color: $blueish-black;
 }
 
-.no-effect-anchor, .no-effect-anchor:link, .no-effect-anchor:visited, .no-effect-anchor:hover, .no-effect-anchor:active {
-    text-decoration: none;
-    color: inherit; 
-    cursor: pointer;
-}
-
 .btn-primary {
     @include button-variant($orange, $orange, $blueish-black, darken($orange, 5%),  darken($orange, 5%), $beige, darken($orange, 10%), darken($orange, 1%), $beige);
     --bs-btn-font-weight: 700;

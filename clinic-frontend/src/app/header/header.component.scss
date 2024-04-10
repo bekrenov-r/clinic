@@ -1,24 +1,34 @@
 @import '../../styles.scss';
 
-.header {
+.navbar {
     background-color: $dark-green;
-    color: $beige;
+    --bs-navbar-brand-font-size: 2.5rem;
+    --bs-navbar-brand-color: #{$beige};
+    --bs-navbar-brand-hover-color: #{$beige};
+    --bs-navbar-toggler-border-color: #{$beige};
+    --bs-navbar-toggler-icon-bg: #{escape-svg(url('../../assets/icons/navbar-toggle-icon.svg'))};
+    --bs-navbar-toggler-focus-width: 0;
 }
 
-.header-title {
-    font-size: 2.5rem;
+.navbar-brand {
     font-weight: 900;
-    margin-right: 40px;
 }
 
-.header-link {
-    font-size: 1.3rem;
-    font-weight: 400;
-    padding: 5px 10px;
+.navbar-nav {
+    --bs-nav-link-color: #{$beige};
+    --bs-nav-link-hover-color: #{$beige};
+    --bs-nav-link-font-weight: 400;
+    --bs-nav-link-font-size: 1.3rem;
+    --bs-nav-link-padding-y: .3rem;
 }
 
-.header-link:hover {
+.nav-link:hover {
     background-color: $light-green;
+    border-radius: 10px;
+    transition: background-color .2s ease-in-out;
+}
+
+.nav-link {
     border-radius: 10px;
     transition: background-color .2s ease-in-out;
 }
