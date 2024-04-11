@@ -20,11 +20,11 @@ html {
     font-size: 18px;
 
     @include media-breakpoint-up(md) {
-        font-size: 20px;
+        font-size: 19px;
     }
 
     @include media-breakpoint-up(lg) {
-        font-size: 22px;
+        font-size: 20px;
     }
 }
 

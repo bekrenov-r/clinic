@@ -20,6 +20,10 @@
     --bs-nav-link-hover-color: #{$beige};
     --bs-nav-link-font-weight: 400;
     --bs-nav-link-padding-y: .2rem;
+
+    @include media-breakpoint-down(lg){
+        --bs-nav-link-padding-x: .4em;
+    }
 }
 
 .nav-link:hover {
@@ -31,4 +35,16 @@
 .nav-link {
     border-radius: 10px;
     transition: background-color .2s ease-in-out;
+}
+
+.offcanvas {
+    --bs-offcanvas-bg: #{$dark-green};
+}
+
+.offcanvas-title {
+    color: #{$beige};
+}
+
+.btn-close {
+    background: #{transparent escape-svg(url('../../assets/icons/btn-close-img.svg')) center / $btn-close-width auto no-repeat};
 }
