@@ -1,0 +1,58 @@
+@import '../../styles.scss';
+
+main {
+    min-height: 90vh;
+}
+
+.form-box {
+    width: 100vw;
+
+    @include media-breakpoint-up(sm){
+        width: 70vw;
+        border: 1px solid;
+        border-color: #{$dark-green};
+        border-radius: 10px;
+    }
+
+    @include media-breakpoint-up(md){
+        width: 60vw;
+    }
+
+    @include media-breakpoint-up(lg){
+        width: 50vw;
+    }
+
+    @include media-breakpoint-up(xl){
+        width: 40vw;
+    }
+
+    @include media-breakpoint-up(xxl){
+        width: 35vw;
+    }
+    
+}
+
+.title {
+    color: #{$dark-green};
+    font-size: 2rem;
+    font-weight: 900;
+}
+
+.link {
+    color: #{$grey};
+    text-decoration: underline;
+    font-size: 0.7rem;
+}
+
+.link:hover {
+    color: #{$dark-green};
+}
+
+.text-small {
+    color: #{$grey};
+    font-size: 0.7rem;
+}
+
+.form-floating {
+    width: 100%;
+}
