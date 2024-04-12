@@ -9,6 +9,7 @@
     --bs-navbar-toggler-icon-bg: #{escape-svg(url('../../assets/icons/navbar-toggle-icon.svg'))};
     --bs-navbar-toggler-focus-width: 0;
     --bs-navbar-padding-y: 0;
+    min-height: 10vh;
 }
 
 .navbar-brand {
