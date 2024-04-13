@@ -76,3 +76,7 @@ strong {
     width: 100%;
     transition: .5s ease;
 }
+
+label.invalid {
+    color: #{$light-red};
+}

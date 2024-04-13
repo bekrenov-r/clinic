@@ -1,13 +1,13 @@
 <main class="d-flex justify-content-sm-center align-items-sm-center align-items-start">
-    <form [formGroup]="loginForm" class="form-box px-4 px-lg-5 py-4 d-flex flex-column gap-3 align-items-start">
+    <form class="form-box px-4 py-4 d-flex flex-column gap-3 align-items-start needs-validation" novalidate [formGroup]="loginForm">
         <span class="title">Sign in</span>
         <div class="form-floating">
-            <input type="email" class="form-control" id="emailInput" placeholder="john.doe@example.com" formControlName="email">
-            <label for="emailInput">Email</label>
+            <input type="email" class="form-control" id="emailInput" placeholder="john.doe@example.com" [formControl]="emailControl" #emailInput>
+            <label for="emailInput" #emailLabel>Email</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" id="passwordInput" placeholder="********" formControlName="password">
-            <label for="passwordInput">Password</label>
+            <input type="password" class="form-control" id="passwordInput" placeholder="********" [formControl]="passwordControl" #passwordInput>
+            <label for="passwordInput" #passwordLabel>Password</label>
         </div>
         <div class="d-flex gap-3 align-items-center">
             <button class="btn btn-primary px-4" type="submit" (click)="onSubmit()">OK</button>
