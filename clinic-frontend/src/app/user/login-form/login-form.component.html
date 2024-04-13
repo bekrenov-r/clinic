@@ -1,16 +1,16 @@
 <main class="d-flex justify-content-sm-center align-items-sm-center align-items-start">
-    <form action="#" method="post" class="form-box px-4 px-lg-5 py-4 d-flex flex-column gap-3 align-items-start">
+    <form [formGroup]="loginForm" class="form-box px-4 px-lg-5 py-4 d-flex flex-column gap-3 align-items-start">
         <span class="title">Sign in</span>
         <div class="form-floating">
-            <input type="email" class="form-control" id="emailInput" placeholder="john.doe@example.com">
+            <input type="email" class="form-control" id="emailInput" placeholder="john.doe@example.com" formControlName="email">
             <label for="emailInput">Email</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" id="passwordInput" placeholder="********">
+            <input type="password" class="form-control" id="passwordInput" placeholder="********" formControlName="password">
             <label for="passwordInput">Password</label>
         </div>
         <div class="d-flex gap-3 align-items-center">
-            <button class="btn btn-primary px-4" type="submit">OK</button>
+            <button class="btn btn-primary px-4" type="submit" (click)="onSubmit()">OK</button>
             <a class="link" href="#">I forgot my password</a>
         </div>
         <div>
