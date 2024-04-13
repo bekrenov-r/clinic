@@ -16,17 +16,32 @@
                         <a href="#" class="nav-link">Contact</a>
                     </div>
                     <div class="d-flex flex-lg-row flex-column gap-lg-3 gap-1 align-items-lg-center align-items-start">
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                EN
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#">English</a></li>
-                                <li><a class="dropdown-item" href="#">Polish</a></li>
-                                <li><a class="dropdown-item" href="#">Ukrainian</a></li>
-                            </ul>
-                        </div>
                         <div class="d-flex gap-lg-3 gap-2">
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                    EN
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#">English</a></li>
+                                    <li><a class="dropdown-item" href="#">Polish</a></li>
+                                    <li><a class="dropdown-item" href="#">Ukrainian</a></li>
+                                </ul>
+                            </div>
+                            <div class="nav-item dropdown" *ngIf="isAuthenticated()">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                    <img src="../../assets/icons/user-icon.svg" class="nav-link-icon">
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="#" (click)="logout()">
+                                            <img src="../../assets/icons/logout.svg" class="me-2">
+                                            Logout
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-lg-3 gap-2" *ngIf="!isAuthenticated()">
                             <button class="btn btn-primary" [routerLink]="['/login']">Sign In</button>
                             <button class="btn btn-primary">Sign Up</button>
                         </div>

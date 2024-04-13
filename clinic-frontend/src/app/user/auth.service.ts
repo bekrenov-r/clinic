@@ -8,10 +8,22 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
+  private readonly AUTH_TOKEN_STORAGE_KEY: string = 'clinic-auth-token'; 
+
   constructor(private http: HttpClient) { }
 
   authenticate(email: string, password: string): Observable<string> {
     const requestParams = new HttpParams().set('username', email).set('password', password);
-    return this.http.get(`${environment.apiBaseUrl}/authenticate`, { responseType: 'text', params: requestParams });
+    const response$: Observable<string> = this.http.get(`${environment.apiBaseUrl}/authenticate`, { responseType: 'text', params: requestParams });
+    response$.subscribe(token => localStorage.setItem(this.AUTH_TOKEN_STORAGE_KEY, token));
+    return response$;
+  }
+
+  isAuthenticated(): boolean {
+    return localStorage.getItem(this.AUTH_TOKEN_STORAGE_KEY) !== null;
+  }
+
+  logout(): void {
+    localStorage.removeItem(this.AUTH_TOKEN_STORAGE_KEY);
   }
 }

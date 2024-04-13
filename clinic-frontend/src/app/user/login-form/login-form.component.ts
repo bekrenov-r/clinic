@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -20,6 +21,7 @@ export class LoginFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private render: Renderer2,
+    private router: Router,
     private authService: AuthService
   ) { }
 
@@ -32,21 +34,18 @@ export class LoginFormComponent implements OnInit {
     });
     this.emailControl.statusChanges.subscribe(() => this.validateEmail());
     this.passwordControl.statusChanges.subscribe(() => this.validatePassword());
-    
-    document.querySelector('form')?.addEventListener('submit', event => {
-      if(this.loginForm.invalid){
-        event.preventDefault();
-        event.stopPropagation();
-        this.validateEmail();
-        this.validatePassword();
-      }
-    })
   }
 
   onSubmit(): void {
-    let email = this.emailControl.value;
-    let password = this.passwordControl.value;
-    this.authService.authenticate(email, password).subscribe(res => console.log(res));
+    if (this.loginForm.valid) {
+      let email = this.emailControl.value;
+      let password = this.passwordControl.value;
+      this.authService.authenticate(email, password).subscribe({
+        next: () => this.router.navigate(['/']),
+        error: () => this.showAltert()
+      });
+    }
+
   }
 
   validateEmail(): void {
@@ -80,5 +79,17 @@ export class LoginFormComponent implements OnInit {
     this.render.removeClass(input, 'is-invalid');
     this.render.removeClass(label, 'invalid');
     this.render.setProperty(label, 'innerText', validMsg);
+  }
+
+  showAltert(): void {
+    const alert = document.querySelector('#invalidCredentialsAlert');
+    this.render.removeClass(alert, 'd-none');
+    this.render.addClass(alert, 'd-flex');
+  }
+
+  hideAlert(): void {
+    const alert = document.querySelector('#invalidCredentialsAlert');
+    this.render.removeClass(alert, 'd-flex');
+    this.render.addClass(alert, 'd-none');
   }
 }

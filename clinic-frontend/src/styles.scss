@@ -80,3 +80,7 @@ strong {
 label.invalid {
     color: #{$light-red};
 }
+
+.alert svg {
+    width: 1.3rem;
+}
