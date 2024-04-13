@@ -1,13 +1,19 @@
 @import '../../styles.scss';
 
 main {
-    @media (min-width: 1068px) {
-        background-image: url('../../assets/images/landing-page-image.png');
-        background-repeat: no-repeat;
-        background-size: 100%;
-        background-attachment: scroll;
-        max-height: 90vh;
-        overflow-y: scroll;
+    background-image: url('../../assets/images/landing-page-image-sm.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: scroll;
+    max-height: 90vh;
+    overflow-y: scroll;
+
+    @include media-breakpoint-up(md) {
+        background-image: url('../../assets/images/landing-page-image-md.png');
+    }
+
+    @include media-breakpoint-up(lg) {
+        background-image: url('../../assets/images/landing-page-image-lg.png');
     }
 }
 
