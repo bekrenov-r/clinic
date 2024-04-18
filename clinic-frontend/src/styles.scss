@@ -73,3 +73,13 @@ label.invalid {
 .alert svg {
     width: 1.3rem;
 }
+
+.link {
+    color: #{$grey};
+    text-decoration: underline;
+    font-size: 0.7rem;
+}
+
+.link:hover {
+    color: #{$dark-green};
+}

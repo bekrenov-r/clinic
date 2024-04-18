@@ -7,9 +7,12 @@ $grey: #797979;
 $light-grey: #BFBFBF;
 $light-red: #DC6868;
 
+$focus-ring-box-shadow: 0 0 0 .25rem rgba($light-green, 0.25);
+
 $card-box-shadow: 3px 5px 15px 1px rgba(0, 0, 0, 0.25);
 $card-border-radius: 10px;
 
 $form-check-input-checked-bg-color: $light-green;
-$form-check-input-focus-box-shadow: 0 0 0 .25rem rgba($light-green, 0.25);
+$form-check-input-focus-box-shadow: $focus-ring-box-shadow;
 $form-check-input-focus-border: $light-green;
+$input-focus-box-shadow: $focus-ring-box-shadow;

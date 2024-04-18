@@ -7,8 +7,6 @@ import { Component, ElementRef, Renderer2, ViewChild, ViewEncapsulation } from '
   encapsulation: ViewEncapsulation.None
 })
 export class RegistrationFormComponent {
-  // @ViewChild('first-step-tab') firstStepTab?: ElementRef;
-  // @ViewChild('second-step-tab') secondStepTab?: ElementRef;
 
   constructor(private render: Renderer2) {}
 

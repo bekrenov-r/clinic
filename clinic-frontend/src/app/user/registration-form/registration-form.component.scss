@@ -47,6 +47,16 @@ section {
     }
 }
 
+.password-box {
+    @include media-breakpoint-up(sm){
+        margin-right: 40vw;
+    }
+
+    @include media-breakpoint-up(md){
+        margin-right: 50vw;
+    }
+}
+
 .section-divider {
     margin: 0;
     display: none;
