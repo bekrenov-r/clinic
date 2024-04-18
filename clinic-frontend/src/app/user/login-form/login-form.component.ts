@@ -12,12 +12,7 @@ export class LoginFormComponent implements OnInit {
   emailControl: FormControl = new FormControl('');
   passwordControl: FormControl = new FormControl('');
   loginForm: FormGroup = new FormGroup({});
-
-  @ViewChild('emailInput') emailInputRef?: ElementRef;
-  @ViewChild('emailLabel') emailLabelRef?: ElementRef;
-  @ViewChild('passwordInput') passwordInputRef?: ElementRef;
-  @ViewChild('passwordLabel') passwordLabelRef?: ElementRef;
-
+  
   constructor(
     private formBuilder: FormBuilder,
     private render: Renderer2,
@@ -32,8 +27,6 @@ export class LoginFormComponent implements OnInit {
       email: this.emailControl,
       password: this.passwordControl
     });
-    this.emailControl.statusChanges.subscribe(() => this.validateEmail());
-    this.passwordControl.statusChanges.subscribe(() => this.validatePassword());
   }
 
   onSubmit(): void {
@@ -48,37 +41,8 @@ export class LoginFormComponent implements OnInit {
 
   }
 
-  validateEmail(): void {
-    const emailInput: HTMLElement = this.emailInputRef?.nativeElement;
-    const emailLabel: HTMLElement = this.emailLabelRef?.nativeElement;
-    if (this.emailControl.invalid) {
-      const invalidMsg = this.emailControl.hasError('required') ? 'Email is required' : 'Please provide valid email';
-      this.makeInputInvalid(emailInput, emailLabel, invalidMsg);
-    } else {
-      this.makeInputValid(emailInput, emailLabel, 'Email');
-    }
-  }
-
-  validatePassword(): void {
-    const passwordInput: HTMLElement = this.passwordInputRef?.nativeElement;
-    const passwordLabel: HTMLElement = this.passwordLabelRef?.nativeElement;
-    if (this.passwordControl.invalid) {
-      this.makeInputInvalid(passwordInput, passwordLabel, 'Password is required');
-    } else {
-      this.makeInputValid(passwordInput, passwordLabel, 'Password');
-    }
-  }
-
-  makeInputInvalid(input: HTMLElement, label: HTMLElement, invalidMsg: string): void {
-    this.render.addClass(input, 'is-invalid');
-    this.render.addClass(label, 'invalid');
-    this.render.setProperty(label, 'innerText', invalidMsg);
-  }
-
-  makeInputValid(input: HTMLElement, label: HTMLElement, validMsg: string): void {
-    this.render.removeClass(input, 'is-invalid');
-    this.render.removeClass(label, 'invalid');
-    this.render.setProperty(label, 'innerText', validMsg);
+  getInvalidEmailLabel(): string {
+    return this.emailControl.hasError('required') ? 'Email is required' : 'Please provide valid email';
   }
 
   showAltert(): void {
