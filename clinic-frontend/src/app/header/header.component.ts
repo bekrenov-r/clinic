@@ -19,4 +19,12 @@ export class HeaderComponent {
     this.authService.logout();
     this.router.navigate(['/']);
   }
+
+  displaySignInButton(): boolean {
+    return this.router.url !== '/login';
+  }
+  
+  displaySignUpButton(): boolean {
+    return this.router.url !== '/registration';
+  }
 }

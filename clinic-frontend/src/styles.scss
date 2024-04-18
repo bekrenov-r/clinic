@@ -1,17 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400;1,700&display=swap');
-@import "bootstrap";
-
-$orange: #F2A71B;
-$beige: #FFF4BC;
-$blueish-black: #011F26;
-$dark-green: #194C39;
-$light-green: #36A47C;
-$grey: #797979;
-$light-grey: #BFBFBF;
-$light-red: #DC6868;
-
-$card-box-shadow: 3px 5px 15px 1px rgba(0, 0, 0, 0.25);
-$card-border-radius: 10px;
+@import 'variables.scss';
+@import 'bootstrap';
 
 html {
     margin: 0;

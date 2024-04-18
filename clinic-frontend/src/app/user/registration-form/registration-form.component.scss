@@ -1,0 +1,57 @@
+@import '../../../styles.scss';
+
+.heading {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #{$dark-green};
+}
+
+.subheading {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #{$dark-green};
+}
+
+section {
+    @include media-breakpoint-up(sm){
+        box-shadow: #{$card-box-shadow};
+        border-radius: #{$card-border-radius};
+    }
+}
+
+.personal-data-box {
+    @include media-breakpoint-up(lg){
+        margin-right: 5vw;
+    }
+
+    @include media-breakpoint-up(xl){
+        margin-right: 10vw;
+    }
+
+    @include media-breakpoint-up(xxl){
+        margin-right: 15vw;
+    }
+}
+
+.address-box {
+    @include media-breakpoint-up(lg){
+        margin-right: 20vw;
+    }
+
+    @include media-breakpoint-up(xl){
+        margin-right: 25vw;
+    }
+
+    @include media-breakpoint-up(xxl){
+        margin-right: 30vw;
+    }
+}
+
+.section-divider {
+    margin: 0;
+    display: none;
+
+    @include media-breakpoint-down(sm){
+        display: block;
+    }
+}

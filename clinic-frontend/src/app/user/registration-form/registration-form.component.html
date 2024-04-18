@@ -1,0 +1,100 @@
+<div class="mx-xl-5 mx-lg-4 mx-0 px-xl-5 px-4 py-4">
+    <h2 class="heading mb-sm-4 mb-3">
+        Sign up
+    </h2>
+    <hr class="section-divider">
+    <div class="registration-step-tab d-block">
+        <section class="mb-4 px-lg-5 px-sm-4 py-sm-4 py-3 personal-data-box">
+            <h3 class="subheading mb-3">Personal data</h3>
+            <div class="row mb-3 gy-3">
+                <div class="col-md-4 col-sm-6 col-12">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="first-name" placeholder="John">
+                        <label for="first-name">First name</label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-12">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="last-name" placeholder="Doe">
+                        <label for="last-name">Last name</label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-12">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="pesel" placeholder="00000000000">
+                        <label for="pesel">PESEL</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row gy-3">
+                <div class="col-sm-6 col-12">
+                    <div class="input-group">
+                        <span class="input-group-text">+48</span>
+                        <div class="form-floating">
+                          <input type="text" class="form-control" id="phone-number" placeholder="+48000000000">
+                          <label for="phone-number">Phone number</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-12">
+                        <div class="form-floating">
+                          <input type="text" class="form-control" id="email" placeholder="john.doe@example.com">
+                          <label for="email">Email</label>
+                        </div>
+                </div>
+            </div>
+        </section>
+        <hr class="section-divider">
+        <section class="mb-sm-3 mb-1 px-lg-5 px-sm-4 py-sm-4 py-3 address-box">
+            <h3 class="subheading mb-3">Address</h3>
+            <div class="row mb-3 gy-3">
+                <div class="col-sm-6 col-12">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="city" placeholder="Lublin">
+                        <label for="city">City</label>
+                      </div>
+                </div>
+                <div class="col-sm-6 col-12">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="street" placeholder="Nadbystrzycka">
+                        <label for="street">Street</label>
+                      </div>
+                </div>
+            </div>
+            <div class="row gy-3">
+                <div class="col-md-4 col-sm-6 col-12">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="building" placeholder="00">
+                        <label for="building">Building</label>
+                      </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-12">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="flat" placeholder="00">
+                        <label for="flat">Flat</label>
+                      </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-12">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="zip-code" placeholder="00-000">
+                        <label for="zip-code">Zip code</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="personal-data-consent">
+            <label class="form-check-label" for="personal-data-consent">
+              I consent to processing of my personal data
+            </label>
+        </div>
+        <div>
+            <button class="btn btn-primary" (click)="switchTabs()">
+                Continue
+            </button>
+        </div>
+    </div>
+    <div class="registration-step-tab d-none">
+        asd
+    </div>
+</div>
