@@ -2,27 +2,44 @@
     <h2 class="heading mb-sm-4 mb-3">
         Sign up
     </h2>
-    <div class="registration-step-tab d-block">
+    <form class="registration-step-tab needs-validation" [ngStyle]="{'display': step === 1 ? 'block' : 'none'}"
+        novalidate (ngSubmit)="step = 2" [formGroup]="step1Form">
         <hr class="section-divider">
         <section class="mb-4 px-lg-5 px-sm-4 py-sm-4 py-3 personal-data-box">
             <h3 class="subheading mb-3">Personal data</h3>
             <div class="row mb-3 gy-3">
                 <div class="col-md-4 col-sm-6 col-12">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="first-name" placeholder="John">
+                        <input type="text" class="form-control" id="first-name" placeholder="John"
+                            [ngClass]="{'is-invalid': step1Form.get('firstName')?.invalid && step1Form.get('firstName')?.touched}"
+                            formControlName="firstName">
                         <label for="first-name">First name</label>
                     </div>
-                </div>
-                <div class="col-md-4 col-sm-6 col-12">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="last-name" placeholder="Doe">
-                        <label for="last-name">Last name</label>
+                    <div class="invalid-msg"
+                        *ngIf="step1Form.get('firstName')?.invalid && step1Form.get('firstName')?.touched">
+                        First name is required
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 col-12">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="pesel" placeholder="00000000000">
+                        <input type="text" class="form-control" id="last-name" placeholder="Doe"
+                            [ngClass]="{'is-invalid': step1Form.get('lastName')?.invalid && step1Form.get('lastName')?.touched}"
+                            formControlName="lastName">
+                        <label for="last-name">Last name</label>
+                    </div>
+                    <div class="invalid-msg"
+                        *ngIf="step1Form.get('lastName')?.invalid && step1Form.get('lastName')?.touched">
+                        Last name is required
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-12">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="pesel" placeholder="00000000000"
+                            [ngClass]="{'is-invalid': step1Form.get('pesel')?.invalid && step1Form.get('pesel')?.touched}"
+                            formControlName="pesel">
                         <label for="pesel">PESEL</label>
+                    </div>
+                    <div class="invalid-msg" *ngIf="step1Form.get('pesel')?.invalid && step1Form.get('pesel')?.touched" [innerText]="getInvalidMsgForPesel()">
                     </div>
                 </div>
             </div>
@@ -31,83 +48,118 @@
                     <div class="input-group">
                         <span class="input-group-text">+48</span>
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="phone-number" placeholder="+48000000000">
+                            <input type="text" class="form-control" id="phone-number" placeholder="+48000000000"
+                                [ngClass]="{'is-invalid': step1Form.get('phoneNumber')?.invalid && step1Form.get('phoneNumber')?.touched}"
+                                formControlName="phoneNumber">
                             <label for="phone-number">Phone number</label>
                         </div>
+                    </div>
+                    <div class="invalid-msg"
+                        *ngIf="step1Form.get('phoneNumber')?.invalid && step1Form.get('phoneNumber')?.touched" [innerText]="getInvalidMsgForPhoneNumber()">
                     </div>
                 </div>
                 <div class="col-sm-6 col-12">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="email" placeholder="john.doe@example.com">
+                        <input type="text" class="form-control" id="email" placeholder="john.doe@example.com"
+                            [ngClass]="{'is-invalid': step1Form.get('email')?.invalid && step1Form.get('email')?.touched}"
+                            formControlName="email">
                         <label for="email">Email</label>
+                    </div>
+                    <div class="invalid-msg" *ngIf="step1Form.get('email')?.invalid && step1Form.get('email')?.touched" [innerText]="getInvalidMsgForEmail()">
                     </div>
                 </div>
             </div>
         </section>
         <hr class="section-divider">
-        <section class="mb-sm-3 mb-1 px-lg-5 px-sm-4 py-sm-4 py-3 address-box">
+        <section class="mb-sm-3 mb-1 px-lg-5 px-sm-4 py-sm-4 py-3 address-box" formGroupName="address">
             <h3 class="subheading mb-3">Address</h3>
             <div class="row mb-3 gy-3">
                 <div class="col-sm-6 col-12">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="city" placeholder="Lublin">
+                        <input type="text" class="form-control" id="city" placeholder="Lublin" formControlName="city"
+                            [ngClass]="{'is-invalid': step1Form.get('address')?.get('city')?.invalid && step1Form.get('address')?.get('city')?.touched}">
                         <label for="city">City</label>
+                    </div>
+                    <div class="invalid-msg"
+                        *ngIf="step1Form.get('address')?.get('city')?.invalid && step1Form.get('address')?.get('city')?.touched">
+                        City is required
                     </div>
                 </div>
                 <div class="col-sm-6 col-12">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="street" placeholder="Nadbystrzycka">
+                        <input type="text" class="form-control" id="street" placeholder="Nadbystrzycka"
+                            [ngClass]="{'is-invalid': step1Form.get('address')?.get('street')?.invalid && step1Form.get('address')?.get('street')?.touched}"
+                            formControlName="street">
                         <label for="street">Street</label>
+                    </div>
+                    <div class="invalid-msg"
+                        *ngIf="step1Form.get('address')?.get('street')?.invalid && step1Form.get('address')?.get('street')?.touched">
+                        Street is required
                     </div>
                 </div>
             </div>
             <div class="row gy-3">
                 <div class="col-md-4 col-sm-6 col-12">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="building" placeholder="00">
+                        <input type="text" class="form-control" id="building" placeholder="00"
+                            [ngClass]="{'is-invalid': step1Form.get('address')?.get('building')?.invalid && step1Form.get('address')?.get('building')?.touched}"
+                            formControlName="building">
                         <label for="building">Building</label>
+                    </div>
+                    <div class="invalid-msg"
+                        *ngIf="step1Form.get('address')?.get('building')?.invalid && step1Form.get('address')?.get('building')?.touched">
+                        Building is required
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 col-12">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="flat" placeholder="00">
+                        <input type="text" class="form-control" id="flat" placeholder="00" formControlName="flat">
                         <label for="flat">Flat</label>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 col-12">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="zip-code" placeholder="00-000">
+                        <input type="text" class="form-control" id="zip-code" placeholder="00-000"
+                            [ngClass]="{'is-invalid': step1Form.get('address')?.get('zipCode')?.invalid && step1Form.get('address')?.get('zipCode')?.touched}"
+                            formControlName="zipCode">
                         <label for="zip-code">Zip code</label>
+                    </div>
+                    <div class="invalid-msg"
+                        *ngIf="step1Form.get('address')?.get('zipCode')?.invalid && step1Form.get('address')?.get('zipCode')?.touched" [innerText]="getInvalidMsgForZipCode()">
                     </div>
                 </div>
             </div>
         </section>
         <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" id="personal-data-consent">
+            <input class="form-check-input" [ngClass]="{'is-invalid': this.step1Form.get('personalDataConsent')?.invalid && this.step1Form.get('personalDataConsent')?.touched}" type="checkbox" value="" id="personal-data-consent"
+                formControlName="personalDataConsent">
             <label class="form-check-label" for="personal-data-consent">
                 I consent to processing of my personal data
             </label>
         </div>
         <div>
-            <button class="btn btn-primary" (click)="switchTabs()">
+            <button class="btn btn-primary" [disabled]="step1Form.invalid">
                 Continue
             </button>
         </div>
-    </div>
-    <div class="registration-step-tab d-none">
+    </form>
+    <form class="registration-step-tab needs-validation" [ngStyle]="{'display': step === 2 ? 'block' : 'none'}"
+        novalidate [formGroup]="step2Form">
         <div class="my-3 password-box">
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="password" placeholder="********">
+                <input type="password" class="form-control" id="password" placeholder="********"
+                    formControlName="password">
                 <label for="password">Password</label>
             </div>
             <div class="form-floating">
-                <input type="password" class="form-control" id="confirm-password" placeholder="********">
+                <input type="password" class="form-control" id="confirm-password" placeholder="********"
+                    formControlName="confirmPassword">
                 <label for="confirm-password">Confirm password</label>
             </div>
         </div>
         <div class="d-flex gap-3 align-items-center">
             <button class="btn btn-primary">Sign Up</button>
-            <a role="button" class="link" (click)="switchTabs()">Back to step 1</a>
+            <a role="button" class="link" (click)="step = 1">Back to step 1</a>
         </div>
-    </div>
+    </form>
 </div>

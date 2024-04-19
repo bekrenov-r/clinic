@@ -65,3 +65,8 @@ section {
         display: block;
     }
 }
+
+.invalid-msg {
+    color: $light-red;
+    font-size: 0.9rem;
+}
