@@ -1,5 +1,8 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { PatientRegistration } from 'src/app/models/patient-registration';
+import { RegistrationService } from '../registration.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration-form',
@@ -17,7 +20,11 @@ export class RegistrationFormComponent implements OnInit {
   static readonly zipCodeRegex: string = '^\\d{2}-\\d{3}$';
   static readonly peselRegex: string = '^\\d{11}$';
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private registrationService: RegistrationService,
+    private render: Renderer2
+    ) { }
 
   ngOnInit(): void {
     this.step1Form = this.formBuilder.group({
@@ -48,6 +55,36 @@ export class RegistrationFormComponent implements OnInit {
         return password !== confirmPassword ? { passwordMismatch: true } : null;
       }
     this.step2Form.setValidators(confirmedPasswordMatchValidator);
+  }
+
+  register(): void {
+    const registration: PatientRegistration = {
+      firstName: this.step1Form.get('firstName')?.value,
+      lastName: this.step1Form.get('lastName')?.value,
+      pesel: this.step1Form.get('pesel')?.value,
+      email: this.step1Form.get('email')?.value,
+      phoneNumber: this.step1Form.get('phoneNumber')?.value,
+      address: {
+        city: this.step1Form.get('address')?.get('city')?.value,
+        street: this.step1Form.get('address')?.get('street')?.value,
+        building: this.step1Form.get('address')?.get('building')?.value,
+        flat: this.step1Form.get('address')?.get('flat')?.value,
+        zipCode: this.step1Form.get('address')?.get('zipCode')?.value
+      },
+      password: this.step2Form.get('password')?.value
+    }
+
+    console.log(registration);
+    
+
+    this.registrationService.registerPatient(registration).subscribe({
+      next: () => {console.log('success')},
+      error: () => this.showFailureDialog()
+    })
+  }
+
+  showFailureDialog(): void {
+    
   }
 
   getInvalidMsgForEmail(): string {

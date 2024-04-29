@@ -1,4 +1,4 @@
-@import '../../../styles.scss';
+@import '../../../../styles.scss';
 
 .heading {
     font-size: 2.5rem;
@@ -12,7 +12,7 @@
     color: #{$dark-green};
 }
 
-section {
+.registration-box {
     @include media-breakpoint-up(sm){
         box-shadow: #{$card-box-shadow};
         border-radius: #{$card-border-radius};
