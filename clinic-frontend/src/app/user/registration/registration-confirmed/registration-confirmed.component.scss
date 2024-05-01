@@ -1,0 +1,19 @@
+@import '../../../../styles.scss';
+
+.spinner-border {
+    --bs-spinner-width: 8rem;
+    --bs-spinner-height: 8rem;
+    --bs-spinner-border-width: 0.9em;
+}
+
+.heading {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #{$dark-green};
+}
+
+.subheading {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #{$dark-green};
+}

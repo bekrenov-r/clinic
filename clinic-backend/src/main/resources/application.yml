@@ -60,6 +60,7 @@ spring:
           GET /api-docs/**
         optional-auth:
           POST /appointments/patient
+    frontend-base-url: http://localhost:4200
 logging:
   level:
     org.springframework.security: DEBUG

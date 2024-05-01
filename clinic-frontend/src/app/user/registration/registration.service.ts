@@ -13,4 +13,10 @@ export class RegistrationService {
   registerPatient(registration: PatientRegistration): Observable<any> {
     return this.http.post(environment.apiBaseUrl + '/register/patient', registration);
   }
+
+  activateAccount(activationToken: string): Observable<any> {
+    return this.http.post(environment.apiBaseUrl + '/users/activate', null, {
+      params: {token: activationToken}
+    });
+  }
 }

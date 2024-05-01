@@ -1,0 +1,23 @@
+<div class="mx-xl-5 mx-lg-4 mx-md-3 mx-0 px-xl-5 px-4 py-4">
+    <div class="d-flex justify-content-center mt-5">
+        <div class="spinner-border text-primary" role="status" #spinner>
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <div class="d-none" #mainContent>
+        <h2 class="heading mb-sm-4 mb-5 mt-4">
+            Done!
+        </h2>
+        <p class="subheading mb-3">
+            Your account is confirmed and ready.        
+        </p>
+        <button class="btn btn-primary" [routerLink]="['/']">
+            Go to my account
+        </button>
+    </div>
+    <div class="d-none" #fallbackContent>
+        <h2 class="heading mb-sm-4 mb-5 mt-4">
+            Something went wrong...
+        </h2>
+    </div>
+</div>

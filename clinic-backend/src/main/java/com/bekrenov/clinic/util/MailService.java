@@ -24,9 +24,12 @@ public class MailService {
     @Value("${spring.mail.username}")
     private String fromAddress;
 
+    @Value("${spring.custom.frontend-base-url}")
+    private String frontendBaseUrl;
+
     public void sendEmailWithActivationLink(RegistrationRequest registration, String activationToken) {
         String contentTemplate = this.getContentTemplate(EMAIL_TEMPLATES_RESOURCE_PATH + "/activation.txt");
-        String url = "http://localhost:8080/api/v1/users/activate?token=" + activationToken;
+        String url = frontendBaseUrl + "/registration/confirmed?token=" + activationToken;
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(registration.email());
