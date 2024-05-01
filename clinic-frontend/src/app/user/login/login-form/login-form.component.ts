@@ -12,7 +12,7 @@ export class LoginFormComponent implements OnInit {
   emailControl: FormControl = new FormControl('');
   passwordControl: FormControl = new FormControl('');
   loginForm: FormGroup = new FormGroup({});
-  
+
   constructor(
     private formBuilder: FormBuilder,
     private render: Renderer2,
@@ -34,11 +34,10 @@ export class LoginFormComponent implements OnInit {
       let email = this.emailControl.value;
       let password = this.passwordControl.value;
       this.authService.authenticate(email, password).subscribe({
-        next: () => this.router.navigate(['/']),
+        next: () => this.router.navigate(['/home']),
         error: () => this.showAltert()
       });
     }
-
   }
 
   getInvalidEmailLabel(): string {

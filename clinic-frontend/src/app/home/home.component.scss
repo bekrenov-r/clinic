@@ -1,0 +1,19 @@
+@import '../../styles.scss';
+
+.heading {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #{$dark-green};
+}
+
+.subheading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #{$dark-green};
+}
+
+.action-card {
+  @media (width > 400px){
+    max-width: 70vw;
+  }
+}

@@ -1,7 +1,6 @@
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { RegistrationService } from '../registration.service';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../login/auth.service';
 import { environment } from 'src/environments/environment';
 import { finalize } from 'rxjs';
 
@@ -15,10 +14,8 @@ export class RegistrationConfirmedComponent {
   @ViewChild('mainContent') mainContent: ElementRef;
   @ViewChild('spinner') spinner: ElementRef;
 
-  registrationConfirmed: boolean;
-
   constructor(
-    private registrationService: RegistrationService, 
+    private registrationService: RegistrationService,
     private route: ActivatedRoute,
     private render: Renderer2
     ) {}

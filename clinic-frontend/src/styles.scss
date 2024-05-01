@@ -38,12 +38,16 @@ strong {
 }
 
 .card-title {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 700;
 }
 
 .card-text {
     font-weight: 300;
+}
+
+.action-card {
+  min-height: 9rem;
 }
 
 .action-card-strip {

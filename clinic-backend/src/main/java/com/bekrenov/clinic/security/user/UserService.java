@@ -4,6 +4,8 @@ import com.bekrenov.clinic.dto.request.RegistrationRequest;
 import com.bekrenov.clinic.exception.ClinicEntityNotFoundException;
 import com.bekrenov.clinic.model.entity.ActivationToken;
 import com.bekrenov.clinic.repository.ActivationTokenRepository;
+import com.bekrenov.clinic.repository.PersonRepository;
+import com.bekrenov.clinic.security.auth.jwt.JwtProvider;
 import com.bekrenov.clinic.util.MailService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final ActivationTokenRepository activationTokenRepository;
     private final MailService mailService;
+    private final PersonRepository personRepository;
+    private final JwtProvider jwtProvider;
 
     public void createUser(
             RegistrationRequest request,
@@ -55,7 +59,7 @@ public class UserService {
     }
 
     @Transactional
-    public void activateUser(String token) {
+    public String activateUser(String token) {
         ActivationToken activationToken = activationTokenRepository.findByToken(token)
                 .orElseThrow(() -> new ClinicEntityNotFoundException(ACTIVATION_TOKEN, token));
         UserDetails user = userDetailsManager.loadUserByUsername(activationToken.getUsername());
@@ -65,6 +69,8 @@ public class UserService {
                 .build();
         userDetailsManager.updateUser(activatedUser);
         activationTokenRepository.delete(activationToken);
+        String firstName = personRepository.findByEmailOrThrowDefault(activatedUser.getUsername()).getFirstName();
+        return jwtProvider.generateToken(activatedUser, firstName);
     }
 
     private String createActivationTokenForUser(UserDetails user){

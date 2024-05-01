@@ -14,8 +14,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/activate")
-    public ResponseEntity<Void> activateUser(@RequestParam String token){
-        userService.activateUser(token);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> activateUser(@RequestParam String token){
+        return ResponseEntity.ok(userService.activateUser(token));
     }
 }
