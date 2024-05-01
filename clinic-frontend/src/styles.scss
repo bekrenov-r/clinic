@@ -83,3 +83,7 @@ label.invalid {
 .link:hover {
     color: #{$dark-green};
 }
+
+.text-primary {
+    color: rgba($dark-green, .7) !important;
+}

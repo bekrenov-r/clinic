@@ -47,7 +47,7 @@
     }
 }
 
-.password-box {
+.password-box, .alert-danger {
     @include media-breakpoint-up(sm){
         margin-right: 40vw;
     }
@@ -69,4 +69,10 @@
 .invalid-msg {
     color: $light-red;
     font-size: 0.9rem;
+}
+
+.spinner-border {
+    --bs-spinner-width: 1rem;
+    --bs-spinner-height: 1rem;
+    margin-right: 10px;
 }

@@ -1,8 +1,9 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnChanges, OnInit, Renderer2, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { PatientRegistration } from 'src/app/models/patient-registration';
 import { RegistrationService } from '../registration.service';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-registration-form',
@@ -11,6 +12,8 @@ import { Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class RegistrationFormComponent implements OnInit {
+  @ViewChild('submitButtonSpinner') submitButtonSpinner: ElementRef;
+
   step1Form: FormGroup = new FormGroup({});
   step2Form: FormGroup = new FormGroup({});
 
@@ -21,10 +24,10 @@ export class RegistrationFormComponent implements OnInit {
   static readonly peselRegex: string = '^\\d{11}$';
 
   constructor(
-    private formBuilder: FormBuilder, 
+    private formBuilder: FormBuilder,
     private registrationService: RegistrationService,
     private render: Renderer2
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.step1Form = this.formBuilder.group({
@@ -57,8 +60,24 @@ export class RegistrationFormComponent implements OnInit {
     this.step2Form.setValidators(confirmedPasswordMatchValidator);
   }
 
+  onSubmit(): void {
+    this.showSpinner();
+    this.register();
+  }
+
   register(): void {
-    const registration: PatientRegistration = {
+    const registration: PatientRegistration = this.composeRegistration();
+    this.registrationService.registerPatient(registration)
+      .pipe(
+        finalize(() => this.hideSpinner())
+      ).subscribe({
+        next: () => this.step = 3,
+        error: () => this.showFailureAlert()
+      });
+  }
+
+  composeRegistration(): PatientRegistration {
+    return {
       firstName: this.step1Form.get('firstName')?.value,
       lastName: this.step1Form.get('lastName')?.value,
       pesel: this.step1Form.get('pesel')?.value,
@@ -73,18 +92,26 @@ export class RegistrationFormComponent implements OnInit {
       },
       password: this.step2Form.get('password')?.value
     }
-
-    console.log(registration);
-    
-
-    this.registrationService.registerPatient(registration).subscribe({
-      next: () => {console.log('success')},
-      error: () => this.showFailureDialog()
-    })
   }
 
-  showFailureDialog(): void {
-    
+  showFailureAlert(): void {
+    const alert: HTMLElement = document.querySelector('#failureAlert');
+    this.render.removeClass(alert, 'd-none');
+    this.render.addClass(alert, 'd-flex');
+  }
+
+  hideFailureAlert(): void {
+    const alert: HTMLElement = document.querySelector('#failureAlert');
+    this.render.removeClass(alert, 'd-flex');
+    this.render.addClass(alert, 'd-none');
+  }
+
+  showSpinner(): void {
+    this.render.removeClass(this.submitButtonSpinner.nativeElement, 'd-none');
+  }
+
+  hideSpinner(): void {
+    this.render.addClass(this.submitButtonSpinner.nativeElement, 'd-none');
   }
 
   getInvalidMsgForEmail(): string {
