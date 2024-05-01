@@ -21,7 +21,7 @@ public class PatientService {
     private final AddressService addressService;
 
     public PatientResponse getPatientProfile() {
-        Patient patient = patientRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
+        Patient patient = patientRepository.findByEmailOrThrowDefault(CurrentAuthUtil.getAuthentication().getName());
         return patientMapper.entityToResponse(patient);
     }
 

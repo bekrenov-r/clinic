@@ -11,10 +11,7 @@ import com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason;
 import com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason;
 import com.bekrenov.clinic.model.entity.*;
 import com.bekrenov.clinic.model.enums.AppointmentStatus;
-import com.bekrenov.clinic.repository.AppointmentRepository;
-import com.bekrenov.clinic.repository.DepartmentRepository;
-import com.bekrenov.clinic.repository.DoctorRepository;
-import com.bekrenov.clinic.repository.PatientRepository;
+import com.bekrenov.clinic.repository.*;
 import com.bekrenov.clinic.security.Role;
 import com.bekrenov.clinic.util.*;
 import com.bekrenov.clinic.validation.AppointmentAssert;
@@ -43,6 +40,7 @@ public class AppointmentService {
     private final AppointmentMapper appointmentMapper;
     private final AvailabilityService availabilityService;
     private final MailService mailService;
+    private final PersonRepository personRepository;
 
     @Value("${business.data.page-size}")
     private Integer pageSize;
@@ -60,9 +58,7 @@ public class AppointmentService {
 
     public AppointmentResponse getAppointmentById(Long id) {
         Appointment appointment = appointmentRepository.findByIdOrThrowDefault(id);
-        Person currentPerson = CurrentAuthUtil.hasAuthority(Role.DOCTOR)
-                ? doctorRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName())
-                : patientRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
+        Person currentPerson = personRepository.findByEmailOrThrowDefault(CurrentAuthUtil.getAuthentication().getName());
         AppointmentAssert.assertPersonIsAppointmentOwner(appointment, currentPerson);
         return appointmentMapper.entityToResponse(appointment);
     }
@@ -121,7 +117,7 @@ public class AppointmentService {
 
     public void cancelAppointment(Long id) {
         Appointment appointment = appointmentRepository.findByIdOrThrowDefault(id);
-        Patient patient = patientRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
+        Patient patient = patientRepository.findByEmailOrThrowDefault(CurrentAuthUtil.getAuthentication().getName());
         AppointmentAssert.assertPatientIsAppointmentOwner(appointment, patient);
         AppointmentAssert.assertAppointmentCanBeCancelled(appointment);
         appointment.setStatus(AppointmentStatus.CANCELLED);
@@ -135,7 +131,7 @@ public class AppointmentService {
             Doctor doctor = doctorRepository.findByEmail(username);
             return appointmentRepository.findAllByDoctor(doctor);
         } else {
-            Patient patient = patientRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
+            Patient patient = patientRepository.findByEmailOrThrowDefault(CurrentAuthUtil.getAuthentication().getName());
             return appointmentRepository.findAllByPatient(patient);
         }
     }
@@ -153,7 +149,7 @@ public class AppointmentService {
 
     private Patient resolvePatientFromRequest(AppointmentRequestByPatient request) {
         if(CurrentAuthUtil.isAuthenticated()){
-            return patientRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
+            return patientRepository.findByEmailOrThrowDefault(CurrentAuthUtil.getAuthentication().getName());
         } else {
             String pesel = request.patient().pesel();
             if(patientRepository.existsByPesel(pesel)){

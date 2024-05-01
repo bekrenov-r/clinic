@@ -23,8 +23,8 @@ public class JwtProvider {
     @Value("${spring.jwt.expiration-time-millis}")
     private Long expirationTime;
 
-    public String generateToken(UserDetails userDetails) {
-        var claims = createClaims(userDetails);
+    public String generateToken(UserDetails userDetails, String firstName) {
+        var claims = createClaims(userDetails, firstName);
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
@@ -67,12 +67,15 @@ public class JwtProvider {
         return expiration.before(new Date());
     }
 
-    private Map<String, Object> createClaims(UserDetails userDetails){
+    private Map<String, Object> createClaims(UserDetails userDetails, String firstName){
         List<String> rolesStr = userDetails.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
-        return Map.of("roles", String.join(",", rolesStr));
+        return Map.of(
+                "roles", String.join(",", rolesStr),
+                "fname", firstName
+        );
     }
 
     private Key getKey(){
