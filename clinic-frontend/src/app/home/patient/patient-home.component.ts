@@ -1,15 +1,15 @@
 import {Component, ViewEncapsulation} from '@angular/core';
-import {AuthService} from "../user/login/auth.service";
-import {environment} from "../../environments/environment";
+import {AuthService} from "../../user/login/auth.service";
+import {environment} from "../../../environments/environment";
 import {jwtDecode} from "jwt-decode";
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  templateUrl: './patient-home.component.html',
+  styleUrls: ['./patient-home.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HomeComponent {
+export class PatientHomeComponent {
   firstName: string;
 
   constructor(private authService: AuthService) {}
@@ -17,6 +17,5 @@ export class HomeComponent {
   ngOnInit(): void {
     const jwtPayload: any = jwtDecode(localStorage.getItem(environment.authTokenStorageKey));
     this.firstName = jwtPayload['fname'];
-    console.log(jwtPayload)
   }
 }

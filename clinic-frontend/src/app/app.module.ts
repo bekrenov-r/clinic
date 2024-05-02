@@ -8,14 +8,14 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginFormComponent } from './user/login/login-form/login-form.component';
 import { UserModule } from './user/user.module';
 import { HttpClientModule } from '@angular/common/http';
-import { HomeComponent } from './home/home.component';
+import { PatientHomeComponent } from './home/patient/patient-home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     LandingPageComponent,
-    HomeComponent
+    PatientHomeComponent
   ],
   imports: [
     BrowserModule,
