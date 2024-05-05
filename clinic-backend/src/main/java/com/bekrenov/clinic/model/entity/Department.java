@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "departments")
@@ -39,12 +40,12 @@ public class Department extends AbstractEntity {
     @Getter
     @AllArgsConstructor
     public enum Specialization {
-        PHYSICIAN("Terapeuta"),
-        OPHTHALMOLOGY("Okulistyka"),
-        DERMATOLOGY("Dermatologia"),
-        PSYCHOLOGY("Psychologia"),
-        GASTROENTEROLOGY("Gastroenterologia");
+        PHYSICIAN(Map.of("en", "Physician", "pl", "Terapeuta")),
+        OPHTHALMOLOGY(Map.of("en", "Ophthalmology", "pl", "Okulistyka")),
+        DERMATOLOGY(Map.of("en", "Dermatology", "pl", "Dermatologia")),
+        PSYCHOLOGY(Map.of("en", "Psychology", "pl", "Psychologia")),
+        GASTROENTEROLOGY(Map.of("en", "Gastroenterology", "pl", "Gastroenterologia"));
 
-        private final String name;
+        private final Map<String, String> langNameMap;
     }
 }

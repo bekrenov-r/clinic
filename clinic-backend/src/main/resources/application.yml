@@ -55,6 +55,7 @@ spring:
           GET /appointments/availability/**,
           GET /departments,
           GET /holidays,
+          GET /specializations,
           GET /swagger-ui.html,
           GET /swagger-ui/**,
           GET /api-docs/**
@@ -86,7 +87,8 @@ spring:
           GET /doctors/department/**,
           GET /appointments/availability/**,
           GET /departments,
-          GET /holidays
+          GET /holidays,
+          GET /specializations,
         optional-auth:
           POST /appointments/patient
 server:
@@ -108,6 +110,7 @@ spring:
           GET /appointments/availability/**,
           GET /departments,
           GET /holidays,
+          GET /specializations,
           GET /swagger-ui.html,
           GET /swagger-ui/**,
           GET /api-docs/**,

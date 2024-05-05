@@ -8,7 +8,7 @@
         <label for="specialization" class="form-label">Specialization:</label>
       </div>
       <div class="col-sm-8 col-12 d-flex align-items-center">
-        <select required class="form-select" id="specialization">
+        <select required class="form-select" id="specialization" (change)="populateDepartments()">
           <option value="" disabled selected>Choose specialization...</option>
         </select>
       </div>
@@ -18,7 +18,7 @@
         <label for="department" class="form-label">Department:</label>
       </div>
       <div class="col-sm-8 col-12 d-flex align-items-center">
-        <select required class="form-select" id="department">
+        <select required class="form-select" id="department" (change)="populateDoctors()">
           <option value="" disabled selected>Choose department...</option>
         </select>
       </div>
@@ -28,7 +28,7 @@
         <label for="doctor" class="form-label">Doctor:</label>
       </div>
       <div class="col-sm-8 col-12 d-flex align-items-center">
-        <select required class="form-select" id="doctor">
+        <select required class="form-select" id="doctor" (change)="populateTimes()">
           <option value="" disabled selected>Choose doctor...</option>
         </select>
       </div>
@@ -38,7 +38,7 @@
       </div>
       <div class="col-sm-8 col-12 d-flex align-items-center">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="any-doctor">
+          <input class="form-check-input" type="checkbox" value="" id="any-doctor" (change)="onCheckboxChange($event.target)">
           <label class="form-check-label" for="any-doctor">
             Any doctor
           </label>
@@ -50,7 +50,7 @@
         <label for="date" class="form-label">Date:</label>
       </div>
       <div class="col-8 d-flex align-items-center">
-        <input class="form-control" type="text" id="date" style="width: fit-content">
+        <input class="form-control" type="text" id="date" style="width: fit-content" (change)="populateTimes()">
       </div>
     </div>
     <div class="row mb-3">

@@ -1,5 +1,6 @@
 package com.bekrenov.clinic.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -19,9 +20,11 @@ public class Address extends AbstractEntity {
     @Column(name="street")
     private String street;
 
+    @JsonProperty("building")
     @Column(name="building_number")
     private String buildingNumber;
 
+    @JsonProperty("flat")
     @Column(name="flat_number")
     private String flatNumber;
 
