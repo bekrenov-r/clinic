@@ -45,4 +45,15 @@ option {
   &[value=""][disabled] {
     display: none;
   }
+
+  &.empty-select-msg {
+    color: $gray;
+    font-size: 0.9rem;
+  }
+}
+
+.spinner-border {
+  --bs-spinner-width: 1rem !important;
+  --bs-spinner-height: 1rem !important;
+  margin-right: 10px;
 }

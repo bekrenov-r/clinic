@@ -28,7 +28,7 @@ main {
     @include media-breakpoint-up(xxl){
         width: 35vw;
     }
-    
+
 }
 
 .title {
@@ -38,7 +38,7 @@ main {
 }
 
 .text-small {
-    color: #{$grey};
+    color: #{$gray};
     font-size: 0.7rem;
 }
 

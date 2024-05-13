@@ -1,73 +1,115 @@
 <div class="mx-xl-5 mx-lg-4 mx-md-3 mx-0 px-xl-5 px-4 py-4">
-  <div class="form-box">
+  <form class="form-box" [formGroup]="appointmentForm" (ngSubmit)="onSubmit()">
     <h2 class="heading mb-sm-4 mb-3">
       Create appointment
     </h2>
-    <div class="row mb-3">
+    <div class="row">
       <div class="col-sm-4 col-12 d-flex align-items-center justify-content-sm-end justify-content-start">
         <label for="specialization" class="form-label">Specialization:</label>
       </div>
       <div class="col-sm-8 col-12 d-flex align-items-center">
-        <select required class="form-select" id="specialization" (change)="populateDepartments()">
+        <select required class="form-select" id="specialization" formControlName="specialization"
+                (change)="populateDepartments()" #specialization
+                [ngClass]="{'is-invalid': appointmentForm.get('specialization').invalid && appointmentForm.get('specialization').touched}">
           <option value="" disabled selected>Choose specialization...</option>
         </select>
       </div>
     </div>
-    <div class="row mb-3">
+    <div class="row" *ngIf="appointmentForm.get('specialization').invalid && appointmentForm.get('specialization').touched">
+      <div class="col-sm-4 col-12"></div>
+      <div class="col-sm-8 col-12">
+        <div class="invalid-msg">
+          Specialization is required
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
       <div class="col-sm-4 col-12 d-flex align-items-center justify-content-sm-end justify-content-start">
         <label for="department" class="form-label">Department:</label>
       </div>
       <div class="col-sm-8 col-12 d-flex align-items-center">
-        <select required class="form-select" id="department" (change)="populateDoctors()">
+        <select required class="form-select" id="department" formControlName="department" (change)="populateDoctors()" #department
+                [ngClass]="{'is-invalid': appointmentForm.get('department').invalid && appointmentForm.get('department').touched}">
           <option value="" disabled selected>Choose department...</option>
+          <option value="#" disabled class="empty-select-msg"
+          *ngIf="!specialization.value">
+            Choose specialization first
+          </option>
         </select>
       </div>
     </div>
-    <div class="row mb-3">
+    <div class="row" *ngIf="appointmentForm.get('department').invalid && appointmentForm.get('department').touched">
+      <div class="col-sm-4 col-12"></div>
+      <div class="col-sm-8 col-12">
+        <div class="invalid-msg">
+          Department is required
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
       <div class="col-sm-4 col-12 d-flex align-items-center justify-content-sm-end justify-content-start">
         <label for="doctor" class="form-label">Doctor:</label>
       </div>
       <div class="col-sm-8 col-12 d-flex align-items-center">
-        <select required class="form-select" id="doctor" (change)="populateTimes()">
+        <select required class="form-select" id="doctor" formControlName="doctor" (change)="populateTimes()" #doctor>
           <option value="" disabled selected>Choose doctor...</option>
+          <option value="#" disabled class="empty-select-msg"
+                  *ngIf="!department.value">
+            Choose department first
+          </option>
         </select>
       </div>
     </div>
-    <div class="row mb-3">
-      <div class="col-4 d-none d-sm-flex">
-      </div>
-      <div class="col-sm-8 col-12 d-flex align-items-center">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="any-doctor" (change)="onCheckboxChange($event.target)">
-          <label class="form-check-label" for="any-doctor">
-            Any doctor
-          </label>
-        </div>
-      </div>
-    </div>
-    <div class="row mb-3">
+    <div class="row mt-3">
       <div class="col-sm-4 col-12 d-flex align-items-center justify-content-sm-end justify-content-start">
         <label for="date" class="form-label">Date:</label>
       </div>
       <div class="col-8 d-flex align-items-center">
-        <input class="form-control" type="text" id="date" style="width: fit-content" (change)="populateTimes()">
+        <input class="form-control" type="text" id="date" style="width: fit-content" formControlName="date" (change)="populateTimes()" #date
+               [ngClass]="{'is-invalid': appointmentForm.get('date').invalid && appointmentForm.get('date').touched}">
       </div>
     </div>
-    <div class="row mb-3">
+    <div class="row" *ngIf="appointmentForm.get('date').invalid && appointmentForm.get('date').touched">
+      <div class="col-sm-4 col-12"></div>
+      <div class="col-sm-8 col-12">
+        <div class="invalid-msg">
+          Date is required
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
       <div class="col-sm-4 col-12 d-flex align-items-center justify-content-sm-end justify-content-start">
         <label for="time" class="form-label">Time:</label>
       </div>
       <div class="col-8 d-flex align-items-center">
-        <select required class="form-select" id="time" style="width: fit-content">
+        <select required class="form-select" id="time" style="width: fit-content" formControlName="time" #time
+                [ngClass]="{'is-invalid': appointmentForm.get('time').invalid && appointmentForm.get('time').touched}">
           <option value="" disabled selected>Choose time...</option>
+          <option value="#" disabled class="empty-select-msg"
+                  *ngIf="department.value === '' || doctor.value === '' || date.value === ''"
+                  [innerText]="!department.value ? 'Choose department first' : (!doctor.value ? 'Choose doctor first': '')">
+          </option>
         </select>
       </div>
     </div>
-    <div class="row">
-      <div class="col-4 d-none d-sm-flex"></div>
-      <div class="col-8">
-        <button class="btn btn-primary">Sign up</button>
+    <div class="row" *ngIf="appointmentForm.get('time').invalid && appointmentForm.get('time').touched">
+      <div class="col-sm-4 col-12"></div>
+      <div class="col-sm-8 col-12">
+        <div class="invalid-msg">
+          Time is required
+        </div>
       </div>
     </div>
-  </div>
+    <div class="row mt-3">
+      <div class="col-4 d-none d-sm-flex"></div>
+      <div class="col-8">
+        <button class="btn btn-primary" type="submit" [disabled]="appointmentForm.invalid">
+          <div class="spinner-border text-primary d-none" role="status" #submitButtonSpinner>
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          Sign up
+        </button>
+      </div>
+    </div>
+  </form>
 </div>

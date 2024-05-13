@@ -79,7 +79,7 @@ label.invalid {
 }
 
 .link {
-    color: #{$grey};
+    color: #{$gray};
     text-decoration: underline;
     font-size: 0.7rem;
 }
@@ -90,4 +90,9 @@ label.invalid {
 
 .text-primary {
     color: rgba($dark-green, .7) !important;
+}
+
+.invalid-msg {
+  color: $light-red;
+  font-size: 0.9rem;
 }
