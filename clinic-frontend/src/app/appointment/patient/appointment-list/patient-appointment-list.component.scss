@@ -1,0 +1,140 @@
+@import "../../../../styles.scss";
+
+.heading {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #{$dark-green};
+}
+
+.subheading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $dark-green;
+}
+
+.filter-options {
+  width: 40vw;
+
+  @include media-breakpoint-up(sm) {
+    width: 30vw;
+  }
+
+  @include media-breakpoint-up(md) {
+    width: 20vw;
+  }
+
+  @include media-breakpoint-up(lg) {
+    width: 15vw;
+  }
+}
+
+.appointment-card {
+  border-radius: $card-border-radius;
+  box-shadow: $card-box-shadow;
+  overflow: hidden;
+  width: fit-content;
+
+  @include media-breakpoint-up(md) {
+    width: 100%;
+  }
+
+  @include media-breakpoint-up(lg) {
+    width: 90%;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    width: 80%;
+  }
+
+  .status-box {
+    .status-icon {
+      height: 1rem;
+      width: 1rem;
+      margin-right: 5px;
+
+      @include media-breakpoint-up(md) {
+        height: 2.5rem;
+        width: 2.5rem;
+        margin-bottom: 10px;
+        margin-right: 0;
+      }
+    }
+
+    .status-name {
+      font-size: .6rem;
+      font-weight: 600;
+
+      &.finished {
+        color: $gray;
+      }
+
+      &.pending {
+        color: $indigo-700;
+      }
+
+      &.upcoming {
+        color: $dark-green;
+      }
+
+      &.cancelled {
+        color: $light-red;
+      }
+    }
+  }
+
+  .info {
+    @include media-breakpoint-down(md) {
+      min-width: 100%;
+    }
+
+    .info-icon {
+      width: 1rem;
+      height: 1rem;
+      margin-right: 10px
+    }
+  }
+
+  .vertical-divider {
+    border-left: 2px solid $gray;
+    height: 4rem;
+    margin: 0 5px;
+  }
+
+  .horizontal-divider {
+    border-top-width: 2px;
+    margin: 20px 0;
+    color: $gray;
+  }
+
+  &.closed {
+    display: flex;
+    align-items: center;
+
+    .actions {
+      display: none;
+    }
+  }
+
+  .actions-toggle {
+    color: $light-gray;
+
+    svg {
+      color: $light-gray;
+      margin-left: 10px;
+      transition: .1s ease-in-out;
+    }
+
+    &:hover {
+      color: $gray;
+      cursor: pointer;
+    }
+
+    &:hover svg {
+      color: $gray;
+    }
+  }
+
+  &.open .actions-toggle svg {
+    transform: rotate(90deg);
+  }
+}

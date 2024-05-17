@@ -28,6 +28,12 @@ body {
     --bs-btn-font-size: .9rem;
 }
 
+.btn-danger {
+  @include button-variant($light-red, $light-red, $beige, darken($light-red, 5%), darken($light-red, 5%), $beige, darken($light-red, 10%), darken($light-red, 1%), $beige);
+  --bs-btn-font-weight: 700;
+  --bs-btn-font-size: .9rem;
+}
+
 strong {
     font-size: 1.5rem;
     font-weight: 700;

@@ -9,8 +9,8 @@ import {AppointmentAvailabilityService} from "../../appointment-availability.ser
 import {finalize, map, Observable} from "rxjs";
 import {DoctorService} from "../../../doctor/doctor.service";
 import {AppointmentService} from "../../appointment.service";
-import {PatientAppointmentRequest} from "../../../models/appointment";
 import {Router} from "@angular/router";
+import {PatientAppointmentRequest} from "../../../models/appointment/patient-appointment-request";
 
 @Component({
   selector: 'app-patient-appointment-form',

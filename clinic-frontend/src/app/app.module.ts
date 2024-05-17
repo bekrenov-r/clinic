@@ -12,6 +12,8 @@ import { PatientHomeComponent } from './home/patient/patient-home.component';
 import { PatientAppointmentFormComponent } from './appointment/patient/appointment-form/patient-appointment-form.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthorizationHeaderInterceptor} from "./user/login/auth.service";
+import { PatientAppointmentListComponent } from './appointment/patient/appointment-list/patient-appointment-list.component';
+import {NgOptimizedImage} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -19,14 +21,16 @@ import {AuthorizationHeaderInterceptor} from "./user/login/auth.service";
     HeaderComponent,
     LandingPageComponent,
     PatientHomeComponent,
-    PatientAppointmentFormComponent
+    PatientAppointmentFormComponent,
+    PatientAppointmentListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     UserModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgOptimizedImage
   ],
   providers: [
     {

@@ -1,0 +1,79 @@
+<div class="mx-xl-5 mx-lg-4 mx-md-3 mx-0 px-xl-5 px-4 py-4">
+  <h2 class="heading mb-sm-4 mb-3">
+    My appointments
+  </h2>
+  <select class="form-select form-select-sm filter-options mb-3" #filters (change)="onFilterOptionChange()">
+    <option selected id="all">
+      All
+    </option>
+    <option id="upcoming">
+      Upcoming
+    </option>
+    <option id="pending">
+      Pending
+    </option>
+    <option id="cancelled">
+      Cancelled
+    </option>
+    <option id="finished">
+      Finished
+    </option>
+  </select>
+  <div *ngIf="appointments.length === 0">
+    No appointments yet
+  </div>
+  <div class="list-box">
+    <div class="appointment-card closed p-4 mb-3" *ngFor="let appointment of appointments" id="{{'card-' + appointment.id}}">
+      <div class="d-flex flex-wrap flex-grow-1 align-items-center justify-content-between gap-3 px-0 px-lg-3">
+        <div class="status-box d-flex flex-row flex-md-column align-items-center order-2 order-md-1 me-3">
+          <img src="../../../../assets/icons/{{getStatusIcon(appointment.status)}}" class="status-icon">
+          <span class="status-name"
+                [ngClass]="{
+                  'finished': appointment.status === 'FINISHED',
+                  'pending': appointment.status === 'PENDING',
+                  'upcoming': appointment.status === 'CONFIRMED',
+                  'cancelled': appointment.status === 'CANCELLED'
+                  }">
+              {{getStatusName(appointment.status)}}
+            </span>
+        </div>
+        <div class="info d-flex gap-3 align-items-sm-center align-items-start flex-grow-1 flex-sm-row flex-column order-1 order-md-2">
+          <div class="d-flex flex-column gap-1">
+            <div class="d-flex align-items-center">
+              <img src="../../../../assets/icons/date.svg" class="info-icon">
+              {{appointment.date | date: 'EEEE, MMMM d'}}
+            </div>
+            <div class="d-flex align-items-center">
+              <img src="../../../../assets/icons/time.svg" class="info-icon">
+              {{appointment.startTime}}-{{appointment.endTime}}
+            </div>
+          </div>
+          <div class="vertical-divider d-none d-sm-block align-self-start align-self-md-center"></div>
+          <div class="d-flex flex-column gap-1">
+            <div class="d-flex align-items-center">
+              <img src="../../../../assets/icons/doctor.svg" class="info-icon">
+              {{appointment.doctor.firstName}} {{appointment.doctor.lastName}}
+            </div>
+            <div class="d-flex align-items-center">
+              <img src="../../../../assets/icons/location.svg" class="info-icon">
+              {{appointment.departmentAddress}}
+            </div>
+          </div>
+        </div>
+        <div class="actions-toggle d-flex align-items-center align-self-end align-self-md-auto order-3" (click)="toggleActionsPanel($event.target, 'card-' + appointment.id)">
+          Więcej
+          <svg width="13" height="17" viewBox="0 0 13 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.5 15.5L10.5 8.5L1.5 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="actions px-0 px-lg-3">
+        <hr class="horizontal-divider">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-primary">See doctor's profile</button>
+          <button class="btn btn-danger" *ngIf="appointment.status === 'CONFIRMED' || appointment.status === 'PENDING'">Cancel</button>
+        </div>
+      </div>
+      </div>
+  </div>
+</div>

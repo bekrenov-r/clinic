@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient, HttpParams} from "@angular/common/http";
+import {map, Observable} from "rxjs";
 import {environment} from "../../environments/environment";
-import {PatientAppointmentRequest} from "../models/appointment";
+import {Appointment} from "../models/appointment/appointment";
+import {PatientAppointmentRequest} from "../models/appointment/patient-appointment-request";
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,14 @@ import {PatientAppointmentRequest} from "../models/appointment";
 export class AppointmentService {
 
   constructor(private http: HttpClient) { }
+
+  getAllAppointments(status?: string): Observable<Appointment[]> {
+    let params = status ? {status} : undefined;
+    return this.http.get<any>(`${environment.apiBaseUrl}/appointments`, {params: params})
+      .pipe(
+        map(res => res['content'])
+      );
+  }
 
   createAppointmentAsPatient(body: PatientAppointmentRequest): Observable<any> {
     return this.http.post(`${environment.apiBaseUrl}/appointments/patient`, body);
