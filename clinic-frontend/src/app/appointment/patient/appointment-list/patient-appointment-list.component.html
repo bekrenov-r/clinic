@@ -1,4 +1,19 @@
 <div class="mx-xl-5 mx-lg-4 mx-md-3 mx-0 px-xl-5 px-4 py-4">
+  <div class="modal" tabindex="-1" id="cancel-appointment-modal" #cancelAppointmentModal>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body d-flex align-items-center">
+          Cancel appointment?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="button" class="btn btn-danger" (click)="cancelAppointment()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <h2 class="heading mb-sm-4 mb-3">
     My appointments
   </h2>
@@ -71,9 +86,24 @@
         <hr class="horizontal-divider">
         <div class="d-flex align-items-center gap-3">
           <button class="btn btn-primary">See doctor's profile</button>
-          <button class="btn btn-danger" *ngIf="appointment.status === 'CONFIRMED' || appointment.status === 'PENDING'">Cancel</button>
+          <button class="btn btn-danger" *ngIf="appointment.status === 'CONFIRMED' || appointment.status === 'PENDING'" (click)="showCancelAppointmentModal(appointment.id)">
+            <div class="spinner-border text-warning d-none" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            Cancel
+          </button>
         </div>
       </div>
       </div>
+  </div>
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div class="toast align-items-center" id="cancellingToast" role="alert">
+      <div class="d-flex">
+        <div class="toast-body">
+          Hello, world! This is a toast message.
+        </div>
+        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
   </div>
 </div>

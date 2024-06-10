@@ -23,4 +23,8 @@ export class AppointmentService {
   createAppointmentAsPatient(body: PatientAppointmentRequest): Observable<any> {
     return this.http.post(`${environment.apiBaseUrl}/appointments/patient`, body);
   }
+
+  cancelAppointment(id: number): Observable<any> {
+    return this.http.delete(`${environment.apiBaseUrl}/appointments/${id}/cancel`);
+  }
 }

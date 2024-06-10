@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Renderer2, ViewChild, ViewEncapsulation} from '@angular/core';
 import {Appointment} from "../../../models/appointment/appointment";
 import {AppointmentService} from "../../appointment.service";
 import {Address} from "../../../models/address";
-import {
-  logBuilderStatusWarnings
-} from "@angular-devkit/build-angular/src/builders/browser-esbuild/builder-status-warnings";
+import * as bootstrap from 'bootstrap';
+import Modal from 'bootstrap/js/dist/modal';
+import {finalize} from "rxjs";
 
 @Component({
   selector: 'app-patient-appointment-list',
@@ -14,7 +14,9 @@ import {
 })
 export class PatientAppointmentListComponent implements AfterViewInit {
   @ViewChild('filters') filters: ElementRef;
+  @ViewChild('cancelAppointmentModal') cancelAppointmentModal: ElementRef;
 
+  private bsCancelAppointmentModal: bootstrap.Modal;
   protected readonly Address = Address;
 
   appointments: Appointment[] = [];
@@ -80,5 +82,40 @@ export class PatientAppointmentListComponent implements AfterViewInit {
       case 'PENDING': return 'PENDING';
       default: return null;
     }
+  }
+
+  cancelAppointment(): void {
+    this.bsCancelAppointmentModal.hide();
+    const appointmentId: number = +this.cancelAppointmentModal.nativeElement.getAttribute('data-bs-appointment-id');
+    const appointmentCardId: string = `#card-${appointmentId}`;
+    this.disableCancelButton(appointmentCardId);
+    this.showCancelButtonSpinner(appointmentCardId);
+    this.appointmentService.cancelAppointment(appointmentId)
+      .pipe(
+        finalize(() => this.hideCancelButtonSpinner(appointmentCardId))
+      )
+      .subscribe(() => this.populateAppointments());
+  }
+
+  disableCancelButton(cardId: string) {
+    const button: HTMLButtonElement = document.querySelector(`${cardId} .btn-danger`);
+    button.disabled = true;
+  }
+
+  showCancelButtonSpinner(cardId: string) {
+    const spinner: HTMLDivElement = document.querySelector(`${cardId} .spinner-border`);
+    this.render.removeClass(spinner, 'd-none');
+  }
+
+  hideCancelButtonSpinner(cardId: string) {
+    const spinner: HTMLDivElement = document.querySelector(`${cardId} .spinner-border`);
+    this.render.addClass(spinner, 'd-none');
+  }
+
+  showCancelAppointmentModal(id: number): void {
+    const modal: HTMLDivElement = this.cancelAppointmentModal.nativeElement;
+    modal.setAttribute('data-bs-appointment-id', String(id));
+    this.bsCancelAppointmentModal = Modal.getOrCreateInstance(modal);
+    this.bsCancelAppointmentModal.show();
   }
 }
