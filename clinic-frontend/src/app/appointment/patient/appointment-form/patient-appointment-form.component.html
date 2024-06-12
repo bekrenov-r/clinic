@@ -1,8 +1,13 @@
 <div class="mx-xl-5 mx-lg-4 mx-md-3 mx-0 px-xl-5 px-4 py-4">
   <form class="form-box" [formGroup]="appointmentForm" (ngSubmit)="onSubmit()">
-    <h2 class="heading mb-sm-4 mb-3">
-      Create appointment
-    </h2>
+    <div class="d-flex gap-3 flex-column flex-sm-row align-items-center mb-sm-4 mb-3">
+      <a href="#" class="back-arrow" [routerLink]="['/patient/home']">
+        <img src="../../../../assets/icons/arrow-back.svg" alt="Back">
+      </a>
+      <h2 class="heading">
+        Create appointment
+      </h2>
+    </div>
     <div class="row">
       <div class="col-sm-4 col-12 d-flex align-items-center justify-content-sm-end justify-content-start">
         <label for="specialization" class="form-label">Specialization:</label>

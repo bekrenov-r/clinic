@@ -14,9 +14,14 @@
       </div>
     </div>
   </div>
-  <h2 class="heading mb-sm-4 mb-3">
-    My appointments
-  </h2>
+  <div class="d-flex gap-3 align-items-center mb-sm-4 mb-3">
+    <a href="#" class="back-arrow" [routerLink]="['/patient/home']">
+      <img src="../../../../assets/icons/arrow-back.svg" alt="Back">
+    </a>
+    <h2 class="heading">
+      My appointments
+    </h2>
+  </div>
   <select class="form-select form-select-sm filter-options mb-3" #filters (change)="onFilterOptionChange()">
     <option selected id="all">
       All

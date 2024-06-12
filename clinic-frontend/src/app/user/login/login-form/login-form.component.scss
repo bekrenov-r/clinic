@@ -31,14 +31,12 @@ main {
 
 }
 
-.title {
-    color: #{$dark-green};
+.heading {
     font-size: 2rem;
-    font-weight: 900;
 }
 
 .text-small {
-    color: #{$gray};
+    color: $gray;
     font-size: 0.7rem;
 }
 

@@ -71,7 +71,7 @@ export class PatientAppointmentFormComponent implements OnInit, AfterViewInit {
         finalize(() => this.hideSpinner())
       )
       .subscribe({
-        next: () => this.router.navigate(['/'])
+        next: () => this.router.navigate(['/patient/appointments'])
       })
   }
 
