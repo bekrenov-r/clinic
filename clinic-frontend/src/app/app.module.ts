@@ -14,6 +14,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthorizationHeaderInterceptor} from "./user/login/auth.service";
 import { PatientAppointmentListComponent } from './appointment/patient/appointment-list/patient-appointment-list.component';
 import {NgOptimizedImage} from "@angular/common";
+import { AboutComponent } from './landing-page/about/about.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {NgOptimizedImage} from "@angular/common";
     LandingPageComponent,
     PatientHomeComponent,
     PatientAppointmentFormComponent,
-    PatientAppointmentListComponent
+    PatientAppointmentListComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,

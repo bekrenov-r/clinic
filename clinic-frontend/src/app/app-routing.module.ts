@@ -11,9 +11,11 @@ import {
 import {
   PatientAppointmentListComponent
 } from "./appointment/patient/appointment-list/patient-appointment-list.component";
+import {AboutComponent} from "./landing-page/about/about.component";
 
 const routes: Routes = [
   {path: '', component: LandingPageComponent},
+  {path: 'about', component: AboutComponent},
   {path: 'login', component: LoginFormComponent},
   {path: 'registration', component: RegistrationFormComponent},
   {path: 'registration/confirmed', component: RegistrationConfirmedComponent},
