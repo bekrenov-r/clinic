@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +50,7 @@ public class AppointmentController {
     }
 
     @PostMapping("/patient")
-    @Secured("PATIENT")
+    @PreAuthorize("requireRoleIfAuthenticated('PATIENT')")
     public ResponseEntity<AppointmentResponse> createAppointmentAsPatient(
             @RequestBody
             @Validated(PatientRegistrationWithoutUser.class)

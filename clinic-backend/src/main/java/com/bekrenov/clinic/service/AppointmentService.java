@@ -19,7 +19,9 @@ import com.bekrenov.clinic.validation.DoctorAssert;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -151,6 +153,9 @@ public class AppointmentService {
         if(CurrentAuthUtil.isAuthenticated()){
             return patientRepository.findByEmailOrThrowDefault(CurrentAuthUtil.getAuthentication().getName());
         } else {
+            if(request.patient() == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Patient data is required for creating appointment without authentication");
+            }
             String pesel = request.patient().pesel();
             if(patientRepository.existsByPesel(pesel)){
                 return patientService.updatePatient(
