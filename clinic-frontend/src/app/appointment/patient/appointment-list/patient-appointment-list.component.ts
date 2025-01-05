@@ -24,17 +24,22 @@ export class PatientAppointmentListComponent implements AfterViewInit {
   constructor(private appointmentService: AppointmentService, private render: Renderer2) {}
 
   ngAfterViewInit(): void {
+    const sessionStorageFilterOption = sessionStorage.getItem('appointments-filter-option');
+    if(sessionStorageFilterOption) {
+      this.filters.nativeElement.value = sessionStorageFilterOption;
+    }
     this.populateAppointments();
   }
 
   onFilterOptionChange(): void {
+    sessionStorage.setItem('appointments-filter-option', this.filters.nativeElement.value);
     this.populateAppointments();
   }
 
   populateAppointments(): void {
     let status: string | undefined;
-    const activeFilterOption: HTMLDivElement = this.filters.nativeElement.options[this.filters.nativeElement.selectedIndex];
-    switch(activeFilterOption.id){
+    const selectedFilterOption: HTMLOptionElement = this.filters.nativeElement.selectedOptions[0];
+    switch(selectedFilterOption.value){
       case 'all':
         status = undefined;
         break;
@@ -70,16 +75,6 @@ export class PatientAppointmentListComponent implements AfterViewInit {
       case 'CANCELLED': return 'appointment-cancelled.svg';
       case 'FINISHED': return 'appointment-finished.svg';
       case 'PENDING': return 'appointment-pending.svg';
-      default: return null;
-    }
-  }
-
-  getStatusName(status: string): string {
-    switch(status) {
-      case 'CONFIRMED': return 'UPCOMING';
-      case 'CANCELLED': return 'CANCELLED';
-      case 'FINISHED': return 'FINISHED';
-      case 'PENDING': return 'PENDING';
       default: return null;
     }
   }

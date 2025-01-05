@@ -23,19 +23,19 @@
     </h2>
   </div>
   <select class="form-select form-select-sm filter-options mb-3" #filters (change)="onFilterOptionChange()">
-    <option selected id="all">
+    <option selected id="all" value="all">
       All
     </option>
-    <option id="upcoming">
+    <option id="upcoming" value="upcoming">
       Upcoming
     </option>
-    <option id="pending">
+    <option id="pending" value="pending">
       Pending
     </option>
-    <option id="cancelled">
+    <option id="cancelled" value="cancelled">
       Cancelled
     </option>
-    <option id="finished">
+    <option id="finished" value="finished">
       Finished
     </option>
   </select>
@@ -54,7 +54,7 @@
                   'upcoming': appointment.status === 'CONFIRMED',
                   'cancelled': appointment.status === 'CANCELLED'
                   }">
-              {{getStatusName(appointment.status)}}
+              {{appointment.status === 'CONFIRMED' ? 'UPCOMING' : appointment.status}}
             </span>
         </div>
         <div class="info d-flex gap-3 align-items-sm-center align-items-start flex-grow-1 flex-sm-row flex-column order-1 order-md-2">
