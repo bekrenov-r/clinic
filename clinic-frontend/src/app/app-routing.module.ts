@@ -12,6 +12,7 @@ import {
   PatientAppointmentListComponent
 } from "./appointment/patient/appointment-list/patient-appointment-list.component";
 import {AboutComponent} from "./landing-page/about/about.component";
+import {PatientProfileComponent} from "./patient/patient-profile/patient-profile.component";
 
 const routes: Routes = [
   {path: '', component: LandingPageComponent},
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path: 'registration', component: RegistrationFormComponent},
   {path: 'registration/confirmed', component: RegistrationConfirmedComponent},
   {path: 'patient/home', component: PatientHomeComponent},
+  {path: 'patient/profile', component: PatientProfileComponent},
   {path: 'patient/create-appointment', component: PatientAppointmentFormComponent},
   {path: 'patient/appointments', component: PatientAppointmentListComponent}
 ];

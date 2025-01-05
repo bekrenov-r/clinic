@@ -15,6 +15,7 @@ import {AuthorizationHeaderInterceptor} from "./user/login/auth.service";
 import { PatientAppointmentListComponent } from './appointment/patient/appointment-list/patient-appointment-list.component';
 import {NgOptimizedImage} from "@angular/common";
 import { AboutComponent } from './landing-page/about/about.component';
+import { PatientProfileComponent } from './patient/patient-profile/patient-profile.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AboutComponent } from './landing-page/about/about.component';
     PatientHomeComponent,
     PatientAppointmentFormComponent,
     PatientAppointmentListComponent,
-    AboutComponent
+    AboutComponent,
+    PatientProfileComponent
   ],
   imports: [
     BrowserModule,

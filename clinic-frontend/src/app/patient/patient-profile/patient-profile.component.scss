@@ -1,0 +1,26 @@
+@import "../../../styles.scss";
+
+.profile-box {
+  @include media-breakpoint-up(sm){
+    box-shadow: #{$card-box-shadow};
+    border-radius: #{$card-border-radius};
+  }
+
+  @include media-breakpoint-up(lg){
+    margin-right: 10%;
+  }
+
+  @include media-breakpoint-up(xl){
+    margin-right: 30%;
+  }
+}
+
+.data-label {
+  color: $gray;
+  font-weight: 400;
+}
+
+.data-value {
+  color: $dark-green;
+  font-weight: 700;
+}
