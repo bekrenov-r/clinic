@@ -1,32 +1,42 @@
 import {AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild, ViewEncapsulation} from '@angular/core';
-import flatpickr from "flatpickr";
-import {SpecializationService} from "../../../department/specialization.service";
-import {DepartmentService} from "../../../department/department.service";
-import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
-import {Address} from "../../../models/address";
-import * as moment from "moment";
-import {AppointmentAvailabilityService} from "../../appointment-availability.service";
-import {finalize, map, Observable} from "rxjs";
-import {DoctorService} from "../../../doctor/doctor.service";
-import {AppointmentService} from "../../appointment.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AppointmentAvailabilityService} from "../appointment-availability.service";
+import {AppointmentService} from "../appointment.service";
+import {SpecializationService} from "../../department/specialization.service";
+import {DepartmentService} from "../../department/department.service";
+import {DoctorService} from "../../doctor/doctor.service";
 import {Router} from "@angular/router";
-import {PatientAppointmentRequest} from "../../../models/appointment/patient-appointment-request";
+import {
+  PatientAppointmentRequest,
+  UnregisteredPatientAppointmentRequest
+} from "../../models/appointment/patient-appointment-request";
+import * as moment from "moment/moment";
+import {finalize, map, Observable} from "rxjs";
+import {Address} from "../../models/address";
+import flatpickr from "flatpickr";
+import {peselRegex, phoneNumberRegex, zipCodeRegex} from "../../models/regex-constants";
+import {PatientRegistration} from "../../models/patient";
+import Modal from "bootstrap/js/dist/modal";
+import * as bootstrap from "bootstrap";
 
 @Component({
-  selector: 'app-patient-appointment-form',
-  templateUrl: './patient-appointment-form.component.html',
-  styleUrls: ['./patient-appointment-form.component.scss'],
+  selector: 'app-unregistered-appointment-form',
+  templateUrl: './unregistered-appointment-form.component.html',
+  styleUrls: ['./unregistered-appointment-form.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class PatientAppointmentFormComponent implements OnInit, AfterViewInit {
+export class UnregisteredAppointmentFormComponent implements OnInit, AfterViewInit {
   @ViewChild('specialization') specializationSelect: ElementRef;
   @ViewChild('department') departmentSelect: ElementRef;
   @ViewChild('doctor') doctorSelect: ElementRef;
   @ViewChild('date') datePicker: ElementRef;
   @ViewChild('time') timeSelect: ElementRef;
   @ViewChild('submitButtonSpinner') submitButtonSpinner: ElementRef;
+  @ViewChild('successModal') successModal: ElementRef;
 
   appointmentForm: FormGroup;
+
+  private bsSuccessModal: bootstrap.Modal;
 
   constructor(
     private availabilityService: AppointmentAvailabilityService,
@@ -37,7 +47,7 @@ export class PatientAppointmentFormComponent implements OnInit, AfterViewInit {
     private render: Renderer2,
     private formBuilder: FormBuilder,
     private router: Router
-    ) {}
+  ) {}
 
 
 
@@ -48,7 +58,22 @@ export class PatientAppointmentFormComponent implements OnInit, AfterViewInit {
       department: ['', Validators.required],
       doctor: ['', Validators.required],
       date: ['', Validators.required],
-      time: ['', Validators.required]
+      time: ['', Validators.required],
+      personalDataConsent: ['', Validators.requiredTrue],
+      personalData: this.formBuilder.group({
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        pesel: ['', [Validators.required, Validators.pattern(peselRegex)]],
+        phoneNumber: ['', [Validators.required, Validators.pattern(phoneNumberRegex)]],
+        email: ['', [Validators.required, Validators.email]],
+      }),
+      address: this.formBuilder.group({
+        city: ['', Validators.required],
+        street: ['', Validators.required],
+        building: ['', Validators.required],
+        flat: [''],
+        zipCode: ['', [Validators.required, Validators.pattern(zipCodeRegex)]]
+      })
     });
   }
 
@@ -58,20 +83,22 @@ export class PatientAppointmentFormComponent implements OnInit, AfterViewInit {
 
   onSubmit(): void {
     const doctorSelectVal = this.appointmentForm.get('doctor').value;
-    const appointment: PatientAppointmentRequest = {
+    const appointment: UnregisteredPatientAppointmentRequest = {
       date: moment(this.appointmentForm.get('date').value).format('YYYY-MM-DD'),
       time: this.appointmentForm.get('time').value,
       departmentId: this.appointmentForm.get('department').value,
       anyDoctor: doctorSelectVal === 'any',
-      doctorId: doctorSelectVal === 'any' ? null : doctorSelectVal
+      doctorId: doctorSelectVal === 'any' ? null : doctorSelectVal,
+      patient: this.collectPatientData()
     }
+    console.log(appointment)
     this.showSpinner();
-    this.appointmentService.createAppointmentAsPatient(appointment, true)
+    this.appointmentService.createAppointmentAsPatient(appointment, false)
       .pipe(
         finalize(() => this.hideSpinner())
       )
       .subscribe({
-        next: () => this.router.navigate(['/patient/appointments'])
+        next: () => this.showSuccessModal()
       })
   }
 
@@ -189,5 +216,46 @@ export class PatientAppointmentFormComponent implements OnInit, AfterViewInit {
 
   hideSpinner(): void {
     this.render.addClass(this.submitButtonSpinner.nativeElement, 'd-none');
+  }
+
+  showSuccessModal(): void {
+    const modal: HTMLDivElement = this.successModal.nativeElement;
+    this.bsSuccessModal = Modal.getOrCreateInstance(modal);
+    this.bsSuccessModal.show();
+  }
+
+  getInvalidMsgForEmail(): string {
+    return this.appointmentForm.get('personalData').get('email').hasError('required') ? 'Email is required' : 'Please provide valid email';
+  }
+
+  getInvalidMsgForPhoneNumber(): string {
+    return this.appointmentForm.get('personalData').get('phoneNumber').hasError('required') ? 'Phone number is required' : 'Phone number must consist of 9 digits';
+  }
+
+  getInvalidMsgForPesel(): string {
+    return this.appointmentForm.get('personalData').get('pesel').hasError('required') ? 'PESEL number is required' : 'Please provide valid PESEL number';
+  }
+
+  getInvalidMsgForZipCode(): string {
+    return this.appointmentForm.get('address').get('zipCode').hasError('required') ? 'Zip code is required' : 'Please provide valid zip code';
+  }
+
+  private collectPatientData(): PatientRegistration {
+    const personalData = this.appointmentForm.get('personalData');
+    const address = this.appointmentForm.get('address');
+    return {
+      firstName: personalData.get('firstName').value,
+      lastName: personalData.get('lastName').value,
+      pesel: personalData.get('pesel').value,
+      phoneNumber: personalData.get('phoneNumber').value,
+      email: personalData.get('email').value,
+      address: {
+        city: address.get('city').value,
+        street: address.get('street').value,
+        building: address.get('building').value,
+        flat: address.get('flat').value,
+        zipCode: address.get('zipCode').value,
+      }
+    };
   }
 }

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpContext} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
 import {PatientProfile} from "../models/patient";
+import {REQUIRES_AUTH} from "../user/login/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class PatientService {
   constructor(private http: HttpClient) { }
 
   getProfile(): Observable<PatientProfile> {
-    console.log('getting profile')
-    return this.http.get<PatientProfile>(environment.apiBaseUrl + '/patients');
+    const context: HttpContext = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.get<PatientProfile>(environment.apiBaseUrl + '/patients', {context});
   }
 }

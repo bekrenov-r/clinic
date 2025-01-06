@@ -1,5 +1,33 @@
 <main>
     <div class="mx-xl-5 mx-lg-4 mx-md-3 mx-sm-0 px-xl-5 px-4 py-4">
+      <div class="modal" tabindex="-1" id="schedule-appointment-modal" #scheduleAppointmentModal>
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <strong class="modal-title">Schedule appointment</strong>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-primary mb-2">
+              <div>
+                To schedule your appointment, please
+                <a href="#"
+                   class="text-primary-link"
+                   data-bs-dismiss="modal"
+                   [routerLink]="['/registration']">
+                  sign up
+                </a>
+                or
+                <a href="#"
+                   class="text-primary-link"
+                   data-bs-dismiss="modal"
+                   [routerLink]="['/create-appointment']">
+                  proceed without registration
+                </a>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
         <section class="w-lg-75 w-100">
             <p class="heading">
                 Your health journey starts here. <br>
@@ -23,7 +51,7 @@
                             Schedule your appointment
                         </div>
                         <div class="my-1 action-card-strip">
-                            <a href="#" class="stretched-link"></a>
+                            <a href="#" class="stretched-link" (click)="showScheduleAppointmentModal()"></a>
                         </div>
                     </div>
                 </div>

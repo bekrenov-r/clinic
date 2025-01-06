@@ -1,0 +1,48 @@
+@import "../../../styles.scss";
+
+.section-box {
+  @include media-breakpoint-up(sm){
+    box-shadow: #{$card-box-shadow};
+    border-radius: #{$card-border-radius};
+  }
+
+  @include media-breakpoint-up(lg){
+    margin-right: 10%;
+  }
+
+  @include media-breakpoint-up(xl){
+    margin-right: 15%;
+  }
+
+  @include media-breakpoint-up(xxl){
+    margin-right: 20%;
+  }
+}
+
+.form-label {
+  color: $dark-green;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+select:invalid {
+  color: grey;
+}
+
+option {
+  color: black;
+  &[value=""][disabled] {
+    display: none;
+  }
+
+  &.empty-select-msg {
+    color: $gray;
+    font-size: 0.9rem;
+  }
+}
+
+.spinner-border {
+  --bs-spinner-width: 1rem;
+  --bs-spinner-height: 1rem;
+  margin-right: 10px;
+}

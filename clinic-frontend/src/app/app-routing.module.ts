@@ -13,6 +13,7 @@ import {
 } from "./appointment/patient/appointment-list/patient-appointment-list.component";
 import {AboutComponent} from "./landing-page/about/about.component";
 import {PatientProfileComponent} from "./patient/patient-profile/patient-profile.component";
+import {UnregisteredAppointmentFormComponent} from "./appointment/unregistered/unregistered-appointment-form.component";
 
 const routes: Routes = [
   {path: '', component: LandingPageComponent},
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path: 'patient/home', component: PatientHomeComponent},
   {path: 'patient/profile', component: PatientProfileComponent},
   {path: 'patient/create-appointment', component: PatientAppointmentFormComponent},
-  {path: 'patient/appointments', component: PatientAppointmentListComponent}
+  {path: 'patient/appointments', component: PatientAppointmentListComponent},
+  {path: 'create-appointment', component: UnregisteredAppointmentFormComponent}
 ];
 
 @NgModule({

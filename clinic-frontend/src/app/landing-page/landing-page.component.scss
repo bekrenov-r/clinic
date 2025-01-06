@@ -39,3 +39,12 @@ main {
         width: 75% !important;
     }
 }
+
+.text-primary-link {
+  color: $light-green;
+  text-decoration: underline;
+
+  &:hover {
+    color: $dark-green;
+  }
+}

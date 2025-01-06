@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import {HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpParams, HttpRequest} from '@angular/common/http';
+import {
+  HttpClient,
+  HttpContextToken,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpParams,
+  HttpRequest
+} from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({
@@ -31,9 +39,13 @@ export class AuthService {
 export class AuthorizationHeaderInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token: string = localStorage.getItem(environment.authTokenStorageKey);
-    request = request.clone({
-      setHeaders: { Authorization: `Bearer ${token}` }
-    });
+    if(request.context.get(REQUIRES_AUTH)) {
+      request = request.clone({
+        setHeaders: { Authorization: `Bearer ${token}` }
+      });
+    }
     return next.handle(request);
   }
 }
+
+export const REQUIRES_AUTH: HttpContextToken<boolean> = new HttpContextToken<boolean>(() => false);

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,7 @@ public class Patient extends Person {
     private Gender gender;
 
     @OneToMany(mappedBy = "patient",
-                fetch = FetchType.LAZY,
+                fetch = FetchType.EAGER,
                 cascade = CascadeType.ALL)
-    private List<Appointment> appointments;
+    private List<Appointment> appointments = new ArrayList<>();
 }

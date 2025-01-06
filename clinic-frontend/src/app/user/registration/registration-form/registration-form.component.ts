@@ -1,9 +1,10 @@
 import { Component, ElementRef, OnChanges, OnInit, Renderer2, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { PatientRegistration } from 'src/app/models/patient-registration';
 import { RegistrationService } from '../registration.service';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
+import {peselRegex, phoneNumberRegex, zipCodeRegex} from "../../../models/regex-constants";
+import {PatientRegistration} from "../../../models/patient";
 
 @Component({
   selector: 'app-registration-form',
@@ -19,10 +20,6 @@ export class RegistrationFormComponent implements OnInit {
 
   step: number = 1;
 
-  static readonly phoneNumberRegex: string = '^\\d{9}$';
-  static readonly zipCodeRegex: string = '^\\d{2}-\\d{3}$';
-  static readonly peselRegex: string = '^\\d{11}$';
-
   constructor(
     private formBuilder: FormBuilder,
     private registrationService: RegistrationService,
@@ -33,8 +30,8 @@ export class RegistrationFormComponent implements OnInit {
     this.step1Form = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      pesel: ['', [Validators.required, Validators.pattern(RegistrationFormComponent.peselRegex)]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(RegistrationFormComponent.phoneNumberRegex)]],
+      pesel: ['', [Validators.required, Validators.pattern(peselRegex)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(phoneNumberRegex)]],
       email: ['', [Validators.required, Validators.email]],
       personalDataConsent: ['', Validators.requiredTrue],
       address: this.formBuilder.group({
@@ -42,7 +39,7 @@ export class RegistrationFormComponent implements OnInit {
         street: ['', Validators.required],
         building: ['', Validators.required],
         flat: [''],
-        zipCode: ['', [Validators.required, Validators.pattern(RegistrationFormComponent.zipCodeRegex)]]
+        zipCode: ['', [Validators.required, Validators.pattern(zipCodeRegex)]]
       })
     });
 
