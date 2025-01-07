@@ -12,7 +12,7 @@ export class HeaderComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
+    return this.authService.hasAuthentication();
   }
 
   logout(): void {
@@ -23,7 +23,7 @@ export class HeaderComponent {
   displaySignInButton(): boolean {
     return this.router.url !== '/login';
   }
-  
+
   displaySignUpButton(): boolean {
     return this.router.url !== '/registration';
   }

@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from "../user/login/auth.service";
 import {Router} from "@angular/router";
 import * as bootstrap from "bootstrap";
@@ -9,7 +9,7 @@ import Modal from "bootstrap/js/dist/modal";
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.scss']
 })
-export class LandingPageComponent {
+export class LandingPageComponent implements OnInit {
   @ViewChild('scheduleAppointmentModal') scheduleAppointmentModal: ElementRef;
 
   private bsScheduleAppointmentModal: bootstrap.Modal;
@@ -17,8 +17,12 @@ export class LandingPageComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    if(this.authService.isAuthenticated()) {
-      this.router.navigate(['/patient/home']);
+    if(this.authService.hasAuthentication()) {
+      if(this.authService.userHasRole('DOCTOR')) {
+        this.router.navigate(['/doctor/home']);
+      } else if(this.authService.userHasRole('PATIENT')) {
+        this.router.navigate(['/patient/home']);
+      }
     }
   }
 

@@ -41,7 +41,7 @@ export class LoginFormComponent implements OnInit {
         .pipe(
           finalize(() => this.hideSpinner())
         ).subscribe({
-        next: () => this.router.navigate(['/patient/home']),
+        next: () => this.redirectToHomepage(),
         error: error => {
           let message = error.status === 403
             ? 'Invalid email or password provided.'
@@ -76,5 +76,15 @@ export class LoginFormComponent implements OnInit {
 
   hideSpinner(): void {
     this.render.addClass(this.submitButtonSpinner.nativeElement, 'd-none');
+  }
+
+  private redirectToHomepage() {
+    if(this.authService.userHasRole('DOCTOR')) {
+      this.router.navigate(['/doctor/home']);
+    } else if(this.authService.userHasRole('PATIENT')) {
+      this.router.navigate(['/patient/home']);
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 }

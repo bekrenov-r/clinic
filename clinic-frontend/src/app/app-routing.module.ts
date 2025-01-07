@@ -14,6 +14,7 @@ import {
 import {AboutComponent} from "./landing-page/about/about.component";
 import {PatientProfileComponent} from "./patient/patient-profile/patient-profile.component";
 import {UnregisteredAppointmentFormComponent} from "./appointment/unregistered/unregistered-appointment-form.component";
+import {DoctorHomeComponent} from "./home/doctor/doctor-home.component";
 
 const routes: Routes = [
   {path: '', component: LandingPageComponent},
@@ -25,6 +26,7 @@ const routes: Routes = [
   {path: 'patient/profile', component: PatientProfileComponent},
   {path: 'patient/create-appointment', component: PatientAppointmentFormComponent},
   {path: 'patient/appointments', component: PatientAppointmentListComponent},
+  {path: 'doctor/home', component: DoctorHomeComponent},
   {path: 'create-appointment', component: UnregisteredAppointmentFormComponent}
 ];
 

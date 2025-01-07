@@ -1,0 +1,7 @@
+@import '../../../styles.scss';
+
+.action-card {
+  @media (width > 400px){
+    max-width: 70vw;
+  }
+}

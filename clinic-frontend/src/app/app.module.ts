@@ -17,6 +17,7 @@ import {NgOptimizedImage} from "@angular/common";
 import { AboutComponent } from './landing-page/about/about.component';
 import { PatientProfileComponent } from './patient/patient-profile/patient-profile.component';
 import { UnregisteredAppointmentFormComponent } from './appointment/unregistered/unregistered-appointment-form.component';
+import { DoctorHomeComponent } from './home/doctor/doctor-home.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { UnregisteredAppointmentFormComponent } from './appointment/unregistered
     PatientAppointmentListComponent,
     AboutComponent,
     PatientProfileComponent,
-    UnregisteredAppointmentFormComponent
+    UnregisteredAppointmentFormComponent,
+    DoctorHomeComponent
   ],
   imports: [
     BrowserModule,

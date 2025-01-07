@@ -1,22 +1,22 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AuthService} from "../../user/login/auth.service";
-import {environment} from "../../../environments/environment";
 import {jwtDecode} from "jwt-decode";
+import {environment} from "../../../environments/environment";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './patient-home.component.html',
-  styleUrls: ['./patient-home.component.scss'],
+  selector: 'app-doctor',
+  templateUrl: './doctor-home.component.html',
+  styleUrls: ['./doctor-home.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class PatientHomeComponent implements OnInit {
+export class DoctorHomeComponent implements OnInit {
   firstName: string;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.requireRole('PATIENT');
+    this.requireRole('DOCTOR');
     this.setFirstName();
   }
 

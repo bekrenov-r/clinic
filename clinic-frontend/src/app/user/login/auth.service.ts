@@ -10,6 +10,7 @@ import {
   HttpRequest
 } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import {jwtDecode} from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +27,17 @@ export class AuthService {
       );
   }
 
-  isAuthenticated(): boolean {
+  hasAuthentication(): boolean {
     return localStorage.getItem(environment.authTokenStorageKey) !== null;
+  }
+
+  userHasRole(role: string): boolean {
+    if(!this.hasAuthentication()){
+      return false;
+    }
+    const jwtPayload: any = jwtDecode(localStorage.getItem(environment.authTokenStorageKey));
+    const roles: string[] = jwtPayload['roles'].split(',');
+    return roles.includes(role);
   }
 
   logout(): void {
