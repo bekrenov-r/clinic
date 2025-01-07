@@ -31,4 +31,8 @@ export class DoctorHomeComponent implements OnInit {
     const jwtPayload: any = jwtDecode(jwt);
     this.firstName = jwtPayload['fname'];
   }
+
+  isHeadOfDepartment(): boolean {
+    return this.authService.userHasRole('HEAD_OF_DEPARTMENT');
+  }
 }
