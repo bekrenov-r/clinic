@@ -10,7 +10,8 @@ import {finalize, map, Observable} from "rxjs";
 import {DoctorService} from "../../../doctor/doctor.service";
 import {AppointmentService} from "../../appointment.service";
 import {Router} from "@angular/router";
-import {PatientAppointmentRequest} from "../../../models/appointment/patient-appointment-request";
+
+import {PatientAppointmentRequest} from "../../../models/appointment";
 
 @Component({
   selector: 'app-patient-appointment-form',

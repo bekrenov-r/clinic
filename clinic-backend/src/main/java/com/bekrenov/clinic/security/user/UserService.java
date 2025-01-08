@@ -18,8 +18,11 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.ACTIVATION_TOKEN;
+import static com.bekrenov.clinic.security.auth.jwt.JwtProvider.FIRST_NAME_CLAIM;
 
 @Service
 @RequiredArgsConstructor
@@ -70,7 +73,7 @@ public class UserService {
         userDetailsManager.updateUser(activatedUser);
         activationTokenRepository.delete(activationToken);
         String firstName = personRepository.findByEmailOrThrowDefault(activatedUser.getUsername()).getFirstName();
-        return jwtProvider.generateToken(activatedUser, firstName);
+        return jwtProvider.generateToken(activatedUser, Map.of(FIRST_NAME_CLAIM, firstName));
     }
 
     private String createActivationTokenForUser(UserDetails user){

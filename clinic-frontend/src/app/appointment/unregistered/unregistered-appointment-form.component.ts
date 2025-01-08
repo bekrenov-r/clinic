@@ -6,10 +6,6 @@ import {SpecializationService} from "../../department/specialization.service";
 import {DepartmentService} from "../../department/department.service";
 import {DoctorService} from "../../doctor/doctor.service";
 import {Router} from "@angular/router";
-import {
-  PatientAppointmentRequest,
-  UnregisteredPatientAppointmentRequest
-} from "../../models/appointment/patient-appointment-request";
 import * as moment from "moment/moment";
 import {finalize, map, Observable} from "rxjs";
 import {Address} from "../../models/address";
@@ -18,6 +14,7 @@ import {peselRegex, phoneNumberRegex, zipCodeRegex} from "../../models/regex-con
 import {PatientRegistration} from "../../models/patient";
 import Modal from "bootstrap/js/dist/modal";
 import * as bootstrap from "bootstrap";
+import {PatientAppointmentRequest, UnregisteredPatientAppointmentRequest} from "../../models/appointment";
 
 @Component({
   selector: 'app-unregistered-appointment-form',
@@ -91,7 +88,6 @@ export class UnregisteredAppointmentFormComponent implements OnInit, AfterViewIn
       doctorId: doctorSelectVal === 'any' ? null : doctorSelectVal,
       patient: this.collectPatientData()
     }
-    console.log(appointment)
     this.showSpinner();
     this.appointmentService.createAppointmentAsPatient(appointment, false)
       .pipe(

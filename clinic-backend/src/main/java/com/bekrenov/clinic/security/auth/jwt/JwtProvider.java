@@ -11,20 +11,25 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
 @Component
 public class JwtProvider {
+    public static final String FIRST_NAME_CLAIM = "fname";
+    public static final String DOCTOR_ID_CLAIM = "doctorId";
+
     @Value("${spring.jwt.secret}")
     private String secret;
 
     @Value("${spring.jwt.expiration-time-millis}")
     private Long expirationTime;
 
-    public String generateToken(UserDetails userDetails, String firstName) {
-        var claims = createClaims(userDetails, firstName);
+    public String generateToken(UserDetails userDetails, Map<String, Object> claims) {
+        claims = new HashMap<>(claims);
+        claims.put("roles", getRolesClaim(userDetails));
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
@@ -67,18 +72,15 @@ public class JwtProvider {
         return expiration.before(new Date());
     }
 
-    private Map<String, Object> createClaims(UserDetails userDetails, String firstName){
-        List<String> rolesStr = userDetails.getAuthorities()
+    private Key getKey(){
+        return Keys.hmacShaKeyFor(secret.getBytes());
+    }
+
+    private String getRolesClaim(UserDetails user) {
+        List<String> rolesStr = user.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
-        return Map.of(
-                "roles", String.join(",", rolesStr),
-                "fname", firstName
-        );
-    }
-
-    private Key getKey(){
-        return Keys.hmacShaKeyFor(secret.getBytes());
+        return String.join(",", rolesStr);
     }
 }

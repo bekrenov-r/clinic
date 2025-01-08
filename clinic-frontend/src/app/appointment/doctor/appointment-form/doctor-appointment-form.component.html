@@ -1,0 +1,284 @@
+<div class="mx-xl-5 mx-lg-4 mx-md-3 mx-0 px-xl-5 px-4 py-4">
+  <div class="modal"
+       data-bs-backdrop="static"
+       tabindex="-1"
+       id="success-modal"
+       #successModal>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">
+            <strong>
+              Success!
+            </strong>
+          </div>
+        </div>
+        <div class="modal-body d-flex align-items-center">
+          Appointment created successfully.
+        </div>
+        <div class="modal-footer">
+          <button type="button"
+                  class="btn btn-primary"
+                  data-bs-dismiss="modal"
+                  style="min-width: 100px"
+                  [routerLink]="['/']">
+            Ok
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form class="form-box" [formGroup]="appointmentForm" (ngSubmit)="onSubmit()">
+    <div class="d-flex gap-3 flex-column flex-sm-row align-items-center mb-sm-3 mb-2">
+      <a href="#" class="back-arrow" [routerLink]="['/doctor/home']">
+        <img src="../../../../assets/icons/arrow-back.svg" alt="Back">
+      </a>
+      <h2 class="heading">
+        Create appointment
+      </h2>
+    </div>
+    <div class="patient-box">
+      <div class="px-0 py-2 px-sm-3 py-sm-3 px-lg-4 py-lg-3">
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <button class="nav-link active"
+                    id="new-patient-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#new-patient-tab-pane"
+                    type="button">
+              New patient
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link"
+                    id="existing-patient-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#existing-patient-tab-pane"
+                    type="button">
+              Existing patient
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div class="tab-divider"></div>
+      <div class="px-0 py-2 px-sm-3 py-sm-3 px-lg-4 py-lg-3">
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="new-patient-tab-pane" tabindex="0">
+            <div class="new-patient-box">
+              <div class="section-heading mb-1">Personal data</div>
+              <div formGroupName="newPatient">
+                <div class="row mb-3 gy-3">
+                  <div class="col-md-4 col-sm-6 col-12">
+                    <div class="form-floating">
+                      <input type="text" class="form-control" id="first-name" placeholder="John"
+                             [ngClass]="{'is-invalid': appointmentForm.get('newPatient').get('firstName')?.invalid && appointmentForm.get('newPatient').get('firstName')?.touched}"
+                             formControlName="firstName">
+                      <label for="first-name">First name</label>
+                    </div>
+                    <div class="invalid-msg"
+                         *ngIf="appointmentForm.get('newPatient').get('firstName')?.invalid && appointmentForm.get('newPatient').get('firstName')?.touched">
+                      First name is required
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-sm-6 col-12">
+                    <div class="form-floating">
+                      <input type="text" class="form-control" id="last-name" placeholder="Doe"
+                             [ngClass]="{'is-invalid': appointmentForm.get('newPatient').get('lastName')?.invalid && appointmentForm.get('newPatient').get('lastName')?.touched}"
+                             formControlName="lastName">
+                      <label for="last-name">Last name</label>
+                    </div>
+                    <div class="invalid-msg"
+                         *ngIf="appointmentForm.get('newPatient').get('lastName')?.invalid && appointmentForm.get('newPatient').get('lastName')?.touched">
+                      Last name is required
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-sm-6 col-12">
+                    <div class="form-floating">
+                      <input type="text" class="form-control" id="pesel" placeholder="00000000000"
+                             [ngClass]="{'is-invalid': appointmentForm.get('newPatient').get('pesel')?.invalid && appointmentForm.get('newPatient').get('pesel')?.touched}"
+                             formControlName="pesel">
+                      <label for="pesel">PESEL</label>
+                    </div>
+                    <div class="invalid-msg"
+                         *ngIf="appointmentForm.get('newPatient').get('pesel')?.invalid && appointmentForm.get('newPatient').get('pesel')?.touched"
+                         [innerText]="getInvalidMsgForPesel()">
+                    </div>
+                  </div>
+                </div>
+                <div class="row gy-3">
+                  <div class="col-sm-6 col-12">
+                    <div class="input-group">
+                      <span class="input-group-text">+48</span>
+                      <div class="form-floating">
+                        <input type="text" class="form-control" id="phone-number" placeholder="+48000000000"
+                               [ngClass]="{'is-invalid': appointmentForm.get('newPatient').get('phoneNumber')?.invalid && appointmentForm.get('newPatient').get('phoneNumber')?.touched}"
+                               formControlName="phoneNumber">
+                        <label for="phone-number">Phone number</label>
+                      </div>
+                    </div>
+                    <div class="invalid-msg"
+                         *ngIf="appointmentForm.get('newPatient').get('phoneNumber')?.invalid && appointmentForm.get('newPatient').get('phoneNumber')?.touched"
+                         [innerText]="getInvalidMsgForPhoneNumber()">
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-12">
+                    <div class="form-floating">
+                      <input type="text" class="form-control" id="email" placeholder="john.doe@example.com"
+                             [ngClass]="{'is-invalid': appointmentForm.get('newPatient').get('email')?.invalid && appointmentForm.get('newPatient').get('email')?.touched}"
+                             formControlName="email">
+                      <label for="email">Email</label>
+                    </div>
+                    <div class="invalid-msg"
+                         *ngIf="appointmentForm.get('newPatient').get('email')?.invalid && appointmentForm.get('newPatient').get('email')?.touched"
+                         [innerText]="getInvalidMsgForEmail()">
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-3" formGroupName="address">
+                  <div class="section-heading mb-1">Address</div>
+                  <div class="row mb-3 gy-3">
+                    <div class="col-sm-6 col-12">
+                      <div class="form-floating">
+                        <input type="text" class="form-control" id="city" placeholder="Lublin" formControlName="city"
+                               [ngClass]="{'is-invalid': appointmentForm.get('newPatient').get('address')?.get('city')?.invalid && appointmentForm.get('newPatient').get('address')?.get('city')?.touched}">
+                        <label for="city">City</label>
+                      </div>
+                      <div class="invalid-msg"
+                           *ngIf="appointmentForm.get('newPatient').get('address')?.get('city')?.invalid && appointmentForm.get('newPatient').get('address')?.get('city')?.touched">
+                        City is required
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-12">
+                      <div class="form-floating">
+                        <input type="text" class="form-control" id="street" placeholder="Nadbystrzycka"
+                               [ngClass]="{'is-invalid': appointmentForm.get('newPatient').get('address')?.get('street')?.invalid && appointmentForm.get('newPatient').get('address')?.get('street')?.touched}"
+                               formControlName="street">
+                        <label for="street">Street</label>
+                      </div>
+                      <div class="invalid-msg"
+                           *ngIf="appointmentForm.get('newPatient').get('address')?.get('street')?.invalid && appointmentForm.get('newPatient').get('address')?.get('street')?.touched">
+                        Street is required
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row gy-3">
+                    <div class="col-md-4 col-sm-6 col-12">
+                      <div class="form-floating">
+                        <input type="text" class="form-control" id="building" placeholder="00"
+                               [ngClass]="{'is-invalid': appointmentForm.get('newPatient').get('address')?.get('building')?.invalid && appointmentForm.get('newPatient').get('address')?.get('building')?.touched}"
+                               formControlName="building">
+                        <label for="building">Building</label>
+                      </div>
+                      <div class="invalid-msg"
+                           *ngIf="appointmentForm.get('newPatient').get('address')?.get('building')?.invalid && appointmentForm.get('newPatient').get('address')?.get('building')?.touched">
+                        Building is required
+                      </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-12">
+                      <div class="form-floating">
+                        <input type="text" class="form-control" id="flat" placeholder="00" formControlName="flat">
+                        <label for="flat">Flat</label>
+                      </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-12">
+                      <div class="form-floating">
+                        <input type="text" class="form-control" id="zip-code" placeholder="00-000"
+                               [ngClass]="{'is-invalid': appointmentForm.get('newPatient').get('address')?.get('zipCode')?.invalid && appointmentForm.get('newPatient').get('address')?.get('zipCode')?.touched}"
+                               formControlName="zipCode">
+                        <label for="zip-code">Zip code</label>
+                      </div>
+                      <div class="invalid-msg"
+                           *ngIf="appointmentForm.get('newPatient').get('address')?.get('zipCode')?.invalid && appointmentForm.get('newPatient').get('address')?.get('zipCode')?.touched"
+                           [innerText]="getInvalidMsgForZipCode()">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="existing-patient-tab-pane" tabindex="0">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <label class="form-label" for="pesel-search">PESEL:</label>
+              <input type="text"
+                     class="form-control"
+                     name="pesel-search"
+                     id="pesel-search"
+                     style="max-width: 300px"
+                     placeholder="Input PESEL number..."
+                     [formControl]="peselSearchControl"/>
+              <button type="button"
+                      class="btn btn-primary"
+                      [disabled]="peselSearchControl.value === ''"
+                      (click)="searchPatient(peselSearchControl.value)">
+                Search
+              </button>
+            </div>
+            <div class="d-none alert alert-success d-flex align-items-center" id="patient-search-success-alert" #peselSearchSuccessAlert>
+              <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+              </svg>
+              <div>
+                Patient found: <b>{{existingPatient ? existingPatient.firstName : ''}} {{existingPatient ? existingPatient.lastName : ''}}</b>
+              </div>
+            </div>
+            <div class="d-none alert alert-danger d-flex align-items-center" #peselSearchFailureAlert>
+              <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-exclamation-triangle-fill me-2"
+                   viewBox="0 0 16 16">
+                <path
+                  d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+              </svg>
+              <div>
+                Patient not found
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-column gap-3 mt-3">
+      <div>
+        <label for="date" class="form-label">Date</label>
+        <input class="form-control"
+               type="text"
+               id="date"
+               style="width: fit-content"
+               formControlName="date"
+               (change)="populateTimes()"
+               [ngClass]="{'is-invalid': appointmentForm.get('date').invalid && appointmentForm.get('date').touched}"
+               #date>
+        <div class="invalid-msg" *ngIf="appointmentForm.get('date').invalid && appointmentForm.get('date').touched">
+          Date is required
+        </div>
+      </div>
+      <div>
+        <label for="time" class="form-label">Time</label>
+        <select required
+                class="form-select"
+                id="time"
+                style="width: fit-content"
+                formControlName="time"
+                [ngClass]="{'is-invalid': appointmentForm.get('time').invalid && appointmentForm.get('time').touched}"
+                #time>
+          <option value="" disabled selected>Choose time...</option>
+          <option value="#"
+                  disabled
+                  class="empty-select-msg"
+                  *ngIf="date.value === ''">
+            Choose date first
+          </option>
+        </select>
+        <div class="invalid-msg" *ngIf="appointmentForm.get('time').invalid && appointmentForm.get('time').touched">
+          Time is required
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-3" type="submit" [disabled]="!canSubmit()">
+      <div class="spinner-border text-primary d-none" role="status" #submitButtonSpinner>
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      Sign up
+    </button>
+  </form>
+</div>

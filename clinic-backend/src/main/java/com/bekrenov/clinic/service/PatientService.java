@@ -4,6 +4,8 @@ import com.bekrenov.clinic.dto.mapper.AddressMapper;
 import com.bekrenov.clinic.dto.mapper.PatientMapper;
 import com.bekrenov.clinic.dto.request.PatientRequest;
 import com.bekrenov.clinic.dto.response.PatientResponse;
+import com.bekrenov.clinic.dto.response.PersonDTO;
+import com.bekrenov.clinic.exception.ClinicEntityNotFoundException;
 import com.bekrenov.clinic.model.entity.Address;
 import com.bekrenov.clinic.model.entity.Patient;
 import com.bekrenov.clinic.repository.PatientRepository;
@@ -12,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+
+import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.PATIENT_BY_EMAIL;
+import static com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason.PATIENT_BY_PESEL;
 
 @Service
 @RequiredArgsConstructor
@@ -41,5 +46,11 @@ public class PatientService {
         patient.setAddress(address);
 
         return patientRepository.save(patient);
+    }
+
+    public PersonDTO getPatientByPesel(String pesel) {
+        Patient patient = patientRepository.findByPesel(pesel)
+                .orElseThrow(() -> new ClinicEntityNotFoundException(PATIENT_BY_PESEL, pesel));
+        return new PersonDTO(patient.getId(), patient.getFirstName(), patient.getLastName());
     }
 }

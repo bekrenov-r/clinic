@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, Renderer2, ViewChild, ViewEncapsulation} from '@angular/core';
-import {Appointment} from "../../../models/appointment/appointment";
+import {Appointment} from "../../../models/appointment";
 import {AppointmentService} from "../../appointment.service";
 import {Address} from "../../../models/address";
 import * as bootstrap from 'bootstrap';

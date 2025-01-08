@@ -7,8 +7,6 @@ import com.bekrenov.clinic.dto.response.AppointmentResponse;
 import com.bekrenov.clinic.dto.response.AppointmentShortResponse;
 import com.bekrenov.clinic.exception.ClinicApplicationException;
 import com.bekrenov.clinic.exception.ClinicEntityNotFoundException;
-import com.bekrenov.clinic.exception.reason.ClinicApplicationExceptionReason;
-import com.bekrenov.clinic.exception.reason.ClinicEntityNotFoundExceptionReason;
 import com.bekrenov.clinic.model.entity.*;
 import com.bekrenov.clinic.model.enums.AppointmentStatus;
 import com.bekrenov.clinic.repository.*;
@@ -69,8 +67,7 @@ public class AppointmentService {
         Appointment appointment = appointmentMapper.requestByDoctorToEntity(request);
         Doctor doctor = doctorRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
         availabilityService.validateAvailabilityByDoctor(doctor, request.date(), request.time());
-        Patient patient = patientRepository.findByIdOrThrowDefault(request.patientId());
-        AppointmentAssert.assertPatientHasNoAppointmentAtDateTime(patient, request.date(), request.time());
+        Patient patient = resolvePatient(request);
 
         appointment.setDoctor(doctor);
         appointment.setDepartment(doctor.getDepartment());
@@ -84,7 +81,7 @@ public class AppointmentService {
         Appointment appointment = appointmentMapper.requestByPatientToEntity(request);
         Department department = departmentRepository.findByIdOrThrowDefault(request.departmentId());
         Doctor doctor = resolveDoctorFromRequest(request, department);
-        Patient patient = resolvePatientFromRequest(request);
+        Patient patient = resolvePatient(request);
         AppointmentAssert.assertPatientHasNoAppointmentAtDateTime(patient, request.date(), request.time());
         AppointmentStatus status = department.getAutoConfirmAppointment()
                 ? AppointmentStatus.CONFIRMED
@@ -149,7 +146,7 @@ public class AppointmentService {
         }
     }
 
-    private Patient resolvePatientFromRequest(AppointmentRequestByPatient request) {
+    private Patient resolvePatient(AppointmentRequestByPatient request) {
         if(CurrentAuthUtil.isAuthenticated()){
             return patientRepository.findByEmailOrThrowDefault(CurrentAuthUtil.getAuthentication().getName());
         } else {
@@ -168,6 +165,20 @@ public class AppointmentService {
                 return patientService.createPatient(request.patient());
             }
         }
+    }
+
+    private Patient resolvePatient(AppointmentRequestByDoctor request) {
+        if(request.patientId() != null) {
+            Patient patient = patientRepository.findByIdOrThrowDefault(request.patientId());
+            AppointmentAssert.assertPatientHasNoAppointmentAtDateTime(patient, request.date(), request.time());
+            return patient;
+        } else if(request.patient() != null) {
+            return patientRepository.findByPesel(request.patient().pesel())
+                    .orElseGet(() -> patientService.createPatient(request.patient()));
+        }
+        throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST, "Either existing patient id or patient registration data is required"
+        );
     }
 
     private Doctor findAnyDoctorForAppointment(Department department, LocalDate date, LocalTime time) {

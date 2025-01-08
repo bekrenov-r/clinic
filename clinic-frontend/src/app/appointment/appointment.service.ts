@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpContext, HttpParams} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {environment} from "../../environments/environment";
-import {Appointment} from "../models/appointment/appointment";
-import {PatientAppointmentRequest} from "../models/appointment/patient-appointment-request";
+import {Appointment, DoctorAppointmentRequest, PatientAppointmentRequest} from "../models/appointment";
 import {REQUIRES_AUTH} from "../user/login/auth.service";
 
 @Injectable({
@@ -24,6 +23,11 @@ export class AppointmentService {
   createAppointmentAsPatient(body: PatientAppointmentRequest, requiresAuth: boolean): Observable<any> {
     const context = new HttpContext().set(REQUIRES_AUTH, requiresAuth);
     return this.http.post(`${environment.apiBaseUrl}/appointments/patient`, body, {context: context});
+  }
+
+  createAppointmentAsDoctor(body: DoctorAppointmentRequest): Observable<any> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.post(`${environment.apiBaseUrl}/appointments/doctor`, body, {context: context});
   }
 
   cancelAppointment(id: number): Observable<any> {

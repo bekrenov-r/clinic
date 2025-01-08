@@ -1,0 +1,68 @@
+@import '../../../../styles.scss';
+
+.new-patient-box {
+  @include media-breakpoint-up(lg){
+    margin-right: 15%;
+  }
+
+  @include media-breakpoint-up(xl){
+    margin-right: 20%;
+  }
+
+  @include media-breakpoint-up(xxl){
+    margin-right: 30%;
+  }
+}
+
+.alert {
+  max-width: 350px;
+  font-size: .9rem;
+  margin-bottom: 0;
+}
+
+.patient-box {
+  @include media-breakpoint-up(sm){
+    border: 1px $light-gray solid;
+    border-radius: 10px
+  }
+}
+
+.tab-divider {
+  width: 100%;
+  height: 1px;
+  background-color: $light-gray;
+}
+
+.form-label {
+  color: $dark-green;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.section-heading {
+  color: $dark-green;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+select:invalid {
+  color: grey;
+}
+
+option {
+  color: black;
+  &[value=""][disabled] {
+    display: none;
+  }
+
+  &.empty-select-msg {
+    color: $gray;
+    font-size: 0.9rem;
+  }
+}
+
+.spinner-border {
+  --bs-spinner-width: 1rem !important;
+  --bs-spinner-height: 1rem !important;
+  margin-right: 10px;
+}
