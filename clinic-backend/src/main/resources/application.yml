@@ -52,10 +52,12 @@ spring:
           POST /register/patient,
           GET /doctors/specialization/**,
           GET /doctors/department/**,
+          GET /doctors/**/profile,
           GET /appointments/availability/**,
           GET /departments,
           GET /holidays,
           GET /specializations,
+          GET /patients/pesel/**,
           GET /swagger-ui.html,
           GET /swagger-ui/**,
           GET /api-docs/**
@@ -85,10 +87,12 @@ spring:
           POST /register/patient,
           GET /doctors/specialization/**,
           GET /doctors/department/**,
+          GET /doctors/**/profile,
           GET /appointments/availability/**,
           GET /departments,
           GET /holidays,
           GET /specializations,
+          GET /patients/pesel/**
         optional-auth:
           POST /appointments/patient
 server:

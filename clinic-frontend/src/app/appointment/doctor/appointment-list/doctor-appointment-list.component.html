@@ -1,0 +1,111 @@
+<div class="mx-xl-5 mx-lg-4 mx-md-3 mx-0 px-xl-5 px-4 py-4">
+  <div class="modal" tabindex="-1" id="confirm-appointment-modal" #confirmationSuccessModal>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <strong class="modal-title">
+            Success
+          </strong>
+        </div>
+        <div class="modal-body d-flex align-items-center">
+          Appointment confirmed successfully
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex gap-3 flex-column flex-sm-row align-items-center mb-sm-3 mb-2">
+    <a href="#" class="back-arrow" [routerLink]="['/doctor/home']">
+      <img src="../../../../assets/icons/arrow-back.svg" alt="Back">
+    </a>
+    <h2 class="heading">
+      My appointments
+    </h2>
+  </div>
+  <div class="d-flex gap-4 align-items-center mb-3">
+    <select class="form-select form-select-sm filter-options" #filters (change)="onFilterOptionChange()">
+      <option selected id="all" value="all">
+        All
+      </option>
+      <option id="upcoming" value="upcoming">
+        Upcoming
+      </option>
+      <option id="pending" value="pending">
+        Pending
+      </option>
+      <option id="cancelled" value="cancelled">
+        Cancelled
+      </option>
+      <option id="finished" value="finished">
+        Finished
+      </option>
+    </select>
+    <div class="form-check">
+      <input class="form-check-input"
+             type="checkbox"
+             value=""
+             id="today-checkbox"
+             (change)="onTodayCheckboxChange($event.target)">
+      <label class="form-check-label" for="today-checkbox">
+        Today
+      </label>
+    </div>
+  </div>
+  <div *ngIf="appointments.length === 0">
+    No appointments yet
+  </div>
+  <div class="list-box">
+    <div class="appointment-card closed p-4 mb-3" *ngFor="let appointment of appointments" id="{{'card-' + appointment.id}}">
+      <div class="d-flex flex-sm-nowrap flex-wrap flex-grow-1 align-items-center justify-content-between gap-3 gap-sm-1 gap-md-3 px-0 px-lg-3">
+        <div class="status-box d-flex flex-row flex-sm-column align-items-center order-2 order-sm-1 me-3">
+          <img src="../../../../assets/icons/{{getStatusIcon(appointment.status)}}" class="status-icon">
+          <span class="status-name"
+                [ngClass]="{
+                  'finished': appointment.status === 'FINISHED',
+                  'pending': appointment.status === 'PENDING',
+                  'upcoming': appointment.status === 'CONFIRMED',
+                  'cancelled': appointment.status === 'CANCELLED'
+                  }">
+              {{appointment.status === 'CONFIRMED' ? 'UPCOMING' : appointment.status}}
+            </span>
+        </div>
+        <div class="info d-flex gap-3 gap-sm-1 gap-md-3 align-items-sm-center align-items-start flex-grow-1 flex-sm-row flex-column order-1 order-md-2">
+          <div class="appointment-time d-flex justify-content-center align-items-center">
+            {{appointment.startTime}} - {{appointment.endTime}}
+          </div>
+          <div class="vertical-divider d-none d-sm-block align-self-start align-self-md-center"></div>
+          <div class="d-flex flex-column gap-1">
+            <div class="d-flex align-items-center">
+              <img src="../../../../assets/icons/date.svg" class="info-icon">
+              {{ appointment.date | date: 'EEEE, MMMM d, y' }}
+            </div>
+            <div class="d-flex align-items-center">
+              <img src="../../../../assets/icons/user-black.svg" class="info-icon">
+              {{appointment.patient.firstName}} {{appointment.patient.lastName}}
+            </div>
+          </div>
+        </div>
+        <div class="actions-toggle d-flex align-items-center align-self-end align-self-md-auto order-3"
+             (click)="toggleActionsPanel($event.target, 'card-' + appointment.id)"
+             *ngIf="appointment.status === 'PENDING'">
+          Więcej
+          <svg width="13" height="17" viewBox="0 0 13 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.5 15.5L10.5 8.5L1.5 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="actions px-0 px-lg-3">
+        <hr class="horizontal-divider">
+        <div class="d-flex align-items-center">
+          <button class="btn btn-primary" (click)="confirmAppointment(appointment.id)">
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

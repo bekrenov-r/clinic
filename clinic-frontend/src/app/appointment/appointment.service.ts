@@ -14,10 +14,7 @@ export class AppointmentService {
   getAllAppointments(status?: string): Observable<Appointment[]> {
     let params = status ? {status} : undefined;
     const context: HttpContext = new HttpContext().set(REQUIRES_AUTH, true);
-    return this.http.get<any>(`${environment.apiBaseUrl}/appointments`, {params: params, context: context})
-      .pipe(
-        map(res => res['content'])
-      );
+    return this.http.get<any>(`${environment.apiBaseUrl}/appointments`, {params: params, context: context});
   }
 
   createAppointmentAsPatient(body: PatientAppointmentRequest, requiresAuth: boolean): Observable<any> {
@@ -28,6 +25,15 @@ export class AppointmentService {
   createAppointmentAsDoctor(body: DoctorAppointmentRequest): Observable<any> {
     const context = new HttpContext().set(REQUIRES_AUTH, true);
     return this.http.post(`${environment.apiBaseUrl}/appointments/doctor`, body, {context: context});
+  }
+
+  confirmAppointment(appointmentId: number): Observable<any> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.patch(
+      `${environment.apiBaseUrl}/appointments/${appointmentId}/confirm`,
+      null,
+      {context: context}
+    );
   }
 
   cancelAppointment(id: number): Observable<any> {

@@ -6,7 +6,6 @@ import com.bekrenov.clinic.dto.response.AppointmentResponse;
 import com.bekrenov.clinic.dto.response.AppointmentShortResponse;
 import com.bekrenov.clinic.model.enums.AppointmentStatus;
 import com.bekrenov.clinic.service.AppointmentService;
-import com.bekrenov.clinic.validation.constraint.group.PatientRegistrationWithUser;
 import com.bekrenov.clinic.validation.constraint.group.PatientRegistrationWithoutUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,19 +17,29 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/appointments")
 @RequiredArgsConstructor
 public class AppointmentController {
     private final AppointmentService appointmentService;
 
-    @GetMapping
+    @GetMapping("/paginated")
     @Secured({"DOCTOR", "PATIENT"})
-    public ResponseEntity<Page<AppointmentShortResponse>> getAllAppointmentsForCurrentUser(
+    public ResponseEntity<Page<AppointmentShortResponse>> getAllAppointmentsForCurrentUserPaginated(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "status", required = false) AppointmentStatus status
     ){
-        return ResponseEntity.ok(appointmentService.getAllAppointmentsForCurrentUser(page, status));
+        return ResponseEntity.ok(appointmentService.getAllAppointmentsForCurrentUserPaginated(page, status));
+    }
+
+    @GetMapping
+    @Secured({"DOCTOR", "PATIENT"})
+    public ResponseEntity<List<AppointmentShortResponse>> getAllAppointmentsForCurrentUser(
+            @RequestParam(value = "status", required = false) AppointmentStatus status
+    ){
+        return ResponseEntity.ok(appointmentService.getAllAppointmentsForCurrentUser(status));
     }
 
     @GetMapping("/{id}")

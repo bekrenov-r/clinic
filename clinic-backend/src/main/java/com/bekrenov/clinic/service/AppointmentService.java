@@ -45,7 +45,7 @@ public class AppointmentService {
     @Value("${business.data.page-size}")
     private Integer pageSize;
 
-    public Page<AppointmentShortResponse> getAllAppointmentsForCurrentUser(
+    public Page<AppointmentShortResponse> getAllAppointmentsForCurrentUserPaginated(
             Integer page, AppointmentStatus status
     ) {
         List<AppointmentShortResponse> appointments  = getAllAppointmentsDependingOnRole().stream()
@@ -54,6 +54,14 @@ public class AppointmentService {
                 .map(appointmentMapper::entityToShortResponse)
                 .toList();
         return PageUtil.paginateList(appointments, page, pageSize);
+    }
+
+    public List<AppointmentShortResponse> getAllAppointmentsForCurrentUser(AppointmentStatus status) {
+        return getAllAppointmentsDependingOnRole().stream()
+                .filter(a -> status == null || a.getStatus().equals(status))
+                .sorted(new AppointmentSortComparator())
+                .map(appointmentMapper::entityToShortResponse)
+                .toList();
     }
 
     public AppointmentResponse getAppointmentById(Long id) {
