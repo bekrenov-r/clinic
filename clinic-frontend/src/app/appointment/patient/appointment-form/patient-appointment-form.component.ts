@@ -89,7 +89,7 @@ export class PatientAppointmentFormComponent implements OnInit, AfterViewInit {
         departments.forEach(department => {
           const option = document.createElement('option');
           option.value = String(department.id);
-          option.innerText = `${department.name}, ${Address.toSimpleString(department.address)}`;
+          option.innerText = `${department.name}, ${department.address.toSimpleString()}`;
           this.render.appendChild(departmentSelect, option);
         });
       });

@@ -20,6 +20,9 @@ import { UnregisteredAppointmentFormComponent } from './appointment/unregistered
 import { DoctorHomeComponent } from './home/doctor/doctor-home.component';
 import { DoctorAppointmentFormComponent } from './appointment/doctor/appointment-form/doctor-appointment-form.component';
 import { DoctorAppointmentListComponent } from './appointment/doctor/appointment-list/doctor-appointment-list.component';
+import { DoctorProfileComponent } from './doctor/profile/doctor-profile.component';
+import { DepartmentPipe } from './common/pipes/department.pipe';
+import { OccupationPipe } from './common/pipes/occupation.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { DoctorAppointmentListComponent } from './appointment/doctor/appointment
     UnregisteredAppointmentFormComponent,
     DoctorHomeComponent,
     DoctorAppointmentFormComponent,
-    DoctorAppointmentListComponent
+    DoctorAppointmentListComponent,
+    DoctorProfileComponent,
+    DepartmentPipe,
+    OccupationPipe
   ],
   imports: [
     BrowserModule,

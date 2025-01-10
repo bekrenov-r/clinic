@@ -6,8 +6,16 @@ export class Address {
     flat?: string;
     zipCode: string;
 
-    static toSimpleString(address: Address): string {
-      let flat: string = address.flat ? `/${address.flat}` : '';
-      return `${address.street} ${address.building}${flat} `;
-    }
+  constructor(city: string, street: string, building: string, flat: string, zipCode: string) {
+    this.city = city;
+    this.street = street;
+    this.building = building;
+    this.flat = flat;
+    this.zipCode = zipCode;
+  }
+
+  toSimpleString(): string {
+    let flat: string = this.flat ? `/${this.flat}` : '';
+    return `ul. ${this.street} ${this.building}${flat}`;
+  }
 }

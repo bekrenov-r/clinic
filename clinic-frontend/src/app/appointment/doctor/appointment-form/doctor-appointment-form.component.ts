@@ -16,6 +16,7 @@ import {PatientRegistration} from "../../../models/patient";
 import {DoctorAppointmentRequest} from "../../../models/appointment";
 import * as bootstrap from "bootstrap";
 import Modal from "bootstrap/js/dist/modal";
+import {Address} from "../../../models/address";
 
 @Component({
   selector: 'app-appointment-form',
@@ -228,13 +229,13 @@ export class DoctorAppointmentFormComponent implements OnInit, AfterViewInit {
       pesel: newPatient.get('pesel').value,
       phoneNumber: newPatient.get('phoneNumber').value,
       email: newPatient.get('email').value,
-      address: {
-        city: address.get('city').value,
-        street: address.get('street').value,
-        building: address.get('building').value,
-        flat: address.get('flat').value,
-        zipCode: address.get('zipCode').value,
-      }
+      address: new Address(
+        address.get('city').value,
+        address.get('street').value,
+        address.get('building').value,
+        address.get('flat').value,
+        address.get('zipCode').value
+      )
     };
   }
 

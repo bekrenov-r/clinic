@@ -1,0 +1,77 @@
+<div class="mx-xl-5 mx-lg-4 mx-md-3 mx-0 px-xl-5 px-4 py-4">
+  <div class="d-flex gap-3 align-items-center mb-sm-4 mb-3">
+    <a href="#" class="back-arrow" [routerLink]="['/doctor/home']">
+      <img src="../../../assets/icons/arrow-back.svg" alt="Back">
+    </a>
+    <h2 class="heading">
+      My profile
+    </h2>
+  </div>
+  <div class="mb-sm-3 mb-1 px-lg-5 px-sm-4 py-sm-4 py-3 profile-box">
+    <h3 class="subheading mb-3">Personal data</h3>
+    <div class="row">
+      <div class="col-12 col-sm-6">
+        <div class="d-flex justify-content-start mb-2">
+          <div class="data-label me-2">First name:</div>
+          <div class="data-value">{{ doctor?.firstName }}</div>
+        </div>
+        <div class="d-flex justify-content-start mb-2">
+          <div class="data-label me-2">Last name:</div>
+          <div class="data-value">{{ doctor?.lastName }}</div>
+        </div>
+        <div class="d-flex justify-content-start mb-2">
+          <div class="data-label me-2">Email:</div>
+          <div class="data-value">{{ doctor?.email }}</div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6">
+        <div class="d-flex justify-content-start mb-2">
+          <div class="data-label me-2">PESEL:</div>
+          <div class="data-value">{{ doctor?.pesel }}</div>
+        </div>
+        <div class="d-flex justify-content-start mb-2">
+          <div class="data-label me-2">Phone number:</div>
+          <div class="data-value">{{ doctor?.phoneNumber }}</div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <h3 class="subheading mb-3">Address</h3>
+    <div class="row">
+      <div class="col-12 col-sm-6">
+        <div class="d-flex justify-content-start mb-2">
+          <div class="data-label me-2">City:</div>
+          <div class="data-value">{{ doctor?.address.city }}</div>
+        </div>
+        <div class="d-flex justify-content-start mb-2">
+          <div class="data-label me-2">Street:</div>
+          <div class="data-value">{{ doctor?.address.street }}</div>
+        </div>
+        <div class="d-flex justify-content-start mb-2">
+          <div class="data-label me-2">Building:</div>
+          <div class="data-value">{{ doctor?.address.building }}</div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6">
+        <div class="d-flex justify-content-start mb-2">
+          <div class="data-label me-2">Flat:</div>
+          <div class="data-value">{{ doctor?.address.flat }}</div>
+        </div>
+        <div class="d-flex justify-content-start mb-2">
+          <div class="data-label me-2">Zip code:</div>
+          <div class="data-value">{{ doctor?.address.zipCode }}</div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="d-flex justify-content-start mb-2">
+      <div class="data-label me-2">Occupation:</div>
+      <div class="data-value">{{ doctor?.occupation | occupation }}</div>
+    </div>
+    <div class="d-flex justify-content-start">
+      <div class="data-label me-2">Department:</div>
+      <div class="data-value">{{ doctor?.department | department }}</div>
+    </div>
+  </div>
+</div>
+

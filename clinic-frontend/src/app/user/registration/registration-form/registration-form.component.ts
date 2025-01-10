@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import {peselRegex, phoneNumberRegex, zipCodeRegex} from "../../../models/regex-constants";
 import {PatientRegistration} from "../../../models/patient";
+import {Address} from "../../../models/address";
 
 @Component({
   selector: 'app-registration-form',
@@ -74,19 +75,20 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   composeRegistration(): PatientRegistration {
+    const address = this.step1Form.get('address');
     return {
       firstName: this.step1Form.get('firstName')?.value,
       lastName: this.step1Form.get('lastName')?.value,
       pesel: this.step1Form.get('pesel')?.value,
       email: this.step1Form.get('email')?.value,
       phoneNumber: this.step1Form.get('phoneNumber')?.value,
-      address: {
-        city: this.step1Form.get('address')?.get('city')?.value,
-        street: this.step1Form.get('address')?.get('street')?.value,
-        building: this.step1Form.get('address')?.get('building')?.value,
-        flat: this.step1Form.get('address')?.get('flat')?.value,
-        zipCode: this.step1Form.get('address')?.get('zipCode')?.value
-      },
+      address: new Address(
+        address.get('city').value,
+        address.get('street').value,
+        address.get('building').value,
+        address.get('flat').value,
+        address.get('zipCode').value
+      ),
       password: this.step2Form.get('password')?.value
     }
   }

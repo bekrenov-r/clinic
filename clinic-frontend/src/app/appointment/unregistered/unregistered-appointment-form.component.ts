@@ -111,7 +111,7 @@ export class UnregisteredAppointmentFormComponent implements OnInit, AfterViewIn
         departments.forEach(department => {
           const option = document.createElement('option');
           option.value = String(department.id);
-          option.innerText = `${department.name}, ${Address.toSimpleString(department.address)}`;
+          option.innerText = `${department.name}, ${department.address.toSimpleString()}`;
           this.render.appendChild(departmentSelect, option);
         });
       });
@@ -245,13 +245,13 @@ export class UnregisteredAppointmentFormComponent implements OnInit, AfterViewIn
       pesel: personalData.get('pesel').value,
       phoneNumber: personalData.get('phoneNumber').value,
       email: personalData.get('email').value,
-      address: {
-        city: address.get('city').value,
-        street: address.get('street').value,
-        building: address.get('building').value,
-        flat: address.get('flat').value,
-        zipCode: address.get('zipCode').value,
-      }
+      address: new Address(
+        address.get('city').value,
+        address.get('street').value,
+        address.get('building').value,
+        address.get('flat').value,
+        address.get('zipCode').value
+      )
     };
   }
 }
