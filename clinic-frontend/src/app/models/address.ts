@@ -18,4 +18,9 @@ export class Address {
     let flat: string = this.flat ? `/${this.flat}` : '';
     return `ul. ${this.street} ${this.building}${flat}`;
   }
+
+  toLongString(): string {
+    let flat: string = this.flat ? `/${this.flat}` : '';
+    return `ul. ${this.street} ${this.building}${flat}, ${this.zipCode} ${this.city}`;
+  }
 }

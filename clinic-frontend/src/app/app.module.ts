@@ -23,6 +23,8 @@ import { DoctorAppointmentListComponent } from './appointment/doctor/appointment
 import { DoctorProfileComponent } from './doctor/profile/doctor-profile.component';
 import { DepartmentPipe } from './common/pipes/department.pipe';
 import { OccupationPipe } from './common/pipes/occupation.pipe';
+import { DepartmentPanelComponent } from './doctor/department-panel/department-panel.component';
+import { AddressPipe } from './common/pipes/address.pipe';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { OccupationPipe } from './common/pipes/occupation.pipe';
     DoctorAppointmentListComponent,
     DoctorProfileComponent,
     DepartmentPipe,
-    OccupationPipe
+    OccupationPipe,
+    DepartmentPanelComponent,
+    AddressPipe
   ],
   imports: [
     BrowserModule,
@@ -48,7 +52,8 @@ import { OccupationPipe } from './common/pipes/occupation.pipe';
     UserModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    FormsModule
   ],
   providers: [
     {

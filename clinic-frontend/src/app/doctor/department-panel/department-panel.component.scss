@@ -1,0 +1,53 @@
+@import "../../../styles.scss";
+
+.section-box {
+  @include media-breakpoint-up(sm){
+    box-shadow: #{$card-box-shadow};
+    border-radius: #{$card-border-radius};
+  }
+}
+
+.department-section-box {
+  @include media-breakpoint-up(lg){
+    margin-right: 10%;
+  }
+
+  @include media-breakpoint-up(xl){
+    margin-right: 15%;
+  }
+
+  @include media-breakpoint-up(xxl){
+    margin-right: 20%;
+  }
+}
+
+.employees-section-block {
+  @include media-breakpoint-up(lg){
+    margin-right: 10%;
+  }
+
+  @include media-breakpoint-up(xl){
+    margin-right: 15%;
+  }
+
+  @include media-breakpoint-up(xxl){
+    margin-right: 20%;
+  }
+}
+
+.heading {
+  font-size: 2rem;
+  font-weight: 900;
+  color: $dark-green;
+}
+
+.form-label {
+  color: $gray;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+.data-value {
+  color: $dark-green;
+  font-weight: 700;
+}

@@ -44,6 +44,12 @@ public class DepartmentController {
                 .body(departmentService.createDepartment(request));
     }
 
+    @PutMapping("/{id}")
+    @Secured({"HEAD_OF_DEPARTMENT", "ADMIN"})
+    public ResponseEntity<DepartmentDetailedResponse> updateDepartment(@PathVariable Long id, @RequestBody @Valid DepartmentRequest request){
+        return ResponseEntity.ok(departmentService.updateDepartment(id, request));
+    }
+
     @DeleteMapping("/{id}")
     @Secured("ADMIN")
     public ResponseEntity<Void> deleteDepartment(@PathVariable Long id){
