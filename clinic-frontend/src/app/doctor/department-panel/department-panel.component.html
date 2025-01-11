@@ -2,6 +2,222 @@
   <div class="modal"
        data-bs-backdrop="static"
        tabindex="-1"
+       id="new-employee-modal"
+       #employeeFormModal>
+    <form novalidate class="needs-validation"
+          (ngSubmit)="onEmployeeFormSubmit()"
+          [formGroup]="employeeForm">
+      <div class="modal-dialog modal-dialog-scrollable" style="max-width: 1000px">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-title">
+              <strong>
+                Add new employee
+              </strong>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <h3 class="subheading mb-3">Personal data</h3>
+            <div class="row mb-3 gy-3">
+              <div class="col-md-4 col-sm-6 col-12">
+                <div class="form-floating">
+                  <input type="text"
+                         class="form-control"
+                         id="first-name"
+                         placeholder="John"
+                         [ngClass]="{'is-invalid': employeeForm.get('firstName')?.invalid && employeeForm.get('firstName')?.touched}"
+                         formControlName="firstName">
+                  <label for="first-name">First name</label>
+                </div>
+                <div class="invalid-msg"
+                     *ngIf="employeeForm.get('firstName')?.invalid && employeeForm.get('firstName')?.touched">
+                  First name is required
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-6 col-12">
+                <div class="form-floating">
+                  <input type="text"
+                         class="form-control"
+                         id="last-name"
+                         placeholder="Doe"
+                         [ngClass]="{'is-invalid': employeeForm.get('lastName')?.invalid && employeeForm.get('lastName')?.touched}"
+                         formControlName="lastName">
+                  <label for="last-name">Last name</label>
+                </div>
+                <div class="invalid-msg"
+                     *ngIf="employeeForm.get('lastName')?.invalid && employeeForm.get('lastName')?.touched">
+                  Last name is required
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-6 col-12">
+                <div class="form-floating">
+                  <input type="text"
+                         class="form-control"
+                         id="pesel"
+                         placeholder="00000000000"
+                         [ngClass]="{'is-invalid': employeeForm.get('pesel')?.invalid && employeeForm.get('pesel')?.touched}"
+                         formControlName="pesel">
+                  <label for="pesel">PESEL</label>
+                </div>
+                <div class="invalid-msg"
+                     *ngIf="employeeForm.get('pesel')?.invalid && employeeForm.get('pesel')?.touched"
+                     [innerText]="getInvalidMsgForPesel()">
+                </div>
+              </div>
+            </div>
+            <div class="row gy-3">
+              <div class="col-sm-6 col-12">
+                <div class="input-group">
+                  <span class="input-group-text">+48</span>
+                  <div class="form-floating">
+                    <input type="text"
+                           class="form-control"
+                           id="phone-number"
+                           placeholder="+48000000000"
+                           [ngClass]="{'is-invalid': employeeForm.get('phoneNumber')?.invalid && employeeForm.get('phoneNumber')?.touched}"
+                           formControlName="phoneNumber">
+                    <label for="phone-number">Phone number</label>
+                  </div>
+                </div>
+                <div class="invalid-msg"
+                     *ngIf="employeeForm.get('phoneNumber')?.invalid && employeeForm.get('phoneNumber')?.touched"
+                     [innerText]="getInvalidMsgForPhoneNumber()">
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-floating">
+                  <input type="text"
+                         class="form-control"
+                         id="email"
+                         placeholder="john.doe@example.com"
+                         [ngClass]="{'is-invalid': employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched}"
+                         formControlName="email">
+                  <label for="email">Email</label>
+                </div>
+                <div class="invalid-msg"
+                     *ngIf="employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched"
+                     [innerText]="getInvalidMsgForEmail()">
+                </div>
+              </div>
+            </div>
+            <div class="mt-3" formGroupName="address">
+              <h3 class="subheading mb-3">Address</h3>
+              <div class="row mb-3 gy-3">
+                <div class="col-sm-6 col-12">
+                  <div class="form-floating">
+                    <input type="text"
+                           class="form-control"
+                           id="city"
+                           placeholder="Lublin"
+                           formControlName="city"
+                           [ngClass]="{'is-invalid': employeeForm.get('address')?.get('city')?.invalid && employeeForm.get('address')?.get('city')?.touched}">
+                    <label for="city">City</label>
+                  </div>
+                  <div class="invalid-msg"
+                       *ngIf="employeeForm.get('address')?.get('city')?.invalid && employeeForm.get('address')?.get('city')?.touched">
+                    City is required
+                  </div>
+                </div>
+                <div class="col-sm-6 col-12">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="street" placeholder="Nadbystrzycka"
+                           [ngClass]="{'is-invalid': employeeForm.get('address')?.get('street')?.invalid && employeeForm.get('address')?.get('street')?.touched}"
+                           formControlName="street">
+                    <label for="street">Street</label>
+                  </div>
+                  <div class="invalid-msg"
+                       *ngIf="employeeForm.get('address')?.get('street')?.invalid && employeeForm.get('address')?.get('street')?.touched">
+                    Street is required
+                  </div>
+                </div>
+              </div>
+              <div class="row gy-3">
+                <div class="col-md-4 col-sm-6 col-12">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="building" placeholder="00"
+                           [ngClass]="{'is-invalid': employeeForm.get('address')?.get('building')?.invalid && employeeForm.get('address')?.get('building')?.touched}"
+                           formControlName="building">
+                    <label for="building">Building</label>
+                  </div>
+                  <div class="invalid-msg"
+                       *ngIf="employeeForm.get('address')?.get('building')?.invalid && employeeForm.get('address')?.get('building')?.touched">
+                    Building is required
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-12">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="flat" placeholder="00" formControlName="flat">
+                    <label for="flat">Flat</label>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-12">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="zip-code" placeholder="00-000"
+                           [ngClass]="{'is-invalid': employeeForm.get('address')?.get('zipCode')?.invalid && employeeForm.get('address')?.get('zipCode')?.touched}"
+                           formControlName="zipCode">
+                    <label for="zip-code">Zip code</label>
+                  </div>
+                  <div class="invalid-msg"
+                       *ngIf="employeeForm.get('address')?.get('zipCode')?.invalid && employeeForm.get('address')?.get('zipCode')?.touched"
+                       [innerText]="getInvalidMsgForZipCode()">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-3">
+              <div class="subheading">Employee data</div>
+              <div class="row">
+                <div class="col-2 p-0 d-flex justify-content-end align-items-center">
+                  <label for="occupation" class="form-label">
+                    Occupation:
+                  </label>
+                </div>
+                <div class="col-10">
+                  <select name="occupation"
+                          id="occupation"
+                          class="form-select"
+                          required
+                          formControlName="occupation"
+                          [ngClass]="{'is-invalid': employeeForm.get('occupation')?.invalid && employeeForm.get('occupation')?.touched}">
+                    <option disabled selected value="">Choose option...</option>
+                    <option value="DOCTOR">Doctor</option>
+                    <option value="RECEPTIONIST">Receptionist</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-2 p-0"></div>
+                <div class="col-10">
+                  <div class="invalid-msg"
+                       *ngIf="employeeForm.get('occupation')?.invalid && employeeForm.get('occupation')?.touched">
+                    Occupation is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="submit"
+                    class="btn btn-primary"
+                    style="min-width: 100px" [disabled]="employeeForm.invalid || !employeeForm.touched">
+              Create
+            </button>
+            <button type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    style="min-width: 100px">
+              Back
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal"
+       data-bs-backdrop="static"
+       tabindex="-1"
        id="success-modal"
        #successModal>
     <div class="modal-dialog modal-dialog-centered">
@@ -14,7 +230,6 @@
           </div>
         </div>
         <div class="modal-body d-flex align-items-center">
-          Department was updated.
         </div>
         <div class="modal-footer">
           <button type="button"
@@ -27,7 +242,7 @@
       </div>
     </div>
   </div>
-  <section class="section-box department-section-box mb-4 px-lg-5 px-sm-4 py-sm-4 py-3">
+  <section class="section-box mb-3 px-lg-5 px-sm-4 py-sm-4 py-3">
     <div class="heading mb-3">Department</div>
     <div class="row mb-3">
       <div class="col-2 p-0 mb-0 d-flex justify-content-end align-items-center">
@@ -98,5 +313,39 @@
         </button>
       </div>
     </div>
+  </section>
+  <section class="section-box mb-4 px-lg-5 px-sm-4 py-sm-4 py-3 mt-3">
+    <div class="heading mb-3">Employees</div>
+    <div class="d-flex justify-content-between mb-3">
+      <select class="form-select form-select-sm" #employeeType (change)="onEmployeeTypeChange(employeeType)">
+        <option selected id="current" value="current">
+          Current
+        </option>
+        <option id="dismissed" value="dismissed">
+          Dismissed
+        </option>
+      </select>
+      <button type="button" class="btn btn-primary" (click)="openEmployeeFormModal()">
+        Add employee
+      </button>
+    </div>
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">Full name</th>
+        <th scope="col">Occupation</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let employee of employees">
+        <td>{{ employee.firstName }} {{ employee.lastName }}</td>
+        <td>{{ employee.occupation | occupation }}</td>
+        <td>
+          <a href="#" class="link">Go to profile</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </section>
 </div>

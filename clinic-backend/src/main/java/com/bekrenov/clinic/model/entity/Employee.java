@@ -15,8 +15,15 @@ public class Employee extends Person {
     @Column(name = "occupation")
     protected String occupation;
 
+    @Column(name = "is_dismissed")
+    protected boolean isDismissed;
+
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "id_department", referencedColumnName = "id")
     protected Department department;
+
+    public boolean isInDepartment(Department department) {
+        return department.getId().equals(this.department.getId());
+    }
 }

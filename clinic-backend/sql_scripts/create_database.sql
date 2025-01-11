@@ -70,6 +70,7 @@ create table employees
     email         varchar(100),
     pesel varchar(11),
     occupation      varchar(50),
+    is_dismissed boolean default false,
     id_department int,
     address_id    int,
     primary key (id),

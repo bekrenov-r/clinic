@@ -18,6 +18,7 @@ public enum ClinicEntityNotFoundExceptionReason implements ExceptionReasonPolicy
     APPOINTMENT("Appointment with id [%s] does not exist"),
     ADDRESS("Address with id [%s] does not exist"),
     USER("User with username [%s] does not exist"),
+    EMPLOYEE("Employee with id [%s] does not exist"),
     EMPLOYEE_BY_EMAIL("Employee with email [%s] does not exist"),
     PERSON("Person with email [%s] does not exist");
 
