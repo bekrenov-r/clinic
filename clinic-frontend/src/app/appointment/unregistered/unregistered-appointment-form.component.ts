@@ -15,6 +15,7 @@ import {PatientRegistration} from "../../models/patient";
 import Modal from "bootstrap/js/dist/modal";
 import * as bootstrap from "bootstrap";
 import {PatientAppointmentRequest, UnregisteredPatientAppointmentRequest} from "../../models/appointment";
+import {SuccessModalComponent} from "../../common/components/success-modal/success-modal.component";
 
 @Component({
   selector: 'app-unregistered-appointment-form',
@@ -29,11 +30,9 @@ export class UnregisteredAppointmentFormComponent implements OnInit, AfterViewIn
   @ViewChild('date') datePicker: ElementRef;
   @ViewChild('time') timeSelect: ElementRef;
   @ViewChild('submitButtonSpinner') submitButtonSpinner: ElementRef;
-  @ViewChild('successModal') successModal: ElementRef;
+  @ViewChild(SuccessModalComponent) successModal: SuccessModalComponent;
 
   appointmentForm: FormGroup;
-
-  private bsSuccessModal: bootstrap.Modal;
 
   constructor(
     private availabilityService: AppointmentAvailabilityService,
@@ -94,7 +93,7 @@ export class UnregisteredAppointmentFormComponent implements OnInit, AfterViewIn
         finalize(() => this.hideSpinner())
       )
       .subscribe({
-        next: () => this.showSuccessModal()
+        next: () => this.successModal.show('We sent an email with details about your appointment.')
       })
   }
 
@@ -111,7 +110,11 @@ export class UnregisteredAppointmentFormComponent implements OnInit, AfterViewIn
         departments.forEach(department => {
           const option = document.createElement('option');
           option.value = String(department.id);
-          option.innerText = `${department.name}, ${department.address.toSimpleString()}`;
+          const address: Address = Object.assign(
+            new Address('', '', '', '', ''),
+            department.address
+          );
+          option.innerText = `${department.name}, ${address.toSimpleString()}`;
           this.render.appendChild(departmentSelect, option);
         });
       });
@@ -214,12 +217,6 @@ export class UnregisteredAppointmentFormComponent implements OnInit, AfterViewIn
     this.render.addClass(this.submitButtonSpinner.nativeElement, 'd-none');
   }
 
-  showSuccessModal(): void {
-    const modal: HTMLDivElement = this.successModal.nativeElement;
-    this.bsSuccessModal = Modal.getOrCreateInstance(modal);
-    this.bsSuccessModal.show();
-  }
-
   getInvalidMsgForEmail(): string {
     return this.appointmentForm.get('personalData').get('email').hasError('required') ? 'Email is required' : 'Please provide valid email';
   }
@@ -253,5 +250,9 @@ export class UnregisteredAppointmentFormComponent implements OnInit, AfterViewIn
         address.get('zipCode').value
       )
     };
+  }
+
+  redirect(mapping: string) {
+    this.router.navigate([mapping]);
   }
 }

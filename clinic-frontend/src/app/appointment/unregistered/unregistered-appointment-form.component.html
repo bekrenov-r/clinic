@@ -1,33 +1,5 @@
 <div class="mx-xl-5 mx-lg-4 mx-md-3 mx-sm-0 px-xl-5 px-4 py-4">
-  <div class="modal"
-       data-bs-backdrop="static"
-       tabindex="-1"
-       id="success-modal"
-       #successModal>
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="modal-title">
-            <strong>
-              Success!
-            </strong>
-          </div>
-        </div>
-        <div class="modal-body d-flex align-items-center">
-          We sent an email with details about your appointment.
-        </div>
-        <div class="modal-footer">
-          <button type="button"
-                  class="btn btn-primary"
-                  data-bs-dismiss="modal"
-                  style="min-width: 100px"
-                  [routerLink]="['/']">
-            Ok
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <success-modal (hide)="redirect('/')"></success-modal>
   <form novalidate class="form-box needs-validation"
         [formGroup]="appointmentForm"
         (ngSubmit)="onSubmit()">

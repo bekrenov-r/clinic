@@ -17,6 +17,7 @@ import {DoctorAppointmentRequest} from "../../../models/appointment";
 import * as bootstrap from "bootstrap";
 import Modal from "bootstrap/js/dist/modal";
 import {Address} from "../../../models/address";
+import {SuccessModalComponent} from "../../../common/components/success-modal/success-modal.component";
 
 @Component({
   selector: 'app-appointment-form',
@@ -30,13 +31,12 @@ export class DoctorAppointmentFormComponent implements OnInit, AfterViewInit {
   @ViewChild('peselSearchSuccessAlert') peselSearchSuccessAlert: ElementRef;
   @ViewChild('peselSearchFailureAlert') peselSearchFailureAlert: ElementRef;
   @ViewChild('submitButtonSpinner') spinner: ElementRef;
-  @ViewChild('successModal') successModal: ElementRef;
+  @ViewChild(SuccessModalComponent) successModal: SuccessModalComponent;
 
   appointmentForm: FormGroup;
   peselSearchControl: FormControl = new FormControl('');
   existingPatient: PersonDto;
   currentMode: PatientMode;
-  bsSuccessModal: bootstrap.Modal
 
   constructor(
     private authService: AuthService,
@@ -114,7 +114,7 @@ export class DoctorAppointmentFormComponent implements OnInit, AfterViewInit {
     this.appointmentService.createAppointmentAsDoctor(body)
       .pipe(finalize(() => this.hideSpinner()))
       .subscribe({
-        next: () => this.showSuccessModal()
+        next: () => this.successModal.show('Appointment created successfully.')
       });
   }
 
@@ -196,6 +196,10 @@ export class DoctorAppointmentFormComponent implements OnInit, AfterViewInit {
     return patientIsValid && this.appointmentForm.get('date').valid && this.appointmentForm.get('time').valid;
   }
 
+  redirect(mapping: string) {
+    this.router.navigate([mapping]);
+  }
+
   private requireRole(role: string) {
     if (!this.authService.userHasRole(role)) {
       this.router.navigate(['/login']);
@@ -256,12 +260,6 @@ export class DoctorAppointmentFormComponent implements OnInit, AfterViewInit {
 
   private hideAlert(alert: ElementRef) {
     alert.nativeElement.classList.add('d-none');
-  }
-
-  private showSuccessModal() {
-    const modal: HTMLDivElement = this.successModal.nativeElement;
-    this.bsSuccessModal = Modal.getOrCreateInstance(modal);
-    this.bsSuccessModal.show();
   }
 }
 

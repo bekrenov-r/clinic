@@ -12,6 +12,7 @@ import {EmployeeService} from "../employee.service";
 import {Employee, EmployeeRequest} from "../../models/employee";
 import {peselRegex, phoneNumberRegex, zipCodeRegex} from "../../models/regex-constants";
 import {Observable} from "rxjs";
+import {SuccessModalComponent} from "../../common/components/success-modal/success-modal.component";
 
 @Component({
   selector: 'app-department-panel',
@@ -20,8 +21,8 @@ import {Observable} from "rxjs";
   encapsulation: ViewEncapsulation.None
 })
 export class DepartmentPanelComponent implements OnInit {
-  @ViewChild('successModal') successModal: ElementRef;
   @ViewChild('employeeFormModal') employeeFormModal: ElementRef;
+  @ViewChild(SuccessModalComponent) successModal: SuccessModalComponent;
 
   department: DepartmentDetails = {
     id: 0,
@@ -34,8 +35,6 @@ export class DepartmentPanelComponent implements OnInit {
   departmentWasChanged: boolean = false;
   employees: Employee[] = [];
   employeeForm: FormGroup;
-
-  private bsSuccessModal: bootstrap.Modal;
   private bsEmployeeFormModal: bootstrap.Modal;
 
   constructor(
@@ -88,17 +87,18 @@ export class DepartmentPanelComponent implements OnInit {
     }
     this.departmentService.updateDepartment(this.department.id, body)
       .subscribe(res => {
-        this.showSuccessModal('Department was updated');
+        this.successModal.show('Department was updated.')
         this.department = res;
         this.departmentWasChanged = false;
       });
   }
 
   onEmployeeFormSubmit() {
-      this.createEmployee().subscribe(() => {
-        this.bsEmployeeFormModal.hide()
-        this.populateEmployees();
-      });
+    this.createEmployee().subscribe(() => {
+      this.successModal.show('New employee was created.');
+      this.bsEmployeeFormModal.hide()
+      this.populateEmployees();
+    });
   }
 
   private createEmployee(): Observable<any> {
@@ -119,13 +119,6 @@ export class DepartmentPanelComponent implements OnInit {
       occupation: this.employeeForm.get('occupation').value
     };
     return this.employeeService.createEmployee(employee);
-  }
-
-  showSuccessModal(message: string) {
-    const modal: HTMLDivElement = this.successModal.nativeElement;
-    modal.querySelector('.modal-body').innerHTML = message;
-    this.bsSuccessModal = Modal.getOrCreateInstance(modal);
-    this.bsSuccessModal.show();
   }
 
   openEmployeeFormModal() {
