@@ -91,7 +91,7 @@
         </div>
         <div class="actions-toggle d-flex align-items-center align-self-end align-self-md-auto order-3"
              (click)="toggleActionsPanel($event.target, 'card-' + appointment.id)"
-             *ngIf="appointment.status === 'PENDING'">
+             *ngIf="['PENDING', 'CONFIRMED'].includes(appointment.status)">
           Więcej
           <svg width="13" height="17" viewBox="0 0 13 17" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.5 15.5L10.5 8.5L1.5 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -100,9 +100,16 @@
       </div>
       <div class="actions px-0 px-lg-3">
         <hr class="horizontal-divider">
-        <div class="d-flex align-items-center">
-          <button class="btn btn-primary" (click)="confirmAppointment(appointment.id)">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-primary"
+                  (click)="confirmAppointment(appointment.id)"
+                  *ngIf="appointment.status === 'PENDING'">
             Confirm
+          </button>
+          <button class="btn btn-primary"
+                  [routerLink]="['/doctor/appointment/', appointment.id]"
+                  *ngIf="appointment.status === 'CONFIRMED'">
+            Start
           </button>
         </div>
       </div>

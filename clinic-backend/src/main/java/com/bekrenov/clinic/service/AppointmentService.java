@@ -3,6 +3,7 @@ package com.bekrenov.clinic.service;
 import com.bekrenov.clinic.dto.mapper.AppointmentMapper;
 import com.bekrenov.clinic.dto.request.AppointmentRequestByDoctor;
 import com.bekrenov.clinic.dto.request.AppointmentRequestByPatient;
+import com.bekrenov.clinic.dto.request.UpdateAppointmentRequest;
 import com.bekrenov.clinic.dto.response.AppointmentResponse;
 import com.bekrenov.clinic.dto.response.AppointmentShortResponse;
 import com.bekrenov.clinic.exception.ClinicApplicationException;
@@ -100,6 +101,17 @@ public class AppointmentService {
         appointment.setPatient(patient);
         appointment.setStatus(status);
         mailService.sendEmailWithAppointment(appointment);
+        return appointmentMapper.entityToResponse(appointmentRepository.save(appointment));
+    }
+
+    public AppointmentResponse updateAppointment(Long id, UpdateAppointmentRequest request) {
+        Appointment appointment = appointmentRepository.findByIdOrThrowDefault(id);
+        Doctor authenticatedDoctor = doctorRepository.findByEmail(CurrentAuthUtil.getAuthentication().getName());
+        AppointmentAssert.assertDoctorIsAppointmentOwner(appointment, authenticatedDoctor);
+
+        appointment.setDetails(request.details());
+        appointment.setPrescription(request.prescription());
+
         return appointmentMapper.entityToResponse(appointmentRepository.save(appointment));
     }
 

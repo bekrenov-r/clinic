@@ -26,6 +26,7 @@ import { OccupationPipe } from './common/pipes/occupation.pipe';
 import { DepartmentPanelComponent } from './doctor/department-panel/department-panel.component';
 import { AddressPipe } from './common/pipes/address.pipe';
 import { SuccessModalComponent } from './common/components/success-modal/success-modal.component';
+import { AppointmentPageComponent } from './appointment/doctor/appointment-page/appointment-page.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { SuccessModalComponent } from './common/components/success-modal/success
     OccupationPipe,
     DepartmentPanelComponent,
     AddressPipe,
-    SuccessModalComponent
+    SuccessModalComponent,
+    AppointmentPageComponent
   ],
   imports: [
     BrowserModule,

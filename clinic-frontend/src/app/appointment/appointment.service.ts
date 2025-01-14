@@ -17,6 +17,11 @@ export class AppointmentService {
     return this.http.get<any>(`${environment.apiBaseUrl}/appointments`, {params: params, context: context});
   }
 
+  getAppointmentById(id: number): Observable<Appointment> {
+    const context: HttpContext = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.get<Appointment>(`${environment.apiBaseUrl}/appointments/${id}`, {context: context});
+  }
+
   createAppointmentAsPatient(body: PatientAppointmentRequest, requiresAuth: boolean): Observable<any> {
     const context = new HttpContext().set(REQUIRES_AUTH, requiresAuth);
     return this.http.post(`${environment.apiBaseUrl}/appointments/patient`, body, {context: context});
@@ -27,10 +32,24 @@ export class AppointmentService {
     return this.http.post(`${environment.apiBaseUrl}/appointments/doctor`, body, {context: context});
   }
 
+  updateAppointment(id: number, body: any): Observable<Appointment> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.put<Appointment>(`${environment.apiBaseUrl}/appointments/${id}`, body, {context: context});
+  }
+
   confirmAppointment(appointmentId: number): Observable<any> {
     const context = new HttpContext().set(REQUIRES_AUTH, true);
     return this.http.patch(
       `${environment.apiBaseUrl}/appointments/${appointmentId}/confirm`,
+      null,
+      {context: context}
+    );
+  }
+
+  finishAppointment(id: number): Observable<any> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.patch(
+      `${environment.apiBaseUrl}/appointments/${id}/finish`,
       null,
       {context: context}
     );

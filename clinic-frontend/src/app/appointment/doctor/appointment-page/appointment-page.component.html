@@ -1,0 +1,48 @@
+<div class="mx-xl-5 mx-lg-4 mx-md-3 mx-0 px-xl-5 px-4 py-4">
+  <success-modal></success-modal>
+  <div class="d-flex gap-3 flex-column flex-sm-row align-items-center mb-sm-3 mb-2">
+    <a href="#" class="back-arrow" [routerLink]="['/doctor/appointments']">
+      <img src="../../../../assets/icons/arrow-back.svg" alt="Back">
+    </a>
+    <h2 class="heading">
+      Appointment
+    </h2>
+  </div>
+  <div class="d-flex align-items-center">
+    <div class="appointment-info">
+      {{appointment.patient.firstName}} {{appointment.patient.lastName}}
+    </div>
+    <div class="appointment-info">
+      {{appointment.startTime}} - {{appointment.endTime}}
+    </div>
+  </div>
+  <div class="mt-3 form-box">
+    <div class="mb-3">
+      <label for="details" class="form-label">Details:</label>
+      <textarea class="form-control"
+                id="details"
+                rows="3"
+                [(ngModel)]="appointment.details">
+      </textarea>
+    </div>
+    <div class="mb-3">
+      <label for="prescription" class="form-label">Prescription:</label>
+      <textarea class="form-control"
+                id="prescription"
+                rows="3"
+                [(ngModel)]="appointment.prescription">
+      </textarea>
+    </div>
+    <div class="d-flex gap-3 align-items-center">
+      <button class="btn btn-primary" (click)="saveAndFinish()">
+        Save and finish
+      </button>
+      <button class="btn btn-primary" (click)="save()">
+        Save
+      </button>
+      <button class="btn btn-danger" [routerLink]="['/doctor/appointments']">
+        Exit
+      </button>
+    </div>
+  </div>
+</div>

@@ -2,6 +2,7 @@ package com.bekrenov.clinic.controller;
 
 import com.bekrenov.clinic.dto.request.AppointmentRequestByDoctor;
 import com.bekrenov.clinic.dto.request.AppointmentRequestByPatient;
+import com.bekrenov.clinic.dto.request.UpdateAppointmentRequest;
 import com.bekrenov.clinic.dto.response.AppointmentResponse;
 import com.bekrenov.clinic.dto.response.AppointmentShortResponse;
 import com.bekrenov.clinic.model.enums.AppointmentStatus;
@@ -68,6 +69,15 @@ public class AppointmentController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(appointmentService.createAppointmentAsPatient(request));
+    }
+
+    @PutMapping("/{id}")
+    @Secured("DOCTOR")
+    public ResponseEntity<AppointmentResponse> updateAppointment(
+            @PathVariable Long id,
+            @RequestBody UpdateAppointmentRequest request
+    ) {
+        return ResponseEntity.ok(appointmentService.updateAppointment(id, request));
     }
 
     @PatchMapping("/{id}/confirm")
