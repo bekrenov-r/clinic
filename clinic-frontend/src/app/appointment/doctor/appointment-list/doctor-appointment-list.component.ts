@@ -5,6 +5,7 @@ import * as bootstrap from "bootstrap";
 import Modal from "bootstrap/js/dist/modal";
 import {map} from "rxjs";
 import * as moment from "moment";
+import {SuccessModalComponent} from "../../../common/components/success-modal/success-modal.component";
 
 @Component({
   selector: 'app-appointment-list',
@@ -14,9 +15,8 @@ import * as moment from "moment";
 })
 export class DoctorAppointmentListComponent implements AfterViewInit {
   @ViewChild('filters') filters: ElementRef;
-  @ViewChild('confirmationSuccessModal') confirmationSuccessModal: ElementRef;
+  @ViewChild(SuccessModalComponent) confirmationSuccessModal: SuccessModalComponent;
 
-  bsConfirmAppointmentModal: bootstrap.Modal;
   appointments: Appointment[] = [];
 
 
@@ -34,7 +34,7 @@ export class DoctorAppointmentListComponent implements AfterViewInit {
     this.appointmentService.confirmAppointment(appointmentId)
       .subscribe({
         next: () => {
-          this.showConfirmationSuccessModal();
+          this.confirmationSuccessModal.show('Appointment confirmed successfully');
           this.populateAppointments();
         }
       });
@@ -79,12 +79,6 @@ export class DoctorAppointmentListComponent implements AfterViewInit {
     const isCardClosed: boolean = currentCard.classList.contains('closed');
     this.render.removeClass(currentCard, isCardClosed ? 'closed' : 'open');
     this.render.addClass(currentCard, !isCardClosed ? 'closed' : 'open');
-  }
-
-  private showConfirmationSuccessModal() {
-    const modal: HTMLDivElement = this.confirmationSuccessModal.nativeElement;
-    this.bsConfirmAppointmentModal = Modal.getOrCreateInstance(modal);
-    this.bsConfirmAppointmentModal.show();
   }
 
   private getCurrentStatus(): string | undefined {

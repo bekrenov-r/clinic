@@ -11,6 +11,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class MailService {
         message.setSubject("Activate your account");
         message.setFrom("MedicaPlus <" + fromAddress + ">");
         message.setText(String.format(contentTemplate, registration.firstName(), url));
-        mailSender.send(message);
+        CompletableFuture.runAsync(() -> mailSender.send(message));
     }
 
     public void sendEmailWithAppointment(Appointment appointment){
@@ -48,7 +49,7 @@ public class MailService {
         message.setSubject("Appointment at MedicaPlus");
         message.setFrom("MedicaPlus <" + fromAddress + ">");
         message.setText(composeMessageContent(contentTemplate, appointment));
-        mailSender.send(message);
+        CompletableFuture.runAsync(() -> mailSender.send(message));
     }
 
     private String composeMessageContent(String contentTemplate, Appointment appointment) {
