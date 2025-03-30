@@ -60,6 +60,7 @@ import { AppointmentPageComponent } from './appointment/doctor/appointment-page/
     FormsModule
   ],
   providers: [
+    AddressPipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthorizationHeaderInterceptor,

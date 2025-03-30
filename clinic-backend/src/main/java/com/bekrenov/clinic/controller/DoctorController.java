@@ -1,6 +1,7 @@
 package com.bekrenov.clinic.controller;
 
 import com.bekrenov.clinic.dto.response.DoctorDetailedResponse;
+import com.bekrenov.clinic.dto.response.DoctorPublicProfileResponse;
 import com.bekrenov.clinic.dto.response.PersonDTO;
 import com.bekrenov.clinic.model.entity.Department;
 import com.bekrenov.clinic.service.DoctorService;
@@ -28,6 +29,11 @@ public class DoctorController {
     @Secured({"HEAD_OF_DEPARTMENT", "ADMIN"})
     public ResponseEntity<DoctorDetailedResponse> getDoctorById(@PathVariable Long id){
         return ResponseEntity.ok(doctorService.getDoctorById(id));
+    }
+
+    @GetMapping("/{id}/profile")
+    public ResponseEntity<DoctorPublicProfileResponse> getDoctorPublicProfile(@PathVariable Long id) {
+        return ResponseEntity.ok(doctorService.getDoctorPublicProfile(id));
     }
 
     @GetMapping("/specialization")

@@ -12,6 +12,7 @@ import {AppointmentService} from "../../appointment.service";
 import {Router} from "@angular/router";
 
 import {PatientAppointmentRequest} from "../../../models/appointment";
+import {AddressPipe} from "../../../common/pipes/address.pipe";
 
 @Component({
   selector: 'app-patient-appointment-form',
@@ -37,7 +38,8 @@ export class PatientAppointmentFormComponent implements OnInit, AfterViewInit {
     private doctorService: DoctorService,
     private render: Renderer2,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private addressPipe: AddressPipe
     ) {}
 
 
@@ -87,9 +89,10 @@ export class PatientAppointmentFormComponent implements OnInit, AfterViewInit {
           });
         departmentSelect.value = '';
         departments.forEach(department => {
+          department.address = Object.assign(new Address('', '', '', '', ''), department.address);
           const option = document.createElement('option');
           option.value = String(department.id);
-          option.innerText = `${department.name}, ${department.address.toSimpleString()}`;
+          option.innerText = `${department.name}, ${this.addressPipe.transform(department.address, 'short')}`;
           this.render.appendChild(departmentSelect, option);
         });
       });

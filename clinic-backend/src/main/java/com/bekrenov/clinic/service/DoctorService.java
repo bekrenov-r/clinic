@@ -2,6 +2,7 @@ package com.bekrenov.clinic.service;
 
 import com.bekrenov.clinic.dto.mapper.DoctorMapper;
 import com.bekrenov.clinic.dto.response.DoctorDetailedResponse;
+import com.bekrenov.clinic.dto.response.DoctorPublicProfileResponse;
 import com.bekrenov.clinic.dto.response.PersonDTO;
 import com.bekrenov.clinic.exception.ClinicApplicationException;
 import com.bekrenov.clinic.model.entity.Department;
@@ -56,5 +57,15 @@ public class DoctorService {
         return doctorRepository.findBySpecialization(specialization).stream()
                 .map(doctorMapper::entityToPersonDto)
                 .toList();
+    }
+
+    public DoctorPublicProfileResponse getDoctorPublicProfile(Long id) {
+        Doctor doctor = doctorRepository.findByIdOrThrowDefault(id);
+        return new DoctorPublicProfileResponse(
+                doctor.getId(),
+                doctor.getFirstName(),
+                doctor.getLastName(),
+                doctor.getOccupation()
+        );
     }
 }
